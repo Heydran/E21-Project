@@ -1,0 +1,21 @@
+Gestor de Finança
+                ↳ Cadastro de Usuario
+                                    ↳ Cadastro de Familiares
+                                                            ↳ Cadastro Fonte de renda
+                                                                                    ↳ Ciclicas
+                                                                                    ↳ Unicas
+                ↳ Cadastro de Despesas
+                                    ↳ Categoria
+                                                ↳ Frequencia
+                                                            ↳ Importancia 
+                                    
+
+                                            
+                ↳ Calendario de pagamentos
+
+                ↳ Gerador de Relatorio Economico
+                                    ↳ Mensal
+                                    ↳ Categoria
+                                    ↳ Importancia
+                                    
+                                    
