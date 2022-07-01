@@ -4,7 +4,7 @@ Gestor de Finança
                                                             ↳ Cadastro Fonte de renda
                                                                                     ↳ Ciclicas
                                                                                     ↳ Unicas
-                ↳ Cadastro de Despesas
+                ↳ Cadastro de Despesas (salvar modelos de despesa[regulares])
                                     ↳ Categoria
                                                 ↳ Frequencia
                                                             ↳ Importancia 
