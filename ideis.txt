@@ -2,8 +2,10 @@ Gestor de Finança
                 ↳ Cadastro de Usuario
                                     ↳ Cadastro de Familiares
                                                             ↳ Cadastro Fonte de renda
-                                                                                    ↳ Ciclicas
-                                                                                    ↳ Unicas
+                                                                                    ↳ Continuas - 1
+                                                                                    ↳ Regular - 2
+                                                                                    ↳ Casual - 3
+                                                                                    
                 ↳ Cadastro de Despesas (salvar modelos de despesa[regulares])
                                     ↳ Categoria
                                                 ↳ Frequencia
@@ -19,3 +21,4 @@ Gestor de Finança
                                     ↳ Importancia
                                     
                                     
+
