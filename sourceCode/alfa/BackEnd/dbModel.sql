@@ -1,7 +1,7 @@
 CREATE TABLE Usuario(
 	cod_usuario SERIAL PRIMARY KEY,
 	nome_usuario VARCHAR(30),
-	email_usuario VARCHAR(30),
+	email_usuario VARCHAR(30) UNIQUE,
 	senha_usuario VARCHAR(60)
 );
 
