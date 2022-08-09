@@ -1,8 +1,8 @@
-CREATE TABLE Usuario(
-	cod_usuario SERIAL PRIMARY KEY,
-	nome_usuario VARCHAR(30),
-	email_usuario VARCHAR(30) UNIQUE,
-	senha_usuario VARCHAR(60)
+CREATE TABLE User(
+	cod_user SERIAL PRIMARY KEY,
+	name_user VARCHAR(30),
+	email_user VARCHAR(30) UNIQUE,
+	pass_user VARCHAR(60)
 );
 
 CREATE TABLE Renda (
