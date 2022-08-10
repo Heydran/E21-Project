@@ -9,7 +9,7 @@ const conn = {
     user: "postgres",
     host: "localhost",
     database: "dbControleSe",
-    password: "hey123",
+    password: "1234",
     port: 5432
 }
 

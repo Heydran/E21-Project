@@ -11,6 +11,10 @@ app.use(express.json())
 
 app.use("/usuario",rotasUsuario)
 
+app.get("/",(req, res)=> {
+    res.redirect("https://google.com")
+})
+
 app.listen(process.env.PORT, () => {
     console.log(`Servidor rodando na porta: ${process.env.PORT}`)
 })
