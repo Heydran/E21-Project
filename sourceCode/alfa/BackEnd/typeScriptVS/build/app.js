@@ -5,6 +5,7 @@ var testeRoutes_1 = require("./routes/testeRoutes");
 var userRoutes_1 = require("./routes/userRoutes");
 var app = express();
 var cors = require("cors");
+'';
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());

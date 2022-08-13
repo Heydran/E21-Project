@@ -4,14 +4,18 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./build/app.js",
+    "sComp" : "npx tsc -w"
   },
   "author": "Heydran",
   "license": "ISC",
   "dependencies": {
+    "@types/node": "^18.7.2",
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "nodemon": "^2.0.19",
+    "pg": "^8.7.3",
     "postgres": "^3.2.4",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.3.7",

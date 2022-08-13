@@ -1,13 +1,16 @@
 import { DataSource } from "typeorm"
+import { tUser } from "./entity/User"
 
 const myDataSource = new DataSource({
-    type: "mysql",
+    type: "postgres",
     host: "localhost",
-    port: 3306,
+    port: 5432,
     username: "postgres",
-    password: "123456",
-    database: "postgres",
-    entities: ["src/entity/*.js"],
-    logging: true,
+    password: "1234",
+    database: "dbControleSe",
+    entities: [tUser],
+    logging: false,
     synchronize: true,
 })
+
+export { myDataSource }
