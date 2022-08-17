@@ -9,51 +9,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Renda = void 0;
+exports.Income = void 0;
 var typeorm_1 = require("typeorm");
-var user_1 = require("./user");
-var Renda = /** @class */ (function () {
-    function Renda() {
+var User_1 = require("./User");
+var Income = /** @class */ (function () {
+    function Income() {
     }
     __decorate([
         (0, typeorm_1.PrimaryGeneratedColumn)(),
         __metadata("design:type", Number)
-    ], Renda.prototype, "id", void 0);
-    __decorate([
-        (0, typeorm_1.Column)(),
-        __metadata("design:type", Number)
-    ], Renda.prototype, "val_renda", void 0);
+    ], Income.prototype, "id", void 0);
     __decorate([
         (0, typeorm_1.Column)(),
         __metadata("design:type", String)
-    ], Renda.prototype, "data_renda", void 0);
+    ], Income.prototype, "url", void 0);
     __decorate([
-        (0, typeorm_1.Column)(),
-        __metadata("design:type", Number)
-    ], Renda.prototype, "tipo_renda", void 0);
-    __decorate([
-        (0, typeorm_1.Column)(),
-        __metadata("design:type", String)
-    ], Renda.prototype, "desc_renda", void 0);
-    __decorate([
-        (0, typeorm_1.Column)(),
-        __metadata("design:type", String)
-    ], Renda.prototype, "data_final_renda", void 0);
-    __decorate([
-        (0, typeorm_1.Column)(),
-        __metadata("design:type", Boolean)
-    ], Renda.prototype, "situacao_renda", void 0);
-    __decorate([
-        (0, typeorm_1.Column)(),
-        __metadata("design:type", Number)
-    ], Renda.prototype, "cod_usuario", void 0);
-    __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return user_1.User; }, function (user) { return user.rendas; }),
-        __metadata("design:type", user_1.User)
-    ], Renda.prototype, "user", void 0);
-    Renda = __decorate([
-        (0, typeorm_1.Entity)("tb_renda")
-    ], Renda);
-    return Renda;
+        (0, typeorm_1.ManyToOne)(function () { return User_1.tUser; }, function (user) { return user.photos; }),
+        __metadata("design:type", User_1.tUser)
+    ], Income.prototype, "user", void 0);
+    Income = __decorate([
+        (0, typeorm_1.Entity)()
+    ], Income);
+    return Income;
 }());
-exports.Renda = Renda;
+exports.Income = Income;

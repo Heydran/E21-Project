@@ -41,13 +41,13 @@ var User_1 = require("./../entity/User");
 var router = new express_1.Router();
 router.post("/singUp", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var user, results;
+        var tuser, results;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).create(req.body)];
+                case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.tUser).create(req.body)];
                 case 1:
-                    user = _a.sent();
-                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).save(user)];
+                    tuser = _a.sent();
+                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.tUser).save(tuser)];
                 case 2:
                     results = _a.sent();
                     return [2 /*return*/, res.send(results)];
@@ -57,13 +57,13 @@ router.post("/singUp", function (req, res) {
 });
 router.get("/querry", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var users;
+        var tusers;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).find()];
+                case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.tUser).find()];
                 case 1:
-                    users = _a.sent();
-                    res.json(users);
+                    tusers = _a.sent();
+                    res.json(tusers);
                     return [2 /*return*/];
             }
         });

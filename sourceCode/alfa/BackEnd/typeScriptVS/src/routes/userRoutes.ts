@@ -1,19 +1,19 @@
 import { Router, Request, Response  } from "express"
-import { User } from "./../entity/User"
+import { tUser } from "./../entity/User"
 
 const router: Router = new Router()
 
 router.post("/singUp", async function (req: Request, res: Response) {
-    const user = await req.app.get("myDataSource").getRepository(User).create(req.body)
-    const results = await req.app.get("myDataSource").getRepository(User).save(user)
+    const tuser = await req.app.get("myDataSource").getRepository(tUser).create(req.body)
+    const results = await req.app.get("myDataSource").getRepository(tUser).save(tuser)
     return res.send(results)
 })
 
 
 router.get("/querry", async function(req: Request, res: Response){
-    const users = await req.app.get("myDataSource").getRepository(User).find()
+    const tusers = await req.app.get("myDataSource").getRepository(tUser).find()
     
-    res.json(users)
+    res.json(tusers)
 } )
 
 export default router

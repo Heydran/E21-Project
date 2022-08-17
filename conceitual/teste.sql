@@ -1,4 +1,4 @@
-CREATE TABLE Usuario(
+CREATE TABLE tUser(
 	cod_usuario SERIAL PRIMARY KEY,
 	nome_usuario VARCHAR(30),
 	email_usuario VARCHAR(30),
@@ -29,5 +29,5 @@ CREATE TABLE Despesa (
     data_vencimento_despesa DATE,
     cod_usuario INTEGER
 	FOREIGN KEY (cod_usuario) REFERENCES Usuario(cod_usuario)
-);
+);[]
 

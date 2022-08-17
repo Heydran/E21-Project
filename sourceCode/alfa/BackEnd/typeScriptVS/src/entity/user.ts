@@ -1,21 +1,17 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm"
-import {Renda} from "./Renda"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm"
 
-
-@Entity("tb_user")
-export class User {
+@Entity()
+export class tUser {
     @PrimaryGeneratedColumn()
-    id: number
+    user_code: number
 
     @Column()
     user_name: string
 
     @Column()
     user_email: string
-    
-    @Column()
-    user_pass: string
 
-    @OneToMany(() => Renda, (renda) => renda.user)
-    rendas: Renda[]
+    @Column()
+    user_passwd: string
+
 }

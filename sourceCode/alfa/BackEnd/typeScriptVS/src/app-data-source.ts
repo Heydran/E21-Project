@@ -1,9 +1,7 @@
 import { DataSource } from "typeorm"
-import { User } from "./entity/User"
-import { Renda } from "./entity/Renda"
-import { Photo } from "./entity/Photo"
-import { Func } from "./entity/Func"
-
+import { tUser } from "./entity/User"
+import { Income } from "./entity/Income"
+import { Expenses } from "./entity/Expenses"
 const myDataSource = new DataSource({
     type: "postgres",
     host: "localhost",
@@ -11,7 +9,7 @@ const myDataSource = new DataSource({
     username: "postgres",
     password: "1234",
     database: "dbControleSe",
-    entities: [ User, Renda, Func, Photo],
+    entities: [ tUser, Income, Expenses],
     logging: false,
     synchronize: true
 })

@@ -9,30 +9,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.tUser = void 0;
+exports.Income = void 0;
 var typeorm_1 = require("typeorm");
-var tUser = /** @class */ (function () {
-    function tUser() {
+var User_1 = require("./User");
+var Income = /** @class */ (function () {
+    function Income() {
     }
     __decorate([
         (0, typeorm_1.PrimaryGeneratedColumn)(),
         __metadata("design:type", Number)
-    ], tUser.prototype, "user_code", void 0);
+    ], Income.prototype, "inc_code", void 0);
     __decorate([
         (0, typeorm_1.Column)(),
         __metadata("design:type", String)
-    ], tUser.prototype, "user_name", void 0);
+    ], Income.prototype, "inc_value", void 0);
     __decorate([
-        (0, typeorm_1.Column)(),
-        __metadata("design:type", String)
-    ], tUser.prototype, "user_email", void 0);
-    __decorate([
-        (0, typeorm_1.Column)(),
-        __metadata("design:type", String)
-    ], tUser.prototype, "user_passwd", void 0);
-    tUser = __decorate([
+        (0, typeorm_1.ManyToOne)(function () { return User_1.tUser; }, function (user) { return user.user_code; }),
+        __metadata("design:type", User_1.tUser)
+    ], Income.prototype, "user", void 0);
+    Income = __decorate([
         (0, typeorm_1.Entity)()
-    ], tUser);
-    return tUser;
+    ], Income);
+    return Income;
 }());
-exports.tUser = tUser;
+exports.Income = Income;

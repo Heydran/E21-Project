@@ -15,6 +15,7 @@ var Func_1 = require("./Func");
 var Photo = /** @class */ (function () {
     function Photo() {
     }
+    var _a;
     __decorate([
         (0, typeorm_1.PrimaryGeneratedColumn)(),
         __metadata("design:type", Number)
@@ -25,7 +26,7 @@ var Photo = /** @class */ (function () {
     ], Photo.prototype, "url", void 0);
     __decorate([
         (0, typeorm_1.ManyToOne)(function () { return Func_1.Func; }, function (user) { return user.photos; }),
-        __metadata("design:type", Func_1.Func)
+        __metadata("design:type", typeof (_a = typeof Func_1.Func !== "undefined" && Func_1.Func) === "function" ? _a : Object)
     ], Photo.prototype, "user", void 0);
     Photo = __decorate([
         (0, typeorm_1.Entity)()
