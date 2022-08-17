@@ -9,35 +9,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = void 0;
+exports.Func = void 0;
 var typeorm_1 = require("typeorm");
-var Renda_1 = require("./Renda");
-var User = /** @class */ (function () {
-    function User() {
+var Photo_1 = require("./Photo");
+var Func = /** @class */ (function () {
+    function Func() {
     }
     __decorate([
         (0, typeorm_1.PrimaryGeneratedColumn)(),
         __metadata("design:type", Number)
-    ], User.prototype, "id", void 0);
+    ], Func.prototype, "id", void 0);
     __decorate([
         (0, typeorm_1.Column)(),
         __metadata("design:type", String)
-    ], User.prototype, "user_name", void 0);
+    ], Func.prototype, "name", void 0);
     __decorate([
-        (0, typeorm_1.Column)(),
-        __metadata("design:type", String)
-    ], User.prototype, "user_email", void 0);
-    __decorate([
-        (0, typeorm_1.Column)(),
-        __metadata("design:type", String)
-    ], User.prototype, "user_pass", void 0);
-    __decorate([
-        (0, typeorm_1.OneToMany)(function () { return Renda_1.Renda; }, function (renda) { return renda.user; }),
+        (0, typeorm_1.OneToMany)(function () { return Photo_1.Photo; }, function (photo) { return photo.user; }),
         __metadata("design:type", Array)
-    ], User.prototype, "rendas", void 0);
-    User = __decorate([
-        (0, typeorm_1.Entity)("tb_user")
-    ], User);
-    return User;
+    ], Func.prototype, "photos", void 0);
+    Func = __decorate([
+        (0, typeorm_1.Entity)()
+    ], Func);
+    return Func;
 }());
-exports.User = User;
+exports.Func = Func;

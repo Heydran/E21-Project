@@ -13,7 +13,6 @@ CREATE TABLE Renda (
     desc_renda VARCHAR(300),
     data_final_renda DATE,
     situacao_renda BOOLEAN,
-    cod_usuario INTEGER,
     cod_usuario INTEGER
 	FOREIGN KEY (cod_usuario) REFERENCES Usuario(cod_usuario)
 );

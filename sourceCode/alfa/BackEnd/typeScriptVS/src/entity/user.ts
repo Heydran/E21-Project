@@ -1,7 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm"
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm"
+import {Renda} from "./Renda"
 
-@Entity()
-export class tUser {
+
+@Entity("tb_user")
+export class User {
     @PrimaryGeneratedColumn()
     id: number
 
@@ -13,4 +15,7 @@ export class tUser {
     
     @Column()
     user_pass: string
+
+    @OneToMany(() => Renda, (renda) => renda.user)
+    rendas: Renda[]
 }

@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./build/app.js",
+    "start": "nodemon ./build/src/app.js",
     "sComp" : "npx tsc -w"
   },
   "author": "Heydran",
