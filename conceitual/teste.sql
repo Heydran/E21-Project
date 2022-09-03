@@ -6,7 +6,7 @@ CREATE TABLE tUser(
 );
 
 CREATE TABLE Renda (
-    cod_renda INTEGER PRIMARY KEY,
+    codRenda INTEGER PRIMARY KEY,
     val_renda FLOAT,
     data_renda DATE,
     tipo_renda INTEGER,

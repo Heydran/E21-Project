@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(cors());
 app.use("/user", userRoutes_1.default);
 app.get("/", function (req, res) {
-    return res.send("teste");
+    return res.send("?");
 });
 app.listen(8080, function () {
     console.log("Servidor rodando na porta: 8080");

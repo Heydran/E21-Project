@@ -1,14 +1,29 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm"
-import { tUser } from "./User"
+import { User } from "./User"
 
 @Entity()
 export class Income {
     @PrimaryGeneratedColumn()
-    inc_code: number
+    incCode: number
 
     @Column()
-    inc_value: string
+    incValue: string
 
-    @ManyToOne(() => tUser, (user) => user.user_code)
-    user: tUser
+    @Column()
+    incDate: string
+
+    @Column()
+    incType: string
+
+    @Column()
+    incDesc: string
+
+    @Column()
+    incEndDate: string
+
+    @Column()
+    incStatus: string
+
+    @ManyToOne(() => User, (user) => user.userCode)
+    user: User
 }

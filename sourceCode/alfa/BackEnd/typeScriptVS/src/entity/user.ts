@@ -1,17 +1,17 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm"
 
 @Entity()
-export class tUser {
+export class User {
     @PrimaryGeneratedColumn()
-    user_code: number
+    userCode: number
 
     @Column()
-    user_name: string
+    userName: string
 
     @Column()
-    user_email: string
+    userEmail: string
 
     @Column()
-    user_passwd: string
+    userPasswd: string
 
 }

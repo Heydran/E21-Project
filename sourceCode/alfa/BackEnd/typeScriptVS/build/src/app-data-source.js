@@ -12,7 +12,7 @@ var myDataSource = new typeorm_1.DataSource({
     username: "postgres",
     password: "1234",
     database: "dbControleSe",
-    entities: [User_1.tUser, Income_1.Income, Expenses_1.Expenses],
+    entities: [User_1.User, Income_1.Income, Expenses_1.Expenses],
     logging: false,
     synchronize: true
 });

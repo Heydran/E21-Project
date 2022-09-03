@@ -39,15 +39,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
 var User_1 = require("./../entity/User");
 var router = new express_1.Router();
-router.post("/singUp", function (req, res) {
+router.post("/signUp", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var tuser, results;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.tUser).create(req.body)];
+                case 0:
+                    console.log(req.body);
+                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).create(req.body)];
                 case 1:
                     tuser = _a.sent();
-                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.tUser).save(tuser)];
+                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).save(tuser)];
                 case 2:
                     results = _a.sent();
                     return [2 /*return*/, res.send(results)];
@@ -55,16 +57,43 @@ router.post("/singUp", function (req, res) {
         });
     });
 });
-router.get("/querry", function (req, res) {
+router.get("/query", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var tusers;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).find()];
+            case 1:
+                tusers = _a.sent();
+                console.log(tusers);
+                res.json(tusers);
+                return [2 /*return*/];
+        }
+    });
+}); });
+router.put("/edit/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var user, results;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userCode: req.params.id })];
+            case 1:
+                user = _a.sent();
+                req.app.get("myDataSource").getRepository(User_1.User).merge(user, req.body);
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).save(user)];
+            case 2:
+                results = _a.sent();
+                return [2 /*return*/, res.send(results)];
+        }
+    });
+}); });
+router.delete("/users/:id", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var tusers;
+        var results;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.tUser).find()];
+                case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).delete(req.params.id)];
                 case 1:
-                    tusers = _a.sent();
-                    res.json(tusers);
-                    return [2 /*return*/];
+                    results = _a.sent();
+                    return [2 /*return*/, res.send(results)];
             }
         });
     });

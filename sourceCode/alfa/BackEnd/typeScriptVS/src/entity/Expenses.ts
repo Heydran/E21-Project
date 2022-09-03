@@ -1,14 +1,14 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm"
-import { tUser } from "./User"
+import { User } from "./User"
 
 @Entity()
 export class Expenses {
     @PrimaryGeneratedColumn()
-    inc_code: number
+    expCode: number
 
     @Column()
-    inc_value: string
+    expValue: string
 
-    @ManyToOne(() => tUser, (user) => user.user_code)
-    user: tUser
+    @ManyToOne(() => User, (user) => user.userCode)
+    user: User
 }

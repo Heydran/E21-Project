@@ -24,7 +24,7 @@ app.use("/user", userRoutes)
 
 
 app.get("/",(req: Request, res: Response)=> {
-    return res.send("teste")
+    return res.send("?")
 })
 
 

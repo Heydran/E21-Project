@@ -18,14 +18,14 @@ var Expenses = /** @class */ (function () {
     __decorate([
         (0, typeorm_1.PrimaryGeneratedColumn)(),
         __metadata("design:type", Number)
-    ], Expenses.prototype, "inc_code", void 0);
+    ], Expenses.prototype, "expCode", void 0);
     __decorate([
         (0, typeorm_1.Column)(),
         __metadata("design:type", String)
-    ], Expenses.prototype, "inc_value", void 0);
+    ], Expenses.prototype, "expValue", void 0);
     __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return User_1.tUser; }, function (user) { return user.user_code; }),
-        __metadata("design:type", User_1.tUser)
+        (0, typeorm_1.ManyToOne)(function () { return User_1.User; }, function (user) { return user.userCode; }),
+        __metadata("design:type", User_1.User)
     ], Expenses.prototype, "user", void 0);
     Expenses = __decorate([
         (0, typeorm_1.Entity)()
