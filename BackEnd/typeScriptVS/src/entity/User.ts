@@ -11,6 +11,7 @@ export class User {
     @Column()
     userEmail: string
 
+    
     @Column()
     userPasswd: string
 

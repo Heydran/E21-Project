@@ -9,6 +9,7 @@ export class Expenses {
     @Column()
     expValue: string
 
+    
     @ManyToOne(() => User, (user) => user.userCode)
     user: User
 }

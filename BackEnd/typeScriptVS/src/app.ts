@@ -6,13 +6,13 @@ import { myDataSource } from "./app-data-source"
 myDataSource
     .initialize()
     .then(() => {
-        console.log("Data Source has been initialized!")
+        console.log("Data Source has been initialized!!!")
     })
     .catch((err) => {
         console.error("Error during Data Source initialization:", err.message)
     })
-
     
+
 const app = express()
 
 import * as cors from "cors"
@@ -28,9 +28,9 @@ app.get("/",(req: Request, res: Response)=> {
 })
 
 
-
-app.listen(8080, () => {
-    console.log(`Servidor rodando na porta: 8080`)
+const port = process.env.PORT
+app.listen(port, () => {
+    console.log(`Servidor rodando na porta: ${port}`)
 })
 
 
