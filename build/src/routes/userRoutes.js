@@ -58,14 +58,14 @@ router.post("/signUp", function (req, res) {
     });
 });
 router.get("/query", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var tusers;
+    var users;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).find()];
             case 1:
-                tusers = _a.sent();
-                console.log(tusers);
-                res.json(tusers);
+                users = _a.sent();
+                console.log(users);
+                res.json(users);
                 return [2 /*return*/];
         }
     });
@@ -85,17 +85,30 @@ router.put("/edit/:id", function (req, res) { return __awaiter(void 0, void 0, v
         }
     });
 }); });
-router.delete("/users/:id", function (req, res) {
-    return __awaiter(this, void 0, void 0, function () {
-        var results;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).delete(req.params.id)];
-                case 1:
-                    results = _a.sent();
-                    return [2 /*return*/, res.send(results)];
-            }
-        });
+router.delete("/query/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var results;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).delete(req.params.id)];
+            case 1:
+                results = _a.sent();
+                return [2 /*return*/, res.send(results)];
+        }
     });
-});
+}); });
+router.post("/logar", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var user;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.email })];
+            case 1:
+                user = _a.sent();
+                if (user.userPasswd === req.body.password)
+                    return [2 /*return*/, res.json({ logged: true, user: user })];
+                else
+                    return [2 /*return*/, res.json({ logged: false, user: user })];
+                return [2 /*return*/];
+        }
+    });
+}); });
 exports.default = router;

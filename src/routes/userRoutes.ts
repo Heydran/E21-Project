@@ -1,4 +1,4 @@
-import { Router, Request, Response  } from "express"
+import { Router, Request, Response } from "express"
 import { User } from "./../entity/User"
 
 const router: Router = new Router()
@@ -12,23 +12,34 @@ router.post("/signUp", async function (req: Request, res: Response) {
 
 
 router.get("/query", async (req: Request, res: Response) => {
-    const tusers = await req.app.get("myDataSource").getRepository(User).find()
-    console.log(tusers)
-    
-    
-    res.json(tusers)
-} )
+    const users = await req.app.get("myDataSource").getRepository(User).find()
+    console.log(users)
 
-router.put("/edit/:id", async (req:Request, res: Response) => {
-    const user  = await req.app.get("myDataSource").getRepository(User).findOneBy({userCode:req.params.id})
+
+    res.json(users)
+})
+
+router.put("/edit/:id", async (req: Request, res: Response) => {
+    const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
+        { userCode: req.params.id }
+    )
     req.app.get("myDataSource").getRepository(User).merge(user, req.body)
     const results = await req.app.get("myDataSource").getRepository(User).save(user)
     return res.send(results)
 })
 
-router.delete("/users/:id", async function (req: Request, res: Response) {
+router.delete("/query/:id", async (req: Request, res: Response) => {
     const results = await req.app.get("myDataSource").getRepository(User).delete(req.params.id)
     return res.send(results)
+})
+
+router.post("/logar", async (req: Request, res: Response) => {
+    const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
+        { userEmail: req.body.email }
+    )
+    if (user.userPasswd === req.body.password) return res.json({ logged: true, user })
+    else return res.json({ logged: false, user })
+
 })
 
 export default router
