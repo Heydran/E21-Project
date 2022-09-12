@@ -70,14 +70,14 @@ router.get("/query", function (req, res) { return __awaiter(void 0, void 0, void
         }
     });
 }); });
-router.get("/query", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var users;
+router.get("/query/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var user;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userCode: req.params.id })];
             case 1:
-                users = _a.sent();
-                res.json(users);
+                user = _a.sent();
+                res.json(user);
                 return [2 /*return*/];
         }
     });

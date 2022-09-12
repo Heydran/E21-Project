@@ -18,12 +18,12 @@ router.get("/query", async (req: Request, res: Response) => {
 
     res.json(users)
 })
-router.get("/query", async (req: Request, res: Response) => {
-    const users = await req.app.get("myDataSource").getRepository(User).findOneBy(
+router.get("/query/:id", async (req: Request, res: Response) => {
+    const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
         { userCode: req.params.id })
 
 
-    res.json(users)
+    res.json(user)
 })
 
 router.put("/edit/:id", async (req: Request, res: Response) => {
