@@ -70,6 +70,18 @@ router.get("/query", function (req, res) { return __awaiter(void 0, void 0, void
         }
     });
 }); });
+router.get("/query", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var users;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userCode: req.params.id })];
+            case 1:
+                users = _a.sent();
+                res.json(users);
+                return [2 /*return*/];
+        }
+    });
+}); });
 router.put("/edit/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var user, results;
     return __generator(this, function (_a) {
@@ -85,7 +97,7 @@ router.put("/edit/:id", function (req, res) { return __awaiter(void 0, void 0, v
         }
     });
 }); });
-router.delete("/query/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+router.delete("/delete/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var results;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -96,7 +108,7 @@ router.delete("/query/:id", function (req, res) { return __awaiter(void 0, void 
         }
     });
 }); });
-router.post("/logar", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+router.post("/login", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var user;
     return __generator(this, function (_a) {
         switch (_a.label) {

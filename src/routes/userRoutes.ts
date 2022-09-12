@@ -18,6 +18,13 @@ router.get("/query", async (req: Request, res: Response) => {
 
     res.json(users)
 })
+router.get("/query", async (req: Request, res: Response) => {
+    const users = await req.app.get("myDataSource").getRepository(User).findOneBy(
+        { userCode: req.params.id })
+
+
+    res.json(users)
+})
 
 router.put("/edit/:id", async (req: Request, res: Response) => {
     const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
@@ -28,12 +35,12 @@ router.put("/edit/:id", async (req: Request, res: Response) => {
     return res.send(results)
 })
 
-router.delete("/query/:id", async (req: Request, res: Response) => {
+router.delete("/delete/:id", async (req: Request, res: Response) => {
     const results = await req.app.get("myDataSource").getRepository(User).delete(req.params.id)
     return res.send(results)
 })
 
-router.post("/logar", async (req: Request, res: Response) => {
+router.post("/login", async (req: Request, res: Response) => {
     const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
         { userEmail: req.body.email }
     )
