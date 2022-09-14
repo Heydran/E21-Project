@@ -120,7 +120,7 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: decoded.email })];
             case 2:
                 user = _a.sent();
-                if (user.userPasswd == decoded.password)
+                if (user && user.userPasswd == decoded.password)
                     return [2 /*return*/, res.json({ logged: true, user: user })];
                 else
                     return [2 /*return*/, res.json({ logged: false, user: user })];
