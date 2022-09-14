@@ -2,6 +2,7 @@ import { DataSource } from "typeorm"
 import { User } from "./entity/User"
 import { Income } from "./entity/Income"
 import { Expenses } from "./entity/Expenses"
+import { Wallet } from "./entity/Wallet"
 const myDataSource = new DataSource({
     type: "postgres",
     host: "ec2-44-207-253-50.compute-1.amazonaws.com",
@@ -9,7 +10,7 @@ const myDataSource = new DataSource({
     username: "wuyrutizvjdnqe",
     password: "2f982159cab6aaeb310f2c4e684ef261fdfa60039b3a83ce0c9a16fb6616f4e5",
     database: "d91dhaif9e9kd5",
-    entities: [ User, Income, Expenses],
+    entities: [ User, Income, Expenses, Wallet],
     logging: false,
     synchronize: true,
     migrations: [],
