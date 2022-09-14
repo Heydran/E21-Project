@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
 var userRoutes_1 = require("./routes/userRoutes");
+var walletRoutes_1 = require("./routes/walletRoutes");
 var app_data_source_1 = require("./app-data-source");
 app_data_source_1.myDataSource
     .initialize()
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
 app.use("/user", userRoutes_1.default);
+app.use("/wallet", walletRoutes_1.default);
 app.get("/", function (req, res) {
     return res.send("?");
 });
