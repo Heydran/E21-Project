@@ -43,11 +43,12 @@ router.delete("/delete/:id", async (req: Request, res: Response) => {
 })
 
 router.post("/login", async (req: Request, res: Response) => {
+    const decoded = await verify(req.body.token, 'segredo')
     const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
-        { userEmail: req.body.email }
+        { userEmail: decoded.email }
     )
     if (user.userPasswd === req.body.password) return res.json({ logged: true, user })
-    else return res.json({ logged: false, user })
+    else return res.json({ logged: false, user: null })
 
 })
 

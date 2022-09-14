@@ -111,16 +111,19 @@ router.delete("/delete/:id", function (req, res) { return __awaiter(void 0, void
     });
 }); });
 router.post("/login", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user;
+    var decoded, user;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.email })];
+            case 0: return [4 /*yield*/, (0, jsonwebtoken_1.verify)(req.body.token, 'segredo')];
             case 1:
+                decoded = _a.sent();
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: decoded.email })];
+            case 2:
                 user = _a.sent();
                 if (user.userPasswd === req.body.password)
                     return [2 /*return*/, res.json({ logged: true, user: user })];
                 else
-                    return [2 /*return*/, res.json({ logged: false, user: user })];
+                    return [2 /*return*/, res.json({ logged: false, user: null })];
                 return [2 /*return*/];
         }
     });
