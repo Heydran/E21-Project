@@ -1,11 +1,13 @@
 import { Router, Request, Response } from "express"
 import { User } from "./../entity/User"
+import { verify } from "jsonwebtoken"
+
 
 const router: Router = new Router()
 
 router.post("/signUp", async function (req: Request, res: Response) {
-    console.log(req.body)
-    const tuser = await req.app.get("myDataSource").getRepository(User).create(req.body)
+    const decoded = await verify(req.body.token, 'segredo')
+    const tuser = await req.app.get("myDataSource").getRepository(User).create(decoded)
     const results = await req.app.get("myDataSource").getRepository(User).save(tuser)
     return res.send(results)
 })
