@@ -47,8 +47,8 @@ router.post("/login", async (req: Request, res: Response) => {
     const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
         { userEmail: decoded.email }
     )
-    if (user && user.userPasswd == req.body.password) return res.json({ logged: true, user })
-    else return res.json({ logged: false, user: null })
+    if (user && user.userPasswd === req.body.password) return res.json({ logged: true, user })
+    else return res.json({ logged: false, user })
 
 })
 
