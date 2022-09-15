@@ -63,7 +63,7 @@ router.get("/query/:id", function (req, res) { return __awaiter(void 0, void 0, 
     var wallets;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Wallet_1.Wallet).query("\nselect walletCode from wallet_users where userCode = $1 \ninner join Wallet on Wallet.walletCode = wallet_users.walletCode\n\n", [req.params.id])];
+            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Wallet_1.Wallet).query("\nselect walletCode from wallet_users where userCode = $1 \ninner join Wallet on Wallet.walletCode = Wallet_users.walletCode\n\n", [req.params.id])];
             case 1:
                 wallets = _a.sent();
                 console.log(wallets);
