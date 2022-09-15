@@ -14,14 +14,25 @@ router.post("/new", async function (req: Request, res: Response) {
 })
 
 
-router.get("/query/:id", async (req: Request, res: Response) => res.send(req.params.id))
+router.get("/query/:id", async (req: Request, res: Response) => {
+
+    const wallets = await req.app.get("myDataSource").getRepository(Wallet).query(`
+select walletCode from wallet_users where userCode == $1 
+inner join Wallet on Wallet.walletCode == wallet_users.walletCode
+
+`, [req.params.id])
+    console.log(wallets)
+
+
+    res.json(wallets)
+})
 
 
 export default router
 
 /*
 const wallets = await req.app.get("myDataSource").getRepository(Wallet).query(`
-select walletCode from wallet_users where userCode == $1 
+select walletCode from wallet_users where userCode == $1
 inner join Wallet on Wallet.walletCode == wallet_users.walletCode
 
 `,[req.parans.id])

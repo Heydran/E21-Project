@@ -9,26 +9,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Wallet = void 0;
+exports.WalletUsers = void 0;
 var typeorm_1 = require("typeorm");
-var Wallet = /** @class */ (function () {
-    function Wallet() {
+var User_1 = require("./User");
+var Wallet_1 = require("./Wallet");
+var WalletUsers = /** @class */ (function () {
+    function WalletUsers() {
     }
     __decorate([
         (0, typeorm_1.PrimaryGeneratedColumn)(),
         __metadata("design:type", Number)
-    ], Wallet.prototype, "walletCode", void 0);
+    ], WalletUsers.prototype, "wuCode", void 0);
     __decorate([
-        (0, typeorm_1.Column)(),
-        __metadata("design:type", String)
-    ], Wallet.prototype, "walletName", void 0);
+        (0, typeorm_1.ManyToOne)(function () { return User_1.User; }, function (user) { return user.userCode; }),
+        __metadata("design:type", Number)
+    ], WalletUsers.prototype, "userCode", void 0);
     __decorate([
-        (0, typeorm_1.Column)(),
-        __metadata("design:type", String)
-    ], Wallet.prototype, "userDesc", void 0);
-    Wallet = __decorate([
+        (0, typeorm_1.ManyToOne)(function () { return Wallet_1.Wallet; }, function (wallet) { return wallet.walletCode; }),
+        __metadata("design:type", Number)
+    ], WalletUsers.prototype, "walletCode", void 0);
+    WalletUsers = __decorate([
         (0, typeorm_1.Entity)()
-    ], Wallet);
-    return Wallet;
+    ], WalletUsers);
+    return WalletUsers;
 }());
-exports.Wallet = Wallet;
+exports.WalletUsers = WalletUsers;
