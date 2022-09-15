@@ -14,8 +14,7 @@ router.post("/new", async function (req: Request, res: Response) {
 })
 
 
-router.get("/query/:id", async (req: Request, res: Response) => {res.send(req.params.id)
-})
+router.get("/query/:id", async (req: Request, res: Response) => res.send(req.params.id))
 
 
 export default router
