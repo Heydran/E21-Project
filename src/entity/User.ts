@@ -8,13 +8,11 @@ export class User {
     @Column()
     userName: string
 
-    
     @Column()
     userPhone: string
 
     @Column()
     userEmail: string
-
     
     @Column()
     userPasswd: string

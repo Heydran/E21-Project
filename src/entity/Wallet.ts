@@ -11,8 +11,4 @@ export class Wallet {
 
     @Column()
     userDesc: string
-
-    @ManyToMany(() => User)
-    @JoinTable()
-    walletUsers: User[]
 }

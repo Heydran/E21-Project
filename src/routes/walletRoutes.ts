@@ -15,7 +15,11 @@ router.post("/new", async function (req: Request, res: Response) {
 
 
 router.get("/query", async (req: Request, res: Response) => {
-    const wallets = await req.app.get("myDataSource").getRepository(Wallet).find()
+    const wallets = await req.app.get("myDataSource").getRepository(Wallet).query(`
+        select walletCode from wallet_users where userCode == $1 
+        inner join Wallet on Wallet.walletCode == wallet_users.walletCode
+        
+    `)
     console.log(wallets)
 
 
