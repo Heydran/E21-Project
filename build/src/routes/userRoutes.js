@@ -42,7 +42,7 @@ var jsonwebtoken_1 = require("jsonwebtoken");
 var router = new express_1.Router();
 router.post("/signUp", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var decoded, tuser, results;
+        var decoded, tuser, results, user;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, (0, jsonwebtoken_1.verify)(req.body.token, 'segredo')];
@@ -54,7 +54,20 @@ router.post("/signUp", function (req, res) {
                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).save(tuser)];
                 case 3:
                     results = _a.sent();
-                    return [2 /*return*/, res.send(results)];
+                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: decoded.userEmail })];
+                case 4:
+                    user = _a.sent();
+                    if (user)
+                        return [2 /*return*/, res.json({
+                                registered: true,
+                                userCode: user.userCode
+                            })];
+                    else
+                        return [2 /*return*/, res.json({
+                                registered: false,
+                                userCode: null
+                            })];
+                    return [2 /*return*/];
             }
         });
     });
@@ -121,7 +134,14 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
             case 2:
                 user = _a.sent();
                 if (user && user.userPasswd == decoded.password)
-                    return [2 /*return*/, res.json({ logged: true, user: user })];
+                    return [2 /*return*/, res.json({
+                            logged: true,
+                            user: {
+                                userName: user.userName,
+                                userPhone: user.userPhone,
+                                userCode: user.userCode
+                            }
+                        })];
                 else
                     return [2 /*return*/, res.json({ logged: false, user: user })];
                 return [2 /*return*/];

@@ -18,16 +18,16 @@ const myDataSource = new DataSource({
     subscribers: [],
     ssl: { rejectUnauthorized: false }
 })
-
-// const myDataSource = new DataSource({
-//     type: "postgres",
-//     host: "localhost",
-//     port: 5432,
-//     username: "postgres",
-//     password: "1234",
-//     database: "postgres",
-//     entities: [ User, Income, Expenses, Wallet, WalletUsers],
-//     logging: false,
-//     synchronize: true
-// })
+/*
+const myDataSource = new DataSource({
+    type: "postgres",
+    host: "localhost",
+    port: 5432,
+    username: "postgres",
+    password: "1234",
+    database: "postgres",
+    entities: [ User, Income, Expenses, Wallet, WalletUsers],
+    logging: false,
+    synchronize: true
+})*/
 export { myDataSource }

@@ -9,7 +9,17 @@ router.post("/signUp", async function (req: Request, res: Response) {
     const decoded = await verify(req.body.token, 'segredo')
     const tuser = await req.app.get("myDataSource").getRepository(User).create(decoded)
     const results = await req.app.get("myDataSource").getRepository(User).save(tuser)
-    return res.send(results)
+    const user = await req.app.get("myDataSource").getRepository(User).findOneBy({ userEmail: decoded.userEmail })
+    if (user)
+        return res.json({
+            registered: true,
+            userCode: user.userCode
+        })
+    else
+        return res.json({
+            registered: false,
+            userCode: null
+        })
 })
 
 
@@ -47,7 +57,15 @@ router.post("/login", async (req: Request, res: Response) => {
     const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
         { userEmail: decoded.email }
     )
-    if (user && user.userPasswd == decoded.password) return res.json({ logged: true, user })
+    if (user && user.userPasswd == decoded.password) return res.json(
+        {
+            logged: true,
+            user: {
+                userName: user.userName,
+                userPhone: user.userPhone,
+                userCode: user.userCode
+            }
+        })
     else return res.json({ logged: false, user })
 
 })
