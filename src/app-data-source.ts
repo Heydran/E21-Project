@@ -1,3 +1,4 @@
+import { WalletUsers } from './entity/WalletUsers';
 import { DataSource } from "typeorm"
 import { User } from "./entity/User"
 import { Income } from "./entity/Income"
@@ -18,4 +19,15 @@ const myDataSource = new DataSource({
     ssl: { rejectUnauthorized: false }
 })
 
+// const myDataSource = new DataSource({
+//     type: "postgres",
+//     host: "localhost",
+//     port: 5432,
+//     username: "postgres",
+//     password: "1234",
+//     database: "postgres",
+//     entities: [ User, Income, Expenses, Wallet, WalletUsers],
+//     logging: false,
+//     synchronize: true
+// })
 export { myDataSource }

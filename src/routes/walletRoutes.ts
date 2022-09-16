@@ -17,8 +17,11 @@ router.post("/new", async function (req: Request, res: Response) {
 router.get("/query/:id", async (req: Request, res: Response) => {
 
     const wallets = await req.app.get("myDataSource").getRepository(Wallet).query(`
-select walletCode from wallet_users where userCode = $1 
-inner join Wallet on Wallet.walletCode = Wallet_users.walletCode
+    SELECT Wallet."walletCode" FROM wallet_users 
+    INNER JOIN Wallet 
+    ON Wallet."walletCode" = wallet_users."walletCodeWalletCode"
+    WHERE "userCodeUserCode" = $1
+
 
 `, [req.params.id])
     console.log(wallets)
@@ -28,11 +31,12 @@ inner join Wallet on Wallet.walletCode = Wallet_users.walletCode
 })
 
 
+
 export default router
 
 /*
 const wallets = await req.app.get("myDataSource").getRepository(Wallet).query(`
-select walletCode from wallet_users where userCode == $1
+select "walletCodeWalletCode" from wallet_users where "userCodeUserCode" = $1
 inner join Wallet on Wallet.walletCode == wallet_users.walletCode
 
 `,[req.parans.id])
