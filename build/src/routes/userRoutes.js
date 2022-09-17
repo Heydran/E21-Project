@@ -42,7 +42,7 @@ var jsonwebtoken_1 = require("jsonwebtoken");
 var router = new express_1.Router();
 router.post("/signUp", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var decoded, tuser, results, user;
+        var decoded, tuser, results, user, result, token;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, (0, jsonwebtoken_1.verify)(req.body.token, 'segredo')];
@@ -57,17 +57,21 @@ router.post("/signUp", function (req, res) {
                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: decoded.userEmail })];
                 case 4:
                     user = _a.sent();
+                    result = {};
                     if (user)
-                        return [2 /*return*/, res.json({
-                                registered: true,
-                                userCode: user.userCode
-                            })];
+                        result = ({
+                            registered: true,
+                            userCode: user.userCode
+                        });
                     else
-                        return [2 /*return*/, res.json({
-                                registered: false,
-                                userCode: null
-                            })];
-                    return [2 /*return*/];
+                        result = ({
+                            registered: false,
+                            userCode: null
+                        });
+                    return [4 /*yield*/, (0, jsonwebtoken_1.sign)(result, "segredo")];
+                case 5:
+                    token = _a.sent();
+                    return [2 /*return*/, res.json(token)];
             }
         });
     });
@@ -124,7 +128,7 @@ router.delete("/delete/:id", function (req, res) { return __awaiter(void 0, void
     });
 }); });
 router.post("/login", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var decoded, user;
+    var decoded, user, result, token;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, (0, jsonwebtoken_1.verify)(req.body.token, 'segredo')];
@@ -133,18 +137,22 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: decoded.email })];
             case 2:
                 user = _a.sent();
+                result = {};
                 if (user && user.userPasswd == decoded.password)
-                    return [2 /*return*/, res.json({
-                            logged: true,
-                            user: {
-                                userName: user.userName,
-                                userPhone: user.userPhone,
-                                userCode: user.userCode
-                            }
-                        })];
+                    result = {
+                        logged: true,
+                        user: {
+                            userName: user.userName,
+                            userPhone: user.userPhone,
+                            userCode: user.userCode
+                        }
+                    };
                 else
-                    return [2 /*return*/, res.json({ logged: false, user: user })];
-                return [2 /*return*/];
+                    result = { logged: false, user: user };
+                return [4 /*yield*/, (0, jsonwebtoken_1.sign)(result, "segredo")];
+            case 3:
+                token = _a.sent();
+                return [2 /*return*/, res.json(token)];
         }
     });
 }); });

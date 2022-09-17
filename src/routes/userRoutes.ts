@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express"
 import { User } from "./../entity/User"
-import { verify } from "jsonwebtoken"
+import { verify, sign } from "jsonwebtoken"
 
 
 const router: Router = new Router()
@@ -10,18 +10,21 @@ router.post("/signUp", async function (req: Request, res: Response) {
     const tuser = await req.app.get("myDataSource").getRepository(User).create(decoded)
     const results = await req.app.get("myDataSource").getRepository(User).save(tuser)
     const user = await req.app.get("myDataSource").getRepository(User).findOneBy({ userEmail: decoded.userEmail })
+    var result = {}
     if (user)
-        return res.json({
+        result = ({
             registered: true,
             userCode: user.userCode
         })
     else
-        return res.json({
+        result = ({
             registered: false,
             userCode: null
         })
-})
+    var token = await sign(result, "segredo")
+    return res.json(token)
 
+})
 
 router.get("/query", async (req: Request, res: Response) => {
     const users = await req.app.get("myDataSource").getRepository(User).find()
@@ -57,16 +60,20 @@ router.post("/login", async (req: Request, res: Response) => {
     const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
         { userEmail: decoded.email }
     )
-    if (user && user.userPasswd == decoded.password) return res.json(
-        {
+    var result = {}
+    if (user && user.userPasswd == decoded.password)
+        result = {
             logged: true,
             user: {
                 userName: user.userName,
                 userPhone: user.userPhone,
                 userCode: user.userCode
             }
-        })
-    else return res.json({ logged: false, user })
+        }
+    else
+        result = { logged: false, user }
+    var token = await sign(result, "segredo")
+    return res.json(token)
 
 })
 
