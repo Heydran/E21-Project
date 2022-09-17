@@ -73,7 +73,7 @@ router.post("/login", async (req: Request, res: Response) => {
     else
         result = { logged: false, user }
     var token = await sign(result, "segredo",{ expiresIn: '24h' })
-    console.log(Date.now())
+    console.log(new Date().getDate())
      
     return res.json({token})
 
