@@ -149,7 +149,7 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
                     };
                 else
                     result = { logged: false, user: user };
-                return [4 /*yield*/, (0, jsonwebtoken_1.sign)(result, "segredo", { expiresIn: '24h' })];
+                return [4 /*yield*/, (0, jsonwebtoken_1.sign)(result, "segredo")];
             case 3:
                 token = _a.sent();
                 console.log(token.exp);
