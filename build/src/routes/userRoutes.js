@@ -152,7 +152,7 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
                 return [4 /*yield*/, (0, jsonwebtoken_1.sign)(result, "segredo")];
             case 3:
                 token = _a.sent();
-                return [2 /*return*/, res.json({ teste: "teste" })];
+                return [2 /*return*/, res.json({ token: token })];
         }
     });
 }); });

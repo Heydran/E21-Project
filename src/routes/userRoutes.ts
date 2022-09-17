@@ -73,7 +73,7 @@ router.post("/login", async (req: Request, res: Response) => {
     else
         result = { logged: false, user }
     var token = await sign(result, "segredo")
-    return res.json({teste:"teste"})
+    return res.json({token})
 
 })
 
