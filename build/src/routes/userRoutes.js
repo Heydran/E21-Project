@@ -148,7 +148,7 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
                         }
                     };
                 else
-                    result = { logged: false, user: user };
+                    result = { logged: false, user: null };
                 //var token = await sign(result, "segredo")
                 ///console.log("data",new Date().getDate())
                 return [2 /*return*/, res.json(result)];
