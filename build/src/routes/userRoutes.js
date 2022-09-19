@@ -128,7 +128,7 @@ router.delete("/delete/:id", function (req, res) { return __awaiter(void 0, void
     });
 }); });
 router.post("/login", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var decoded, user, result, token;
+    var decoded, user, result;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, (0, jsonwebtoken_1.verify)(req.body.token, 'segredo')];
@@ -149,12 +149,9 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
                     };
                 else
                     result = { logged: false, user: user };
-                return [4 /*yield*/, (0, jsonwebtoken_1.sign)(result, "segredo")];
-            case 3:
-                token = _a.sent();
-                console.log(token.exp);
-                console.log("data", new Date().getDate());
-                return [2 /*return*/, res.json({ token: token })];
+                //var token = await sign(result, "segredo")
+                ///console.log("data",new Date().getDate())
+                return [2 /*return*/, res.json(result)];
         }
     });
 }); });
