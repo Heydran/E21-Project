@@ -21,8 +21,8 @@ router.post("/signUp", async function (req: Request, res: Response) {
             registered: false,
             userCode: null
         })
-    var token = await sign(result, "segredo")
-    return res.json(token)
+    //var token = await sign(result, "segredo")
+    return res.json(result)
 
 })
 

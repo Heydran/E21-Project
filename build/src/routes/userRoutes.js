@@ -42,7 +42,7 @@ var jsonwebtoken_1 = require("jsonwebtoken");
 var router = new express_1.Router();
 router.post("/signUp", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var decoded, tuser, results, user, result, token;
+        var decoded, tuser, results, user, result;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, (0, jsonwebtoken_1.verify)(req.body.token, 'segredo')];
@@ -68,10 +68,8 @@ router.post("/signUp", function (req, res) {
                             registered: false,
                             userCode: null
                         });
-                    return [4 /*yield*/, (0, jsonwebtoken_1.sign)(result, "segredo")];
-                case 5:
-                    token = _a.sent();
-                    return [2 /*return*/, res.json(token)];
+                    //var token = await sign(result, "segredo")
+                    return [2 /*return*/, res.json(result)];
             }
         });
     });
