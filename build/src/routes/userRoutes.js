@@ -137,16 +137,20 @@ router.delete("/delete/:id", function (req, res) { return __awaiter(void 0, void
     });
 }); });
 router.post("/login", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, result;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var user, result, _a, _b;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
             case 0:
                 console.log(req.body.user);
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.user.email })];
             case 1:
-                user = _a.sent();
+                user = _c.sent();
                 result = {};
-                if (user && (0, bcrypt_1.compare)(user.passwd, req.body.user.password)) //bcrypt.compare( user.passwd,10)
+                _b = (_a = console).log;
+                return [4 /*yield*/, (0, bcrypt_1.compare)(req.body.user.password, user.passwd)];
+            case 2:
+                _b.apply(_a, [_c.sent()]);
+                if (user && false) //bcrypt.compare( user.passwd,10)
                     result = {
                         logged: true,
                         user: {
