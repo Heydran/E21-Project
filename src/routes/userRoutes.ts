@@ -78,8 +78,8 @@ router.post("/login", async (req: Request, res: Response) => {
     )
     var result = {}
     console.log(user.userPasswd)
-
-    if (user && compare(req.body.user.password ,user.userPasswd))//bcrypt.compare( user.passwd,10)
+    compare(req.body.user.password ,user.userPasswd, (err, val ) => {
+        if (user && val)//bcrypt.compare( user.passwd,10)
         result = {
             logged: true,
             user: {
@@ -96,5 +96,8 @@ router.post("/login", async (req: Request, res: Response) => {
 
     return res.json(result)
 })
+    })
+
+    
 
 export default router

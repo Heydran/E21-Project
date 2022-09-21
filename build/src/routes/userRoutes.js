@@ -144,20 +144,23 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
                 user = _a.sent();
                 result = {};
                 console.log(user.userPasswd);
-                if (user && (0, bcrypt_1.compare)(req.body.user.password, user.userPasswd)) //bcrypt.compare( user.passwd,10)
-                    result = {
-                        logged: true,
-                        user: {
-                            userName: user.userName,
-                            userPhone: user.userPhone,
-                            userCode: user.userCode
-                        }
-                    };
-                else
-                    result = { logged: false, user: null };
-                //var token = await sign(result, "segredo")
-                ///console.log("data",new Date().getDate())
-                return [2 /*return*/, res.json(result)];
+                (0, bcrypt_1.compare)(req.body.user.password, user.userPasswd, function (err, val) {
+                    if (user && val) //bcrypt.compare( user.passwd,10)
+                        result = {
+                            logged: true,
+                            user: {
+                                userName: user.userName,
+                                userPhone: user.userPhone,
+                                userCode: user.userCode
+                            }
+                        };
+                    else
+                        result = { logged: false, user: null };
+                    //var token = await sign(result, "segredo")
+                    ///console.log("data",new Date().getDate())
+                    return res.json(result);
+                });
+                return [2 /*return*/];
         }
     });
 }); });
