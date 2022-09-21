@@ -143,6 +143,7 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
             case 1:
                 user = _a.sent();
                 result = {};
+                console.log(user.userPasswd);
                 if (user && (0, bcrypt_1.compare)(req.body.user.password, user.userPasswd)) //bcrypt.compare( user.passwd,10)
                     result = {
                         logged: true,
