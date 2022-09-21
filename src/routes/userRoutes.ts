@@ -65,11 +65,9 @@ router.post("/login", async (req: Request, res: Response) => {
     const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
         { userEmail: req.body.user.email }
     )
-    var result = {}
-    console.log(user);
+    var result = {}    
     
-    
-    if (user && false )//bcrypt.compare( user.passwd,10)
+    if (user && await compare( req.body.user.password, user.userPasswd ))//bcrypt.compare( user.passwd,10)
         result = {
             logged: true,
             user: {

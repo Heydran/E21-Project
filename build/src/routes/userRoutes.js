@@ -137,17 +137,23 @@ router.delete("/delete/:id", function (req, res) { return __awaiter(void 0, void
     });
 }); });
 router.post("/login", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, result;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var user, result, _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
                 console.log(req.body.user);
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.user.email })];
             case 1:
-                user = _a.sent();
+                user = _b.sent();
                 result = {};
-                console.log(user);
-                if (user && false) //bcrypt.compare( user.passwd,10)
+                _a = user;
+                if (!_a) return [3 /*break*/, 3];
+                return [4 /*yield*/, (0, bcrypt_1.compare)(req.body.user.password, user.userPasswd)];
+            case 2:
+                _a = (_b.sent());
+                _b.label = 3;
+            case 3:
+                if (_a)
                     result = {
                         logged: true,
                         user: {
