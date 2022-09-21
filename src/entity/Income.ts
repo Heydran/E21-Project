@@ -12,7 +12,6 @@ export class Income {
     @Column()
     incDate: string
 
-    
     @Column()
     incType: string
 
