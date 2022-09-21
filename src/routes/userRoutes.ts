@@ -7,23 +7,26 @@ import {hash, compare} from "bcrypt"
 const router: Router = new Router()
 
 router.post("/signUp", async function (req: Request, res: Response) {
-    req.body.newUser.passwd = await hash(req.body.newUser.passwd, 10)
-    const tuser = await req.app.get("myDataSource").getRepository(User).create(req.body.newUser)
-    const results = await req.app.get("myDataSource").getRepository(User).save(tuser)
-    const user = await req.app.get("myDataSource").getRepository(User).findOneBy({ userEmail: req.body.newUser.userEmail })
-    var result = {}
-    if (user)
-        result = ({
-            registered: true,
-            userCode: user.userCode
-        })
-    else 
-        result = ({
-            registered: false,
-            userCode: null
-        })
+    return req.body.newUser.passwd = await hash(req.body.newUser.passwd, 10, async (hash)  =>{
+        const tuser = await req.app.get("myDataSource").getRepository(User).create(req.body.newUser)
+        const results = await req.app.get("myDataSource").getRepository(User).save(tuser)
+        const user = await req.app.get("myDataSource").getRepository(User).findOneBy({ userEmail: req.body.newUser.userEmail })
+        var result = {}
+        if (user)
+            result = ({
+                registered: true,
+                userCode: user.userCode
+            })
+        else 
+            result = ({
+                registered: false,
+                userCode: null
+            })
+            return res.json(result)
+    })
+    
     //var token = await sign(result, "segredo")
-    return res.json(result)
+    
 
 })
 
