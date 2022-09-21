@@ -43,12 +43,9 @@ var router = new express_1.Router();
 router.post("/signUp", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var encoded, tuser, results, user, result;
-        var _this = this;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, bcrypt_1.hash)(req.body.newUser.passwd, 10, function (err, hash) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-                        return [2 /*return*/, hash];
-                    }); }); })];
+                case 0: return [4 /*yield*/, (0, bcrypt_1.hash)(req.body.newUser.userPasswd, 10, function (err, hash) { return hash; })];
                 case 1:
                     encoded = _a.sent();
                     console.log(encoded);
