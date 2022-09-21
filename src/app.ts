@@ -3,6 +3,8 @@ import * as express from "express"
 import { Request, Response } from "express"
 import userRoutes  from "./routes/userRoutes"
 import walletRoutes  from "./routes/walletRoutes"
+import incomeRoutes  from "./routes/incomeRoutes"
+
 import { myDataSource } from "./app-data-source"
 
 myDataSource
@@ -23,6 +25,7 @@ app.use(express.json())
 app.use(cors())
 app.use("/user", userRoutes)
 app.use("/wallet", walletRoutes)
+app.use("income", incomeRoutes)
 
 
 app.get("/",(req: Request, res: Response)=> {
