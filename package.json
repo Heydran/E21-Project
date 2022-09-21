@@ -4,11 +4,11 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test":"tsc -w",
     "start": "nodemon ./build/src/app.js",
-    "sComp": "tsc -w"
+    "startt": "tsc -w"
   },
-  "author": "Heydran",
+  "author": "André Feuzer and Leonardo Augusto",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",

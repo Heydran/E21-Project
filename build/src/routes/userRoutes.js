@@ -39,6 +39,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
 var User_1 = require("./../entity/User");
 var jsonwebtoken_1 = require("jsonwebtoken");
+var bcrypt_1 = require("bcrypt");
 var router = new express_1.Router();
 router.post("/signUp", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
@@ -48,6 +49,7 @@ router.post("/signUp", function (req, res) {
                 case 0: return [4 /*yield*/, (0, jsonwebtoken_1.verify)(req.body.token, 'segredo')];
                 case 1:
                     decoded = _a.sent();
+                    decoded.passwd = bcrypt_1.default.hashSync(decoded.passwd, 10);
                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).create(decoded)];
                 case 2:
                     tuser = _a.sent();
@@ -136,7 +138,7 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
             case 2:
                 user = _a.sent();
                 result = {};
-                if (user && user.userPasswd == decoded.password)
+                if (user && bcrypt_1.default.compare(user.passwd, 10))
                     result = {
                         logged: true,
                         user: {
