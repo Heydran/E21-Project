@@ -57,6 +57,8 @@ router.delete("/delete/:id", async (req: Request, res: Response) => {
 })
 
 router.post("/login", async (req: Request, res: Response) => {
+    console.log(req.body.user)
+    
     const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
         { userEmail: req.body.user.email }
     )

@@ -125,7 +125,9 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
     var user, result;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.user.email })];
+            case 0:
+                console.log(req.body.user);
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.user.email })];
             case 1:
                 user = _a.sent();
                 result = {};
