@@ -42,43 +42,45 @@ var bcrypt_1 = require("bcrypt");
 var router = new express_1.Router();
 router.post("/signUp", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var _a;
         var _this = this;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    _a = req.body.newUser;
-                    return [4 /*yield*/, (0, bcrypt_1.hash)(req.body.newUser.passwd, 10, function (err, hash) { return __awaiter(_this, void 0, void 0, function () {
-                            var tuser, results, user, result;
-                            return __generator(this, function (_a) {
-                                switch (_a.label) {
-                                    case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).create(req.body.newUser)];
-                                    case 1:
-                                        tuser = _a.sent();
-                                        return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).save(tuser)];
-                                    case 2:
-                                        results = _a.sent();
-                                        return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.newUser.userEmail })];
-                                    case 3:
-                                        user = _a.sent();
-                                        result = {};
-                                        if (user)
-                                            result = ({
-                                                registered: true,
-                                                userCode: user.userCode
-                                            });
-                                        else
-                                            result = ({
-                                                registered: false,
-                                                userCode: null
-                                            });
-                                        return [2 /*return*/, res.json(result)];
-                                }
-                            });
-                        }); })
-                        //var token = await sign(result, "segredo")
-                    ];
-                case 1: return [2 /*return*/, _a.passwd = _b.sent()
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, (0, bcrypt_1.hash)(req.body.newUser.passwd, 10, function (err, hash) { return __awaiter(_this, void 0, void 0, function () {
+                        var tuser, results, user, result;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).create({
+                                        userName: req.body.newUser.userName,
+                                        userPhone: req.body.newUser.userPhone,
+                                        userEmail: req.body.newUser.userEmail,
+                                        userPasswd: hash
+                                    })];
+                                case 1:
+                                    tuser = _a.sent();
+                                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).save(tuser)];
+                                case 2:
+                                    results = _a.sent();
+                                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.newUser.userEmail })];
+                                case 3:
+                                    user = _a.sent();
+                                    result = {};
+                                    if (user)
+                                        result = ({
+                                            registered: true,
+                                            userCode: user.userCode
+                                        });
+                                    else
+                                        result = ({
+                                            registered: false,
+                                            userCode: null
+                                        });
+                                    return [2 /*return*/, res.json(result)];
+                            }
+                        });
+                    }); })
+                    //var token = await sign(result, "segredo")
+                ];
+                case 1: return [2 /*return*/, _a.sent()
                     //var token = await sign(result, "segredo")
                 ];
             }

@@ -1,14 +1,22 @@
 import { Router, Request, Response } from "express"
 import { User } from "./../entity/User"
 import { verify, sign } from "jsonwebtoken"
-import {hash, compare} from "bcrypt"
+import { hash, compare } from "bcrypt"
 
 
 const router: Router = new Router()
 
 router.post("/signUp", async function (req: Request, res: Response) {
-    return req.body.newUser.passwd = await hash(req.body.newUser.passwd, 10, async (err, hash)  =>{
-        const tuser = await req.app.get("myDataSource").getRepository(User).create(req.body.newUser)
+    return await hash(req.body.newUser.passwd, 10, async (err, hash) => {
+        const tuser = await req.app.get("myDataSource").getRepository(User).create({
+
+            userName: req.body.newUser.userName,
+            userPhone: req.body.newUser.userPhone,
+            userEmail: req.body.newUser.userEmail,
+            userPasswd: hash
+
+
+        })
         const results = await req.app.get("myDataSource").getRepository(User).save(tuser)
         const user = await req.app.get("myDataSource").getRepository(User).findOneBy({ userEmail: req.body.newUser.userEmail })
         var result = {}
@@ -17,16 +25,16 @@ router.post("/signUp", async function (req: Request, res: Response) {
                 registered: true,
                 userCode: user.userCode
             })
-        else 
+        else
             result = ({
                 registered: false,
                 userCode: null
             })
-            return res.json(result)
+        return res.json(result)
     })
-    
+
     //var token = await sign(result, "segredo")
-    
+
 
 })
 
@@ -61,13 +69,13 @@ router.delete("/delete/:id", async (req: Request, res: Response) => {
 
 router.post("/login", async (req: Request, res: Response) => {
     console.log(req.body.user)
-    
+
     const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
         { userEmail: req.body.user.email }
     )
-    var result = {}    
-    
-    if (user && await compare( req.body.user.password, user.userPasswd ))//bcrypt.compare( user.passwd,10)
+    var result = {}
+
+    if (user && await compare(req.body.user.password, user.userPasswd))//bcrypt.compare( user.passwd,10)
         result = {
             logged: true,
             user: {
@@ -79,9 +87,9 @@ router.post("/login", async (req: Request, res: Response) => {
     else
         result = { logged: false, user: null }
     //var token = await sign(result, "segredo")
-    
+
     ///console.log("data",new Date().getDate())
-     
+
     return res.json(result)
 })
 
