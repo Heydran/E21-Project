@@ -7,32 +7,32 @@ import { hash, compare } from "bcrypt"
 const router: Router = new Router()
 
 router.post("/signUp", async function (req: Request, res: Response) {
-    return await hash(req.body.newUser.passwd, 10, async (err, hash) => {
-        const tuser = await req.app.get("myDataSource").getRepository(User).create({
+    const encoded = await hash(req.body.newUser.passwd, 10, async (err, hash) => {hash})
+    console.log(encoded);
+    
+    const tuser = await req.app.get("myDataSource").getRepository(User).create({
 
-            userName: req.body.newUser.userName,
-            userPhone: req.body.newUser.userPhone,
-            userEmail: req.body.newUser.userEmail,
-            userPasswd: hash
+        userName: req.body.newUser.userName,
+        userPhone: req.body.newUser.userPhone,
+        userEmail: req.body.newUser.userEmail,
+        userPasswd: encoded
 
 
-        })
-        const results = await req.app.get("myDataSource").getRepository(User).save(tuser)
-        const user = await req.app.get("myDataSource").getRepository(User).findOneBy({ userEmail: req.body.newUser.userEmail })
-        var result = {}
-        if (user)
-            result = ({
-                registered: true,
-                userCode: user.userCode
-            })
-        else
-            result = ({
-                registered: false,
-                userCode: null
-            })
-        return res.json(result)
     })
-
+    const results = await req.app.get("myDataSource").getRepository(User).save(tuser)
+    const user = await req.app.get("myDataSource").getRepository(User).findOneBy({ userEmail: req.body.newUser.userEmail })
+    var result = {}
+    if (user)
+        result = ({
+            registered: true,
+            userCode: user.userCode
+        })
+    else
+        result = ({
+            registered: false,
+            userCode: null
+        })
+    return res.json(result)
     //var token = await sign(result, "segredo")
 
 
