@@ -42,20 +42,23 @@ var bcrypt_1 = require("bcrypt");
 var router = new express_1.Router();
 router.post("/signUp", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var tuser, results, user, result;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        var _a, tuser, results, user, result;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
-                    req.body.newUser.passwd = (0, bcrypt_1.hash)(req.body.newUser.passwd, 10);
-                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).create(req.body.newUser)];
+                    _a = req.body.newUser;
+                    return [4 /*yield*/, (0, bcrypt_1.hash)(req.body.newUser.passwd, 10)];
                 case 1:
-                    tuser = _a.sent();
-                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).save(tuser)];
+                    _a.passwd = _b.sent();
+                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).create(req.body.newUser)];
                 case 2:
-                    results = _a.sent();
-                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.newUser.userEmail })];
+                    tuser = _b.sent();
+                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).save(tuser)];
                 case 3:
-                    user = _a.sent();
+                    results = _b.sent();
+                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.newUser.userEmail })];
+                case 4:
+                    user = _b.sent();
                     result = {};
                     if (user)
                         result = ({
