@@ -38,13 +38,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
 var User_1 = require("./../entity/User");
+var bcrypt_1 = require("bcrypt");
 var router = new express_1.Router();
 router.post("/signUp", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var tuser, results, user, result;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).create(req.body.newUser)];
+                case 0:
+                    req.body.newUser.passwd = (0, bcrypt_1.hash)(req.body.newUser.passwd, 10);
+                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).create(req.body.newUser)];
                 case 1:
                     tuser = _a.sent();
                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).save(tuser)];
@@ -131,7 +134,7 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
             case 1:
                 user = _a.sent();
                 result = {};
-                if (user && user.userPasswd == req.body.user.password) //bcrypt.compare( user.passwd,10)
+                if (user && (0, bcrypt_1.compare)(user.passwd, "10")) //bcrypt.compare( user.passwd,10)
                     result = {
                         logged: true,
                         user: {

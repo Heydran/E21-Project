@@ -1,13 +1,13 @@
 import { Router, Request, Response } from "express"
 import { User } from "./../entity/User"
 import { verify, sign } from "jsonwebtoken"
-import * as bcrypt from "bcrypt"
+import {hash, compare} from "bcrypt"
 
 
 const router: Router = new Router()
 
 router.post("/signUp", async function (req: Request, res: Response) {
-    //req.body.newUser.passwd = bcrypt.hash(req.body.newUser.passwd, 10)
+    req.body.newUser.passwd = hash(req.body.newUser.passwd, 10)
     const tuser = await req.app.get("myDataSource").getRepository(User).create(req.body.newUser)
     const results = await req.app.get("myDataSource").getRepository(User).save(tuser)
     const user = await req.app.get("myDataSource").getRepository(User).findOneBy({ userEmail: req.body.newUser.userEmail })
@@ -63,7 +63,7 @@ router.post("/login", async (req: Request, res: Response) => {
         { userEmail: req.body.user.email }
     )
     var result = {}
-    if (user && user.userPasswd == req.body.user.password )//bcrypt.compare( user.passwd,10)
+    if (user && compare( user.passwd, "10") )//bcrypt.compare( user.passwd,10)
         result = {
             logged: true,
             user: {

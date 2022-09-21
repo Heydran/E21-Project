@@ -4,13 +4,14 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test":"tsc -w",
+    "test": "tsc -w",
     "start": "nodemon ./build/src/app.js",
     "startt": "tsc -w"
   },
   "author": "André Feuzer and Leonardo Augusto",
   "license": "ISC",
   "dependencies": {
+    "@types/bcrypt": "^5.0.0",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "express": "^4.18.1",
