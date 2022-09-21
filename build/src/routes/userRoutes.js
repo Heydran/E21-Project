@@ -42,42 +42,43 @@ var bcrypt_1 = require("bcrypt");
 var router = new express_1.Router();
 router.post("/signUp", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var encoded, tuser, results, user, result;
+        var encoded;
+        var _this = this;
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, bcrypt_1.hash)(req.body.newUser.userPasswd, 10, function (err, hash) { return hash; })];
-                case 1:
-                    encoded = _a.sent();
-                    console.log(encoded);
-                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).create({
-                            userName: req.body.newUser.userName,
-                            userPhone: req.body.newUser.userPhone,
-                            userEmail: req.body.newUser.userEmail,
-                            userPasswd: encoded
-                        })];
-                case 2:
-                    tuser = _a.sent();
-                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).save(tuser)];
-                case 3:
-                    results = _a.sent();
-                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.newUser.userEmail })];
-                case 4:
-                    user = _a.sent();
-                    result = {};
-                    if (user)
-                        result = ({
-                            registered: true,
-                            userCode: user.userCode
-                        });
-                    else
-                        result = ({
-                            registered: false,
-                            userCode: null
-                        });
-                    return [2 /*return*/, res.json(result)
-                        //var token = await sign(result, "segredo")
-                    ];
-            }
+            encoded = (0, bcrypt_1.hash)(req.body.newUser.userPasswd, 10, function (err, hash) { return __awaiter(_this, void 0, void 0, function () {
+                var tuser, results, user, result;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            tuser = req.app.get("myDataSource").getRepository(User_1.User).create({
+                                userName: req.body.newUser.userName,
+                                userPhone: req.body.newUser.userPhone,
+                                userEmail: req.body.newUser.userEmail,
+                                userPasswd: hash
+                            });
+                            return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).save(tuser)];
+                        case 1:
+                            results = _a.sent();
+                            return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.newUser.userEmail })];
+                        case 2:
+                            user = _a.sent();
+                            result = {};
+                            if (user)
+                                result = ({
+                                    registered: true,
+                                    userCode: user.userCode
+                                });
+                            else
+                                result = ({
+                                    registered: false,
+                                    userCode: null
+                                });
+                            return [2 /*return*/, res.json(result)];
+                    }
+                });
+            }); });
+            console.log(encoded);
+            return [2 /*return*/];
         });
     });
 });
@@ -133,23 +134,16 @@ router.delete("/delete/:id", function (req, res) { return __awaiter(void 0, void
     });
 }); });
 router.post("/login", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, result, _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    var user, result;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
             case 0:
                 console.log(req.body.user);
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.user.email })];
             case 1:
-                user = _b.sent();
+                user = _a.sent();
                 result = {};
-                _a = user;
-                if (!_a) return [3 /*break*/, 3];
-                return [4 /*yield*/, (0, bcrypt_1.compare)(req.body.user.password, user.userPasswd)];
-            case 2:
-                _a = (_b.sent());
-                _b.label = 3;
-            case 3:
-                if (_a)
+                if (user && req.body.user.password == user.userPasswd) //bcrypt.compare( user.passwd,10)
                     result = {
                         logged: true,
                         user: {

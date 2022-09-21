@@ -7,32 +7,34 @@ import { hash, compare } from "bcrypt"
 const router: Router = new Router()
 
 router.post("/signUp", async function (req: Request, res: Response) {
-    const encoded = await hash(req.body.newUser.userPasswd, 10, (err, hash) => hash)
-    console.log(encoded);
-    
-    const tuser = await req.app.get("myDataSource").getRepository(User).create({
+    const encoded = hash(req.body.newUser.userPasswd, 10, async (err, hash) => {
+        const tuser = req.app.get("myDataSource").getRepository(User).create({
 
-        userName: req.body.newUser.userName,
-        userPhone: req.body.newUser.userPhone,
-        userEmail: req.body.newUser.userEmail,
-        userPasswd: encoded
+            userName: req.body.newUser.userName,
+            userPhone: req.body.newUser.userPhone,
+            userEmail: req.body.newUser.userEmail,
+            userPasswd: hash
+
+        })
+        const results = await req.app.get("myDataSource").getRepository(User).save(tuser)
+        const user = await req.app.get("myDataSource").getRepository(User).findOneBy({ userEmail: req.body.newUser.userEmail })
+        var result = {}
+        if (user)
+            result = ({
+                registered: true,
+                userCode: user.userCode
+            })
+        else
+            result = ({
+                registered: false,
+                userCode: null
+            })
+        return res.json(result)
 
 
     })
-    const results = await req.app.get("myDataSource").getRepository(User).save(tuser)
-    const user = await req.app.get("myDataSource").getRepository(User).findOneBy({ userEmail: req.body.newUser.userEmail })
-    var result = {}
-    if (user)
-        result = ({
-            registered: true,
-            userCode: user.userCode
-        })
-    else
-        result = ({
-            registered: false,
-            userCode: null
-        })
-    return res.json(result)
+    console.log(encoded);
+
     //var token = await sign(result, "segredo")
 
 
@@ -75,7 +77,7 @@ router.post("/login", async (req: Request, res: Response) => {
     )
     var result = {}
 
-    if (user && await compare(req.body.user.password, user.userPasswd))//bcrypt.compare( user.passwd,10)
+    if (user && req.body.user.password == user.userPasswd)//bcrypt.compare( user.passwd,10)
         result = {
             logged: true,
             user: {
