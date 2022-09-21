@@ -33,7 +33,6 @@ router.post("/signUp", async function (req: Request, res: Response) {
 
 
     })
-    console.log(encoded);
 
     //var token = await sign(result, "segredo")
 
@@ -77,7 +76,7 @@ router.post("/login", async (req: Request, res: Response) => {
     )
     var result = {}
 
-    if (user && req.body.user.password == user.userPasswd)//bcrypt.compare( user.passwd,10)
+    if (user && compare(req.body.user.password ,user.userPasswd))//bcrypt.compare( user.passwd,10)
         result = {
             logged: true,
             user: {

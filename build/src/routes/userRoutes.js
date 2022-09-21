@@ -77,7 +77,6 @@ router.post("/signUp", function (req, res) {
                     }
                 });
             }); });
-            console.log(encoded);
             return [2 /*return*/];
         });
     });
@@ -143,7 +142,7 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
             case 1:
                 user = _a.sent();
                 result = {};
-                if (user && req.body.user.password == user.userPasswd) //bcrypt.compare( user.passwd,10)
+                if (user && (0, bcrypt_1.compare)(req.body.user.password, user.userPasswd)) //bcrypt.compare( user.passwd,10)
                     result = {
                         logged: true,
                         user: {
