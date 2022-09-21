@@ -85,4 +85,30 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
         }
     });
 }); });
+router.put("/edit/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var income, results;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).findOneBy({ userCode: req.params.id })];
+            case 1:
+                income = _a.sent();
+                req.app.get("myDataSource").getRepository(Income_1.Income).merge(income, req.body);
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).save(Income_1.Income)];
+            case 2:
+                results = _a.sent();
+                return [2 /*return*/, res.json(results)];
+        }
+    });
+}); });
+router.delete("/delete/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var results;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).delete(req.params.id)];
+            case 1:
+                results = _a.sent();
+                return [2 /*return*/, res.json(results)];
+        }
+    });
+}); });
 exports.default = router;

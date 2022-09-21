@@ -31,4 +31,18 @@ router.post("/query", async (req:Request, res:Response)=>{
     return res.json(incomes)
 })
 
+router.put("/edit/:id", async (req: Request, res: Response) => {
+    const income = await req.app.get("myDataSource").getRepository(Income).findOneBy(
+        { userCode: req.params.id }
+    )
+    req.app.get("myDataSource").getRepository(Income).merge(income, req.body)
+    const results = await req.app.get("myDataSource").getRepository(Income).save(Income)
+    return res.json(results)
+})
+
+router.delete("/delete/:id", async (req: Request, res: Response) => {
+    const results = await req.app.get("myDataSource").getRepository(Income).delete(req.params.id)
+    return res.json(results)
+})
+
 export default router

@@ -110,7 +110,7 @@ router.put("/edit/:id", function (req, res) { return __awaiter(void 0, void 0, v
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).save(user)];
             case 2:
                 results = _a.sent();
-                return [2 /*return*/, res.send(results)];
+                return [2 /*return*/, res.json(results)];
         }
     });
 }); });
@@ -121,7 +121,7 @@ router.delete("/delete/:id", function (req, res) { return __awaiter(void 0, void
             case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).delete(req.params.id)];
             case 1:
                 results = _a.sent();
-                return [2 /*return*/, res.send(results)];
+                return [2 /*return*/, res.json(results)];
         }
     });
 }); });
