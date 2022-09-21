@@ -25,7 +25,7 @@ app.use(express.json())
 app.use(cors())
 app.use("/user", userRoutes)
 app.use("/wallet", walletRoutes)
-app.use("income", incomeRoutes)
+app.use("/income", incomeRoutes)
 
 
 app.get("/",(req: Request, res: Response)=> {

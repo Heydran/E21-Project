@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(cors());
 app.use("/user", userRoutes_1.default);
 app.use("/wallet", walletRoutes_1.default);
-app.use("income", incomeRoutes_1.default);
+app.use("/income", incomeRoutes_1.default);
 app.get("/", function (req, res) {
     return res.send("?");
 });
