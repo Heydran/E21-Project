@@ -43,21 +43,19 @@ var bcrypt = require("bcrypt");
 var router = new express_1.Router();
 router.post("/signUp", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var decoded, tuser, results, user, result;
+        var tuser, results, user, result;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, jsonwebtoken_1.verify)(req.body.token, 'segredo')];
+                case 0:
+                    req.body.user.passwd = bcrypt.hash(req.body.user.passwd, 10);
+                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).create(req.body.user)];
                 case 1:
-                    decoded = _a.sent();
-                    decoded.passwd = bcrypt.hashSync(decoded.passwd, 10);
-                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).create(decoded)];
-                case 2:
                     tuser = _a.sent();
                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).save(tuser)];
-                case 3:
+                case 2:
                     results = _a.sent();
-                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: decoded.userEmail })];
-                case 4:
+                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.user.userEmail })];
+                case 3:
                     user = _a.sent();
                     result = {};
                     if (user)
