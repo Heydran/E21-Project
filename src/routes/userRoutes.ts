@@ -8,6 +8,8 @@ const router: Router = new Router()
 
 router.post("/signUp", async function (req: Request, res: Response) {
     const encoded = hash(req.body.newUser.userPasswd, 10, async (err, hash) => {
+        console.log(hash, err)
+        
         const tuser = req.app.get("myDataSource").getRepository(User).create({
 
             userName: req.body.newUser.userName,
