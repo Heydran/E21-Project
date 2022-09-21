@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var cors = require("cors");
 var express = require("express");
 var userRoutes_1 = require("./routes/userRoutes");
 var walletRoutes_1 = require("./routes/walletRoutes");
@@ -13,7 +14,6 @@ app_data_source_1.myDataSource
     console.error("Error during Data Source initialization:", err.message);
 });
 var app = express();
-var cors = require("cors");
 app.set("myDataSource", app_data_source_1.myDataSource);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());

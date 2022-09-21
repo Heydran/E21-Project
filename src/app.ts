@@ -1,3 +1,4 @@
+import * as cors from "cors"
 import * as express from "express"
 import { Request, Response } from "express"
 import userRoutes  from "./routes/userRoutes"
@@ -16,7 +17,6 @@ myDataSource
 
 const app = express()
 
-import * as cors from "cors"
 app.set("myDataSource",myDataSource)
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())

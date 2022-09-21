@@ -5,7 +5,7 @@ import { verify, sign } from "jsonwebtoken"
 
 const router: Router = new Router()
 
-router.post("/signUp", async function (req: Request, res: Response) {
+router.post("/new", async function (req: Request, res: Response) {
     const decoded = await verify(req.body.token, 'segredo')
     const expanse = await req.app.get("myDataSource").getRepository(Expenses).create(decoded)
     const results = await req.app.get("myDataSource").getRepository(Expenses).save(expanse)

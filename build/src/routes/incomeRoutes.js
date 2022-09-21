@@ -40,7 +40,7 @@ var express_1 = require("express");
 var Income_1 = require("./../entity/Income");
 var jsonwebtoken_1 = require("jsonwebtoken");
 var router = new express_1.Router();
-router.post("/signUp", function (req, res) {
+router.post("/new", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var decoded, income, results, result;
         return __generator(this, function (_a) {
@@ -69,4 +69,20 @@ router.post("/signUp", function (req, res) {
         });
     });
 });
+router.post("/query", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var decoded, incomes;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, (0, jsonwebtoken_1.verify)(req.body.token, 'segredo')];
+            case 1:
+                decoded = _a.sent();
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).findBy({
+                        userCode: decoded.UserCode
+                    })];
+            case 2:
+                incomes = _a.sent();
+                return [2 /*return*/, res.json(incomes)];
+        }
+    });
+}); });
 exports.default = router;

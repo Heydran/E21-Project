@@ -40,7 +40,7 @@ var express_1 = require("express");
 var Expenses_1 = require("./../entity/Expenses");
 var jsonwebtoken_1 = require("jsonwebtoken");
 var router = new express_1.Router();
-router.post("/signUp", function (req, res) {
+router.post("/new", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var decoded, expanse, results, result;
         return __generator(this, function (_a) {
