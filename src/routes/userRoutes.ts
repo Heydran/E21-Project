@@ -9,7 +9,7 @@ const router: Router = new Router()
 router.post("/signUp", async function (req: Request, res: Response) {
     const encoded = hash(req.body.newUser.userPasswd, 10, async (err, hash) => {
         console.log(hash, err)
-        
+
         const tuser = req.app.get("myDataSource").getRepository(User).create({
 
             userName: req.body.newUser.userName,
@@ -78,26 +78,26 @@ router.post("/login", async (req: Request, res: Response) => {
     )
     var result = {}
     console.log(user.userPasswd)
-    compare(req.body.user.password ,user.userPasswd, (err, val ) => {
+    compare(req.body.user.password, user.userPasswd, async (err, val) => {
         if (user && val)//bcrypt.compare( user.passwd,10)
-        result = {
-            logged: true,
-            user: {
-                userName: user.userName,
-                userPhone: user.userPhone,
-                userCode: user.userCode
+            result = {
+                logged: true,
+                user: {
+                    userName: user.userName,
+                    userPhone: user.userPhone,
+                    userCode: user.userCode
+                }
             }
-        }
-    else
-        result = { logged: false, user: null }
-    //var token = await sign(result, "segredo")
+        else
+            result = { logged: false, user: null }
+            var token = await sign(result, "segredo")
 
-    ///console.log("data",new Date().getDate())
+        ///console.log("data",new Date().getDate())
 
-    return res.json(result)
-})
+        return res.json(token)
     })
+})
 
-    
+
 
 export default router
