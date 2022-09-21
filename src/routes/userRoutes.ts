@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express"
 import { User } from "./../entity/User"
 import { verify, sign } from "jsonwebtoken"
-import bcrypt from "bcrypt"
+import * as bcrypt from "bcrypt"
 
 
 const router: Router = new Router()
