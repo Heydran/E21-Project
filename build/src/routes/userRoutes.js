@@ -160,7 +160,7 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
                                             }
                                         };
                                     else
-                                        result = { logged: false, user: null };
+                                        result = { token: { logged: false, user: null } };
                                     return [4 /*yield*/, (0, jsonwebtoken_1.sign)(result, "segredo")
                                         ///console.log("data",new Date().getDate())
                                     ];
