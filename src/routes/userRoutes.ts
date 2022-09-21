@@ -7,7 +7,7 @@ import {hash, compare} from "bcrypt"
 const router: Router = new Router()
 
 router.post("/signUp", async function (req: Request, res: Response) {
-    return req.body.newUser.passwd = await hash(req.body.newUser.passwd, 10, async (hash)  =>{
+    return req.body.newUser.passwd = await hash(req.body.newUser.passwd, 10, async (err, hash)  =>{
         const tuser = await req.app.get("myDataSource").getRepository(User).create(req.body.newUser)
         const results = await req.app.get("myDataSource").getRepository(User).save(tuser)
         const user = await req.app.get("myDataSource").getRepository(User).findOneBy({ userEmail: req.body.newUser.userEmail })
@@ -66,9 +66,9 @@ router.post("/login", async (req: Request, res: Response) => {
         { userEmail: req.body.user.email }
     )
     var result = {}
-    console.log(user.passwd);
+    console.log(user);
     
-    console.log(await compare( req.body.user.password, user.passwd ))
+    
     if (user && false )//bcrypt.compare( user.passwd,10)
         result = {
             logged: true,

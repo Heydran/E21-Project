@@ -48,7 +48,7 @@ router.post("/signUp", function (req, res) {
             switch (_b.label) {
                 case 0:
                     _a = req.body.newUser;
-                    return [4 /*yield*/, (0, bcrypt_1.hash)(req.body.newUser.passwd, 10, function (hash) { return __awaiter(_this, void 0, void 0, function () {
+                    return [4 /*yield*/, (0, bcrypt_1.hash)(req.body.newUser.passwd, 10, function (err, hash) { return __awaiter(_this, void 0, void 0, function () {
                             var tuser, results, user, result;
                             return __generator(this, function (_a) {
                                 switch (_a.label) {
@@ -137,20 +137,16 @@ router.delete("/delete/:id", function (req, res) { return __awaiter(void 0, void
     });
 }); });
 router.post("/login", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, result, _a, _b;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
+    var user, result;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
             case 0:
                 console.log(req.body.user);
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.user.email })];
             case 1:
-                user = _c.sent();
+                user = _a.sent();
                 result = {};
-                console.log(user.passwd);
-                _b = (_a = console).log;
-                return [4 /*yield*/, (0, bcrypt_1.compare)(req.body.user.password, user.passwd)];
-            case 2:
-                _b.apply(_a, [_c.sent()]);
+                console.log(user);
                 if (user && false) //bcrypt.compare( user.passwd,10)
                     result = {
                         logged: true,
