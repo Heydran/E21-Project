@@ -38,7 +38,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
 var User_1 = require("./../entity/User");
-var jsonwebtoken_1 = require("jsonwebtoken");
 var bcrypt = require("bcrypt");
 var router = new express_1.Router();
 router.post("/signUp", function (req, res) {
@@ -47,14 +46,14 @@ router.post("/signUp", function (req, res) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    req.body.user.passwd = bcrypt.hash(req.body.user.passwd, 10);
-                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).create(req.body.user)];
+                    req.body.newUser.passwd = bcrypt.hash(req.body.newUser.passwd, 10);
+                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).create(req.body.newUser)];
                 case 1:
                     tuser = _a.sent();
                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).save(tuser)];
                 case 2:
                     results = _a.sent();
-                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.user.userEmail })];
+                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.newUser.userEmail })];
                 case 3:
                     user = _a.sent();
                     result = {};
@@ -126,14 +125,11 @@ router.delete("/delete/:id", function (req, res) { return __awaiter(void 0, void
     });
 }); });
 router.post("/login", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var decoded, user, result;
+    var user, result;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, (0, jsonwebtoken_1.verify)(req.body.token, 'segredo')];
+            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.user.email })];
             case 1:
-                decoded = _a.sent();
-                return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: decoded.email })];
-            case 2:
                 user = _a.sent();
                 result = {};
                 if (user && bcrypt.compare(user.passwd, 10))

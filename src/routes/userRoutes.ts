@@ -7,10 +7,10 @@ import * as bcrypt from "bcrypt"
 const router: Router = new Router()
 
 router.post("/signUp", async function (req: Request, res: Response) {
-    req.body.user.passwd = bcrypt.hash(req.body.user.passwd, 10)
-    const tuser = await req.app.get("myDataSource").getRepository(User).create(req.body.user)
+    req.body.newUser.passwd = bcrypt.hash(req.body.newUser.passwd, 10)
+    const tuser = await req.app.get("myDataSource").getRepository(User).create(req.body.newUser)
     const results = await req.app.get("myDataSource").getRepository(User).save(tuser)
-    const user = await req.app.get("myDataSource").getRepository(User).findOneBy({ userEmail: req.body.user.userEmail })
+    const user = await req.app.get("myDataSource").getRepository(User).findOneBy({ userEmail: req.body.newUser.userEmail })
     var result = {}
     if (user)
         result = ({
@@ -57,9 +57,8 @@ router.delete("/delete/:id", async (req: Request, res: Response) => {
 })
 
 router.post("/login", async (req: Request, res: Response) => {
-    const decoded = await verify(req.body.token, 'segredo')
     const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
-        { userEmail: decoded.email }
+        { userEmail: req.body.user.email }
     )
     var result = {}
     if (user && bcrypt.compare( user.passwd,10))
