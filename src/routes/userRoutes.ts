@@ -66,6 +66,8 @@ router.post("/login", async (req: Request, res: Response) => {
         { userEmail: req.body.user.email }
     )
     var result = {}
+    console.log(user.passwd);
+    
     console.log(await compare( req.body.user.password, user.passwd ))
     if (user && false )//bcrypt.compare( user.passwd,10)
         result = {

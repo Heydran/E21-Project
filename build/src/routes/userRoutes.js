@@ -146,6 +146,7 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
             case 1:
                 user = _c.sent();
                 result = {};
+                console.log(user.passwd);
                 _b = (_a = console).log;
                 return [4 /*yield*/, (0, bcrypt_1.compare)(req.body.user.password, user.passwd)];
             case 2:
