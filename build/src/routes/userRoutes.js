@@ -47,8 +47,7 @@ router.post("/signUp", function (req, res) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, (0, bcrypt_1.hash)(req.body.newUser.passwd, 10, function (err, hash) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-                        hash;
-                        return [2 /*return*/];
+                        return [2 /*return*/, hash];
                     }); }); })];
                 case 1:
                     encoded = _a.sent();

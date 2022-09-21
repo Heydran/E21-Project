@@ -7,7 +7,7 @@ import { hash, compare } from "bcrypt"
 const router: Router = new Router()
 
 router.post("/signUp", async function (req: Request, res: Response) {
-    const encoded = await hash(req.body.newUser.passwd, 10, async (err, hash) => {hash})
+    const encoded = await hash(req.body.newUser.passwd, 10, async (err, hash) => hash)
     console.log(encoded);
     
     const tuser = await req.app.get("myDataSource").getRepository(User).create({
