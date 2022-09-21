@@ -144,32 +144,33 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
             case 1:
                 user = _a.sent();
                 result = {};
-                (0, bcrypt_1.compare)(req.body.user.password, user.userPasswd, function (err, val) { return __awaiter(void 0, void 0, void 0, function () {
-                    var token;
-                    return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0:
-                                if (user && val) //bcrypt.compare( user.passwd,10)
-                                    result = {
-                                        logged: true,
-                                        user: {
-                                            userName: user.userName,
-                                            userPhone: user.userPhone,
-                                            userCode: user.userCode
-                                        }
-                                    };
-                                else
-                                    result = { logged: false, user: null };
-                                return [4 /*yield*/, (0, jsonwebtoken_1.sign)(result, "segredo")
+                if (user)
+                    (0, bcrypt_1.compare)(req.body.user.password, user.userPasswd, function (err, val) { return __awaiter(void 0, void 0, void 0, function () {
+                        var token;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    if (val) //bcrypt.compare( user.passwd,10)
+                                        result = {
+                                            logged: true,
+                                            user: {
+                                                userName: user.userName,
+                                                userPhone: user.userPhone,
+                                                userCode: user.userCode
+                                            }
+                                        };
+                                    else
+                                        result = { logged: false, user: null };
+                                    return [4 /*yield*/, (0, jsonwebtoken_1.sign)(result, "segredo")
+                                        ///console.log("data",new Date().getDate())
+                                    ];
+                                case 1:
+                                    token = _a.sent();
                                     ///console.log("data",new Date().getDate())
-                                ];
-                            case 1:
-                                token = _a.sent();
-                                ///console.log("data",new Date().getDate())
-                                return [2 /*return*/, res.json(token)];
-                        }
-                    });
-                }); });
+                                    return [2 /*return*/, res.json(token)];
+                            }
+                        });
+                    }); });
                 return [2 /*return*/];
         }
     });
