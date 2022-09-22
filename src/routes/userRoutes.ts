@@ -77,7 +77,7 @@ router.post("/login", async (req: Request, res: Response) => {
     )
     var token = null
     var result = {}
-    console.log(user)
+    if (user){
 
     
         compare(req.body.user.password, user.userPasswd, async (err, val) => {
@@ -91,7 +91,7 @@ router.post("/login", async (req: Request, res: Response) => {
                     }
 
                 }
-            else result = { token: { logged: false, user: null } }
+            else result = { token: { logged: false, user:  "credenciais invalidas" } }
 
             ///console.log("data",new Date().getDate())
 
@@ -100,7 +100,10 @@ router.post("/login", async (req: Request, res: Response) => {
             token = await sign(result, "segredo")
             console.log(token);
             return res.json(token)
-        })
+        })}
+        else {
+            return res.json({ token: { logged: false, user: "credenciais invalidas" } })
+        }
 
 
 })
