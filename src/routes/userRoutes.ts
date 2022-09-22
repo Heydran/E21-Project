@@ -78,6 +78,7 @@ router.post("/login", async (req: Request, res: Response) => {
     )
     var token = null
     var result = {}
+    if (user)
     return res.json(compare(req.body.user.password, user.userPasswd, async (err, val) => {
         if (val)//bcrypt.compare( user.passwd,10)
             result = {
@@ -96,6 +97,9 @@ router.post("/login", async (req: Request, res: Response) => {
         token = await sign(result, "segredo")
         return token
     }))
+    else{
+        return res.json({ token: { logged: false, user: null } })
+    }
     
     
 })
