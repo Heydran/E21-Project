@@ -97,7 +97,7 @@ router.post("/login", async (req: Request, res: Response) => {
 
             
 
-            token = await sign(result, "segredo",{ expiresIn:  172800})
+            token = await sign(result, "segredo",{ expiresIn:  604800})
             console.log({token});
             return res.json({token})
         })}
