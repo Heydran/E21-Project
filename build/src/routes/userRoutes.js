@@ -160,13 +160,13 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
                                             }
                                         };
                                     else
-                                        result = { token: { logged: false, user: "credenciais invalidas" } };
+                                        result = { logged: false, user: "credenciais invalidas" };
                                     return [4 /*yield*/, (0, jsonwebtoken_1.sign)(result, "segredo")];
                                 case 1:
                                     ///console.log("data",new Date().getDate())
                                     token = _a.sent();
-                                    console.log(token);
-                                    return [2 /*return*/, res.json(token)];
+                                    console.log({ token: token });
+                                    return [2 /*return*/, res.json({ token: token })];
                             }
                         });
                     }); });

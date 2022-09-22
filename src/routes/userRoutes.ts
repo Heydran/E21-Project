@@ -91,15 +91,15 @@ router.post("/login", async (req: Request, res: Response) => {
                     }
 
                 }
-            else result = { token: { logged: false, user:  "credenciais invalidas" } }
+            else result = { logged: false, user:  "credenciais invalidas" } 
 
             ///console.log("data",new Date().getDate())
 
             
 
             token = await sign(result, "segredo")
-            console.log(token);
-            return res.json(token)
+            console.log({token});
+            return res.json({token})
         })}
         else {
             return res.json({ token: { logged: false, user: "credenciais invalidas" } })
