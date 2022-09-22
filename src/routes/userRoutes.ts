@@ -45,7 +45,6 @@ router.get("/query", async (req: Request, res: Response) => {
     const users = await req.app.get("myDataSource").getRepository(User).find()
     console.log(users)
 
-
     res.json(users)
 })
 router.get("/query/:id", async (req: Request, res: Response) => {
@@ -78,7 +77,8 @@ router.post("/login", async (req: Request, res: Response) => {
     )
     var token = null
     var result = {}
-    if (user)
+    console.log(user)
+    
     return res.json(compare(req.body.user.password, user.userPasswd, async (err, val) => {
         if (val)//bcrypt.compare( user.passwd,10)
             result = {
@@ -88,6 +88,7 @@ router.post("/login", async (req: Request, res: Response) => {
                     userPhone: user.userPhone,
                     userCode: user.userCode
                 }
+
             }
         else { result = { token: { logged: false, user: null } } }
 
@@ -97,9 +98,6 @@ router.post("/login", async (req: Request, res: Response) => {
         token = await sign(result, "segredo")
         return token
     }))
-    else{
-        return res.json({ token: { logged: false, user: null } })
-    }
     
     
 })
