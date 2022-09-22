@@ -87,13 +87,13 @@ router.post("/login", async (req: Request, res: Response) => {
                     userCode: user.userCode
                 }
             }
-        else
-            result = {token: { logged: false, user: null }}
-            var token = await sign(result, "segredo")
+        else { result = { token: { logged: false, user: null } } }
 
+        var token = await sign(result, "segredo")
+        return res.json(token)
         ///console.log("data",new Date().getDate())
 
-        return res.json(token)
+
     })
 })
 

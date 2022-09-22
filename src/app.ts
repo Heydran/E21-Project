@@ -27,7 +27,6 @@ app.use("/user", userRoutes)
 app.use("/wallet", walletRoutes)
 app.use("/income", incomeRoutes)
 
-
 app.get("/",(req: Request, res: Response)=> {
     return res.send("?")
 })

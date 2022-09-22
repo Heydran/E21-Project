@@ -159,15 +159,15 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
                                                 userCode: user.userCode
                                             }
                                         };
-                                    else
+                                    else {
                                         result = { token: { logged: false, user: null } };
-                                    return [4 /*yield*/, (0, jsonwebtoken_1.sign)(result, "segredo")
-                                        ///console.log("data",new Date().getDate())
-                                    ];
+                                    }
+                                    return [4 /*yield*/, (0, jsonwebtoken_1.sign)(result, "segredo")];
                                 case 1:
                                     token = _a.sent();
-                                    ///console.log("data",new Date().getDate())
-                                    return [2 /*return*/, res.json(token)];
+                                    return [2 /*return*/, res.json(token)
+                                        ///console.log("data",new Date().getDate())
+                                    ];
                             }
                         });
                     }); });
