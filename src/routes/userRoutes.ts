@@ -78,29 +78,31 @@ router.post("/login", async (req: Request, res: Response) => {
     var token = null
     var result = {}
     console.log(user)
-    
-    return res.json(compare(req.body.user.password, user.userPasswd, async (err, val) => {
-        if (val)//bcrypt.compare( user.passwd,10)
-            result = {
-                logged: true,
-                user: {
-                    userName: user.userName,
-                    userPhone: user.userPhone,
-                    userCode: user.userCode
+
+    return res.json(
+        compare(req.body.user.password, user.userPasswd, async (err, val) => {
+            if (val)//bcrypt.compare( user.passwd,10)
+                result = {
+                    logged: true,
+                    user: {
+                        userName: user.userName,
+                        userPhone: user.userPhone,
+                        userCode: user.userCode
+                    }
+
                 }
+            else result = { token: { logged: false, user: null } }
 
-            }
-        else result = { token: { logged: false, user: null } } 
+            ///console.log("data",new Date().getDate())
 
-        ///console.log("data",new Date().getDate())
-        
-        console.log(token);
-        
-        token = await sign(result, "segredo")
-        return token
-    }))
-    
-    
+            
+
+            token = await sign(result, "segredo")
+            console.log(token);
+            return token
+        }))
+
+
 })
 
 
