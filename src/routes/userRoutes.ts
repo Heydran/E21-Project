@@ -89,12 +89,12 @@ router.post("/login", async (req: Request, res: Response) => {
             }
         else { result = { token: { logged: false, user: null } } }
 
-        var token = await sign(result, "segredo")
-        return res.json(token)
         ///console.log("data",new Date().getDate())
-
-
+        
+        
     })
+    var token = await sign(result, "segredo")
+    return res.json(token)
 })
 
 
