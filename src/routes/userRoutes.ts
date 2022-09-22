@@ -95,6 +95,8 @@ router.post("/login", async (req: Request, res: Response) => {
         
         token = await sign(result, "segredo")
     })
+    console.log(token)
+    
     return res.json(token)
 })
 

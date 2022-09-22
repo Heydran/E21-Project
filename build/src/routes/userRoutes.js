@@ -170,6 +170,7 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
                             }
                         });
                     }); });
+                console.log(token);
                 return [2 /*return*/, res.json(token)];
         }
     });
