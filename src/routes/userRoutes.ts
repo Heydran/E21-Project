@@ -76,6 +76,7 @@ router.post("/login", async (req: Request, res: Response) => {
     const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
         { userEmail: req.body.user.email }
     )
+    var token = null
     var result = {}
     if (user) compare(req.body.user.password, user.userPasswd, async (err, val) => {
         if (val)//bcrypt.compare( user.passwd,10)
@@ -92,8 +93,8 @@ router.post("/login", async (req: Request, res: Response) => {
         ///console.log("data",new Date().getDate())
         
         
+        token = await sign(result, "segredo")
     })
-    var token = await sign(result, "segredo")
     return res.json(token)
 })
 

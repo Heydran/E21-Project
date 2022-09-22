@@ -135,7 +135,7 @@ router.delete("/delete/:id", function (req, res) { return __awaiter(void 0, void
     });
 }); });
 router.post("/login", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, result, token;
+    var user, token, result;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -143,28 +143,33 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.user.email })];
             case 1:
                 user = _a.sent();
+                token = null;
                 result = {};
                 if (user)
                     (0, bcrypt_1.compare)(req.body.user.password, user.userPasswd, function (err, val) { return __awaiter(void 0, void 0, void 0, function () {
                         return __generator(this, function (_a) {
-                            if (val) //bcrypt.compare( user.passwd,10)
-                                result = {
-                                    logged: true,
-                                    user: {
-                                        userName: user.userName,
-                                        userPhone: user.userPhone,
-                                        userCode: user.userCode
+                            switch (_a.label) {
+                                case 0:
+                                    if (val) //bcrypt.compare( user.passwd,10)
+                                        result = {
+                                            logged: true,
+                                            user: {
+                                                userName: user.userName,
+                                                userPhone: user.userPhone,
+                                                userCode: user.userCode
+                                            }
+                                        };
+                                    else {
+                                        result = { token: { logged: false, user: null } };
                                     }
-                                };
-                            else {
-                                result = { token: { logged: false, user: null } };
+                                    return [4 /*yield*/, (0, jsonwebtoken_1.sign)(result, "segredo")];
+                                case 1:
+                                    ///console.log("data",new Date().getDate())
+                                    token = _a.sent();
+                                    return [2 /*return*/];
                             }
-                            return [2 /*return*/];
                         });
                     }); });
-                return [4 /*yield*/, (0, jsonwebtoken_1.sign)(result, "segredo")];
-            case 2:
-                token = _a.sent();
                 return [2 /*return*/, res.json(token)];
         }
     });
