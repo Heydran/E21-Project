@@ -145,8 +145,7 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
                 user = _a.sent();
                 token = null;
                 result = {};
-                if (user)
-                    (0, bcrypt_1.compare)(req.body.user.password, user.userPasswd, function (err, val) { return __awaiter(void 0, void 0, void 0, function () {
+                return [2 /*return*/, res.json((0, bcrypt_1.compare)(req.body.user.password, user.userPasswd, function (err, val) { return __awaiter(void 0, void 0, void 0, function () {
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0:
@@ -166,12 +165,10 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
                                 case 1:
                                     ///console.log("data",new Date().getDate())
                                     token = _a.sent();
-                                    return [2 /*return*/];
+                                    return [2 /*return*/, token];
                             }
                         });
-                    }); });
-                console.log(token);
-                return [2 /*return*/, res.json(token)];
+                    }); }))];
         }
     });
 }); });
