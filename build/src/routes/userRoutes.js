@@ -146,30 +146,31 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
                 token = null;
                 result = {};
                 console.log(user);
-                return [2 /*return*/, res.json((0, bcrypt_1.compare)(req.body.user.password, user.userPasswd, function (err, val) { return __awaiter(void 0, void 0, void 0, function () {
-                        return __generator(this, function (_a) {
-                            switch (_a.label) {
-                                case 0:
-                                    if (val) //bcrypt.compare( user.passwd,10)
-                                        result = {
-                                            logged: true,
-                                            user: {
-                                                userName: user.userName,
-                                                userPhone: user.userPhone,
-                                                userCode: user.userCode
-                                            }
-                                        };
-                                    else
-                                        result = { token: { logged: false, user: null } };
-                                    return [4 /*yield*/, (0, jsonwebtoken_1.sign)(result, "segredo")];
-                                case 1:
-                                    ///console.log("data",new Date().getDate())
-                                    token = _a.sent();
-                                    console.log(token);
-                                    return [2 /*return*/, token];
-                            }
-                        });
-                    }); }))];
+                (0, bcrypt_1.compare)(req.body.user.password, user.userPasswd, function (err, val) { return __awaiter(void 0, void 0, void 0, function () {
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                if (val) //bcrypt.compare( user.passwd,10)
+                                    result = {
+                                        logged: true,
+                                        user: {
+                                            userName: user.userName,
+                                            userPhone: user.userPhone,
+                                            userCode: user.userCode
+                                        }
+                                    };
+                                else
+                                    result = { token: { logged: false, user: null } };
+                                return [4 /*yield*/, (0, jsonwebtoken_1.sign)(result, "segredo")];
+                            case 1:
+                                ///console.log("data",new Date().getDate())
+                                token = _a.sent();
+                                console.log(token);
+                                return [2 /*return*/, res.json(token)];
+                        }
+                    });
+                }); });
+                return [2 /*return*/];
         }
     });
 }); });
