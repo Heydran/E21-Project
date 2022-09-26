@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express"
 import { Income } from "./../entity/Income"
-import { verify, sign } from "jsonwebtoken"
+//import { verify, sign } from "jsonwebtoken"
 
 
 const router: Router = new Router()
@@ -32,7 +32,7 @@ router.post("/query", async (req:Request, res:Response)=>{
 
 router.post("/query/all", async (req:Request, res:Response)=>{
     //const decoded = await verify(req.body.token, 'segredo')
-    const incomes = await req.app.get("myDataSource").getRepository(Income).createQueryBuilder("user")
+    const incomes = await req.app.get("myDataSource").getRepository(Income).find()
     return res.json(incomes)
 })
 
