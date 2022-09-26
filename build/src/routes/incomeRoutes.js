@@ -44,7 +44,7 @@ router.post("/new", function (req, res) {
         var income, results, result;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).create(req.body.token)];
+                case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).create(req.body.launch)];
                 case 1:
                     income = _a.sent();
                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).save(income)];
