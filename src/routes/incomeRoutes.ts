@@ -23,10 +23,16 @@ router.post("/new", async function (req: Request, res: Response) {
 })
 
 router.post("/query", async (req:Request, res:Response)=>{
-    const decoded = await verify(req.body.token, 'segredo')
+    //const decoded = await verify(req.body.token, 'segredo')
     const incomes = await req.app.get("myDataSource").getRepository(Income).findBy({
-        userCode:decoded.UserCode
+        userCode:req.body.userCode
     })
+    return res.json(incomes)
+})
+
+router.post("/query/all", async (req:Request, res:Response)=>{
+    //const decoded = await verify(req.body.token, 'segredo')
+    const incomes = await req.app.get("myDataSource").getRepository(Income).find()
     return res.json(incomes)
 })
 
