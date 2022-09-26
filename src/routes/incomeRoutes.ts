@@ -32,7 +32,7 @@ router.post("/query", async (req:Request, res:Response)=>{
 
 router.post("/query/all", async (req:Request, res:Response)=>{
     //const decoded = await verify(req.body.token, 'segredo')
-    const incomes = await req.app.get("myDataSource").getRepository(Income).find()
+    const incomes = await req.app.get("myDataSource").getRepository(Income).createQueryBuilder("user")
     return res.json(incomes)
 })
 

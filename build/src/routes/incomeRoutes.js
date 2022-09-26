@@ -82,7 +82,7 @@ router.post("/query/all", function (req, res) { return __awaiter(void 0, void 0,
     var incomes;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).find()];
+            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).createQueryBuilder("user")];
             case 1:
                 incomes = _a.sent();
                 return [2 /*return*/, res.json(incomes)];
