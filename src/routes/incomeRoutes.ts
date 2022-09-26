@@ -6,8 +6,7 @@ import { verify, sign } from "jsonwebtoken"
 const router: Router = new Router()
 
 router.post("/new", async function (req: Request, res: Response) {
-    const decoded = await verify(req.body.token, 'segredo')
-    const income = await req.app.get("myDataSource").getRepository(Income).create(decoded)
+    const income = await req.app.get("myDataSource").getRepository(Income).create(req.body.token)
     const results = await req.app.get("myDataSource").getRepository(Income).save(income)
     var result = {}
     if (results)

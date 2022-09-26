@@ -4,12 +4,32 @@ import { User } from "./User"
 @Entity()
 export class Expenses {
     @PrimaryGeneratedColumn()
-    expCode: number
+    incCode: number
 
     @Column()
-    expValue: string
+    incMoney: number
 
+    @Column()
+    incCategory: string
+
+    @Column()
+    incPayments: string
+
+    @Column()
+    incTotalValue: boolean
+
+    @Column()
+    incTimes: string
+
+    @Column()
+    incPending: boolean
+
+    @Column()
+    incDate: string
     
+    @Column()
+    incDescription: string
+  
     @ManyToOne(() => User, (user) => user.userCode)
-    user: User
+    userCode: User
 }

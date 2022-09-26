@@ -22,7 +22,27 @@ var Income = /** @class */ (function () {
     __decorate([
         (0, typeorm_1.Column)(),
         __metadata("design:type", String)
-    ], Income.prototype, "incValue", void 0);
+    ], Income.prototype, "incMoney", void 0);
+    __decorate([
+        (0, typeorm_1.Column)(),
+        __metadata("design:type", String)
+    ], Income.prototype, "incCategory", void 0);
+    __decorate([
+        (0, typeorm_1.Column)(),
+        __metadata("design:type", String)
+    ], Income.prototype, "incPayments", void 0);
+    __decorate([
+        (0, typeorm_1.Column)(),
+        __metadata("design:type", Boolean)
+    ], Income.prototype, "incTotalValue", void 0);
+    __decorate([
+        (0, typeorm_1.Column)(),
+        __metadata("design:type", String)
+    ], Income.prototype, "incTimes", void 0);
+    __decorate([
+        (0, typeorm_1.Column)(),
+        __metadata("design:type", Boolean)
+    ], Income.prototype, "incPending", void 0);
     __decorate([
         (0, typeorm_1.Column)(),
         __metadata("design:type", String)
@@ -30,23 +50,11 @@ var Income = /** @class */ (function () {
     __decorate([
         (0, typeorm_1.Column)(),
         __metadata("design:type", String)
-    ], Income.prototype, "incType", void 0);
-    __decorate([
-        (0, typeorm_1.Column)(),
-        __metadata("design:type", String)
-    ], Income.prototype, "incDesc", void 0);
-    __decorate([
-        (0, typeorm_1.Column)(),
-        __metadata("design:type", String)
-    ], Income.prototype, "incEndDate", void 0);
-    __decorate([
-        (0, typeorm_1.Column)(),
-        __metadata("design:type", String)
-    ], Income.prototype, "incStatus", void 0);
+    ], Income.prototype, "incDescription", void 0);
     __decorate([
         (0, typeorm_1.ManyToOne)(function () { return User_1.User; }, function (user) { return user.userCode; }),
         __metadata("design:type", User_1.User)
-    ], Income.prototype, "user", void 0);
+    ], Income.prototype, "userCode", void 0);
     Income = __decorate([
         (0, typeorm_1.Entity)()
     ], Income);

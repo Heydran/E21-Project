@@ -7,23 +7,29 @@ export class Income {
     incCode: number
 
     @Column()
-    incValue: string
+    incMoney: string
+
+    @Column()
+    incCategory: string
+
+    @Column()
+    incPayments: string
+
+    @Column()
+    incTotalValue: boolean
+
+    @Column()
+    incTimes: string
+
+    @Column()
+    incPending: boolean
 
     @Column()
     incDate: string
-
+    
     @Column()
-    incType: string
-
-    @Column()
-    incDesc: string
-
-    @Column()
-    incEndDate: string
-
-    @Column()
-    incStatus: string
-
+    incDescription: string
+  
     @ManyToOne(() => User, (user) => user.userCode)
-    user: User
+    userCode: User
 }

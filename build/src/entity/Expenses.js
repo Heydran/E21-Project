@@ -18,15 +18,43 @@ var Expenses = /** @class */ (function () {
     __decorate([
         (0, typeorm_1.PrimaryGeneratedColumn)(),
         __metadata("design:type", Number)
-    ], Expenses.prototype, "expCode", void 0);
+    ], Expenses.prototype, "incCode", void 0);
+    __decorate([
+        (0, typeorm_1.Column)(),
+        __metadata("design:type", Number)
+    ], Expenses.prototype, "incMoney", void 0);
     __decorate([
         (0, typeorm_1.Column)(),
         __metadata("design:type", String)
-    ], Expenses.prototype, "expValue", void 0);
+    ], Expenses.prototype, "incCategory", void 0);
+    __decorate([
+        (0, typeorm_1.Column)(),
+        __metadata("design:type", String)
+    ], Expenses.prototype, "incPayments", void 0);
+    __decorate([
+        (0, typeorm_1.Column)(),
+        __metadata("design:type", Boolean)
+    ], Expenses.prototype, "incTotalValue", void 0);
+    __decorate([
+        (0, typeorm_1.Column)(),
+        __metadata("design:type", String)
+    ], Expenses.prototype, "incTimes", void 0);
+    __decorate([
+        (0, typeorm_1.Column)(),
+        __metadata("design:type", Boolean)
+    ], Expenses.prototype, "incPending", void 0);
+    __decorate([
+        (0, typeorm_1.Column)(),
+        __metadata("design:type", String)
+    ], Expenses.prototype, "incDate", void 0);
+    __decorate([
+        (0, typeorm_1.Column)(),
+        __metadata("design:type", String)
+    ], Expenses.prototype, "incDescription", void 0);
     __decorate([
         (0, typeorm_1.ManyToOne)(function () { return User_1.User; }, function (user) { return user.userCode; }),
         __metadata("design:type", User_1.User)
-    ], Expenses.prototype, "user", void 0);
+    ], Expenses.prototype, "userCode", void 0);
     Expenses = __decorate([
         (0, typeorm_1.Entity)()
     ], Expenses);

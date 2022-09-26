@@ -42,17 +42,14 @@ var jsonwebtoken_1 = require("jsonwebtoken");
 var router = new express_1.Router();
 router.post("/new", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var decoded, income, results, result;
+        var income, results, result;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, jsonwebtoken_1.verify)(req.body.token, 'segredo')];
+                case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).create(req.body.token)];
                 case 1:
-                    decoded = _a.sent();
-                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).create(decoded)];
-                case 2:
                     income = _a.sent();
                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).save(income)];
-                case 3:
+                case 2:
                     results = _a.sent();
                     result = {};
                     if (results)
