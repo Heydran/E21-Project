@@ -38,6 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
 var Income_1 = require("./../entity/Income");
+var typeorm_1 = require("typeorm");
 //import { verify, sign } from "jsonwebtoken"
 var router = new express_1.Router();
 router.post("/new", function (req, res) {
@@ -86,13 +87,13 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                     filters = { incCategory: req.body.ilter };
                 }
                 else if (req.body.filterType == "date") {
-                    filters = { incDate: req.body.filter };
+                    filters = { incDate: (0, typeorm_1.MoreThan)(req.body.filter) };
                 }
                 else if (req.body.filterType == "money+") {
-                    filters = { incDate: req.body.filter };
+                    filters = { incDate: (0, typeorm_1.MoreThan)(req.body.filter) };
                 }
                 else if (req.body.filterType == "money-") {
-                    filters = { incDate: req.body.filter };
+                    filters = { incDate: (0, typeorm_1.LessThan)(req.body.filter) };
                 }
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).findBy(filters)];
             case 1:

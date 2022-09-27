@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express"
 import { Income } from "./../entity/Income"
+import { MoreThan, LessThan } from "typeorm"
 //import { verify, sign } from "jsonwebtoken"
 
 
@@ -34,11 +35,11 @@ router.post("/query", async (req: Request, res: Response) => {
     } else if (req.body.filterType == "category") {
         filters = { incCategory: req.body.ilter }
     } else if (req.body.filterType == "date") {
-        filters = { incDate: req.body.filter }
+        filters = { incDate: MoreThan(req.body.filter) }
     }else if (req.body.filterType == "money+") {
-        filters = { incDate: req.body.filter }
+        filters = { incDate: MoreThan(req.body.filter) }
     }else if (req.body.filterType == "money-") {
-        filters = { incDate: req.body.filter }
+        filters = { incDate: LessThan(req.body.filter)  }
     }
     registers = await req.app.get("myDataSource").getRepository(Income).findBy(filters)
     return res.json({ registers })
