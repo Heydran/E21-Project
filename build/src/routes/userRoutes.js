@@ -46,39 +46,49 @@ router.post("/signUp", function (req, res) {
         var encoded;
         var _this = this;
         return __generator(this, function (_a) {
-            encoded = (0, bcrypt_1.hash)(req.body.newUser.userPasswd, 10, function (err, hash) { return __awaiter(_this, void 0, void 0, function () {
-                var tuser, results, user, result;
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0:
-                            console.log(hash, err);
-                            tuser = req.app.get("myDataSource").getRepository(User_1.User).create({
-                                userName: req.body.newUser.userName,
-                                userPhone: req.body.newUser.userPhone,
-                                userEmail: req.body.newUser.userEmail,
-                                userPasswd: hash
-                            });
-                            return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).save(tuser)];
-                        case 1:
-                            results = _a.sent();
-                            return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.newUser.userEmail })];
-                        case 2:
-                            user = _a.sent();
-                            result = {};
-                            if (user)
-                                result = ({
-                                    registered: true,
-                                    userCode: user.userCode
+            try {
+                encoded = (0, bcrypt_1.hash)(req.body.newUser.userPasswd, 10, function (err, hash) { return __awaiter(_this, void 0, void 0, function () {
+                    var tuser, results, user, result;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                console.log(hash, err);
+                                tuser = req.app.get("myDataSource").getRepository(User_1.User).create({
+                                    userName: req.body.newUser.userName,
+                                    userPhone: req.body.newUser.userPhone,
+                                    userEmail: req.body.newUser.userEmail,
+                                    userPasswd: hash
                                 });
-                            else
-                                result = ({
-                                    registered: false,
-                                    userCode: null
-                                });
-                            return [2 /*return*/, res.json(result)];
-                    }
-                });
-            }); });
+                                return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).save(tuser)];
+                            case 1:
+                                results = _a.sent();
+                                return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.newUser.userEmail })];
+                            case 2:
+                                user = _a.sent();
+                                result = {};
+                                if (user)
+                                    result = ({
+                                        registered: true,
+                                        userCode: user.userCode
+                                    });
+                                else
+                                    result = ({
+                                        registered: false,
+                                        userCode: null
+                                    });
+                                return [2 /*return*/, res.json(result)];
+                        }
+                    });
+                }); });
+                //var token = await sign(result, "segredo")
+            }
+            catch (e) {
+                return [2 /*return*/, res.json({
+                        registered: false,
+                        userCode: null,
+                        error: e
+                    })];
+            }
             return [2 /*return*/];
         });
     });

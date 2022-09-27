@@ -7,6 +7,7 @@ import { hash, compare } from "bcrypt"
 const router: Router = new Router()
 
 router.post("/signUp", async function (req: Request, res: Response) {
+    try {
     const encoded = hash(req.body.newUser.userPasswd, 10, async (err, hash) => {
         console.log(hash, err)
 
@@ -37,6 +38,13 @@ router.post("/signUp", async function (req: Request, res: Response) {
     })
 
     //var token = await sign(result, "segredo")
+    } catch (e) {
+        return res.json({
+            registered: false,
+            userCode: null,
+            error:e
+        })
+    }
 
 
 })
