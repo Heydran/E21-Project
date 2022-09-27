@@ -47,6 +47,7 @@ router.post("/new", function (req, res) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 3, , 4]);
+                    console.log(req.body.launch.incDate);
                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).create(req.body.launch)];
                 case 1:
                     income = _a.sent();

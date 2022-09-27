@@ -6,7 +6,8 @@ import { Income } from "./../entity/Income"
 const router: Router = new Router()
 
 router.post("/new", async function (req: Request, res: Response) {
-    try {
+    try { console.log(req.body.launch.incDate);
+    
     const income = await req.app.get("myDataSource").getRepository(Income).create(req.body.launch)
     const results = await req.app.get("myDataSource").getRepository(Income).save(income)
     var result = {}
