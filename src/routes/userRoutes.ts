@@ -19,7 +19,7 @@ router.post("/signUp", async function (req: Request, res: Response) {
                 userMoney: 0,
                 userPasswd: hash
             })
-            
+
             const results = await req.app.get("myDataSource").getRepository(User).save(tuser)
             const user = await req.app.get("myDataSource").getRepository(User).findOneBy({ userEmail: req.body.newUser.userEmail })
             var result = {}
@@ -96,7 +96,8 @@ router.post("/login", async (req: Request, res: Response) => {
                     user: {
                         userName: user.userName,
                         userPhone: user.userPhone,
-                        userCode: user.userCode
+                        userCode: user.userCode,
+                        userMoney:user.userMoney
                     }
 
                 }

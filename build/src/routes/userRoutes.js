@@ -159,7 +159,8 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
                                             user: {
                                                 userName: user.userName,
                                                 userPhone: user.userPhone,
-                                                userCode: user.userCode
+                                                userCode: user.userCode,
+                                                userMoney: user.userMoney
                                             }
                                         };
                                     else
