@@ -16,6 +16,7 @@ router.post("/signUp", async function (req: Request, res: Response) {
             userName: req.body.newUser.userName,
             userPhone: req.body.newUser.userPhone,
             userEmail: req.body.newUser.userEmail,
+            userMoney: 0,
             userPasswd: hash
 
         })

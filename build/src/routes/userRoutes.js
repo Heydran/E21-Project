@@ -57,6 +57,7 @@ router.post("/signUp", function (req, res) {
                                     userName: req.body.newUser.userName,
                                     userPhone: req.body.newUser.userPhone,
                                     userEmail: req.body.newUser.userEmail,
+                                    userMoney: 0,
                                     userPasswd: hash
                                 });
                                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).save(tuser)];
