@@ -66,26 +66,26 @@ router.post("/new", function (req, res) {
     });
 });
 router.post("/query", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var expenses;
+    var registers;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expenses_1.Expenses).findBy({
                     userCode: req.body.userCode
                 })];
             case 1:
-                expenses = _a.sent();
-                return [2 /*return*/, res.json(expenses)];
+                registers = _a.sent();
+                return [2 /*return*/, res.json(registers)];
         }
     });
 }); });
 router.post("/query/all", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var Expensess;
+    var results;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expenses_1.Expenses).find()];
             case 1:
-                Expensess = _a.sent();
-                return [2 /*return*/, res.json(Expensess)];
+                results = _a.sent();
+                return [2 /*return*/, res.json(results)];
         }
     });
 }); });

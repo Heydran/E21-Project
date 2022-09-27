@@ -67,15 +67,21 @@ router.post("/new", function (req, res) {
     });
 });
 router.post("/query", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var incomes;
+    var registers, filters;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).findBy({
-                    userCode: req.body.userCode
-                })];
+            case 0:
+                if (req.filterType == "userCode") {
+                    filters = { category: req.filter };
+                }
+                else if (req.filterType == "category") {
+                }
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).findBy({
+                        filters: filters
+                    })];
             case 1:
-                incomes = _a.sent();
-                return [2 /*return*/, res.json(incomes)];
+                registers = _a.sent();
+                return [2 /*return*/, res.json({ registers: registers })];
         }
     });
 }); });

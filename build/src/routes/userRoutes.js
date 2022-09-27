@@ -123,17 +123,10 @@ router.put("/edit/:id", function (req, res) { return __awaiter(void 0, void 0, v
         }
     });
 }); });
-router.delete("/delete/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var results;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).delete(req.params.id)];
-            case 1:
-                results = _a.sent();
-                return [2 /*return*/, res.json(results)];
-        }
-    });
-}); });
+// router.delete("/delete/:id", async (req: Request, res: Response) => {
+//     const results = await req.app.get("myDataSource").getRepository(User).delete(req.params.id)
+//     return res.json(results)
+// })
 router.post("/login", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var user, token, result;
     return __generator(this, function (_a) {
@@ -175,6 +168,21 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
                     return [2 /*return*/, res.json({ token: { logged: false, user: "credenciais invalidas" } })];
                 }
                 return [2 /*return*/];
+        }
+    });
+}); });
+router.put("/setMoney", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var user, results;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userCode: req.body.id })];
+            case 1:
+                user = _a.sent();
+                req.app.get("myDataSource").getRepository(User_1.User).merge(user, req.body);
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).save(user)];
+            case 2:
+                results = _a.sent();
+                return [2 /*return*/, res.json(results)];
         }
     });
 }); });

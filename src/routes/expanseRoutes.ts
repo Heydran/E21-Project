@@ -23,16 +23,16 @@ router.post("/new", async function (req: Request, res: Response) {
 
 router.post("/query", async (req:Request, res:Response)=>{
     //const decoded = await verify(req.body.token, 'segredo')
-    const expenses = await req.app.get("myDataSource").getRepository(Expenses).findBy({
+    const registers = await req.app.get("myDataSource").getRepository(Expenses).findBy({
         userCode:req.body.userCode
     })
-    return res.json(expenses)
+    return res.json(registers)
 })
 
 router.post("/query/all", async (req:Request, res:Response)=>{
     //const decoded = await verify(req.body.token, 'segredo')
-    const Expensess = await req.app.get("myDataSource").getRepository(Expenses).find()
-    return res.json(Expensess)
+    const results = await req.app.get("myDataSource").getRepository(Expenses).find()
+    return res.json(results)
 })
 
 router.put("/edit/:id", async (req: Request, res: Response) => {
