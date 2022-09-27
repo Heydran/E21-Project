@@ -21,7 +21,7 @@ var Income = /** @class */ (function () {
     ], Income.prototype, "incCode", void 0);
     __decorate([
         (0, typeorm_1.Column)(),
-        __metadata("design:type", String)
+        __metadata("design:type", Number)
     ], Income.prototype, "incMoney", void 0);
     __decorate([
         (0, typeorm_1.Column)(),

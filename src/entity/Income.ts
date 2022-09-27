@@ -7,7 +7,7 @@ export class Income {
     incCode: number
 
     @Column()
-    incMoney: string
+    incMoney: number
 
     @Column()
     incCategory: string
