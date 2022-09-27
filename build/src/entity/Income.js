@@ -20,7 +20,7 @@ var Income = /** @class */ (function () {
         __metadata("design:type", Number)
     ], Income.prototype, "incCode", void 0);
     __decorate([
-        (0, typeorm_1.Column)({ type: "decimal" }),
+        (0, typeorm_1.Column)({ type: "money" }),
         __metadata("design:type", Number)
     ], Income.prototype, "incMoney", void 0);
     __decorate([
