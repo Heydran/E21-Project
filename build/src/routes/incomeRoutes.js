@@ -90,10 +90,10 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                     filters = { incDate: (0, typeorm_1.MoreThan)(req.body.filter) };
                 }
                 else if (req.body.filterType == "money+") {
-                    filters = { incDate: (0, typeorm_1.MoreThan)(req.body.filter) };
+                    filters = { incDate: (0, typeorm_1.MoreThanOrEqual)(req.body.filter) };
                 }
                 else if (req.body.filterType == "money-") {
-                    filters = { incDate: (0, typeorm_1.LessThan)(req.body.filter) };
+                    filters = { incDate: (0, typeorm_1.LessThanOrEqual)(req.body.filter) };
                 }
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).findBy(filters)];
             case 1:
