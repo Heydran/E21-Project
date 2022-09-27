@@ -22,21 +22,27 @@ router.post("/new", async function (req: Request, res: Response) {
 
 })
 
-router.post("/query", async (req:Request, res:Response)=>{
+router.post("/query", async (req: Request, res: Response) => {
     var registers
     var filters
-        if (req.filterType == "userCode"){
-        filters = {category:req.filter}}
-        else if (req.filterType == "category"){
-
-        }
-        registers = await req.app.get("myDataSource").getRepository(Income).findBy({
-            filters
-        })  
-    return res.json({registers})
+    if (req.filterType == "userCode") {
+        filters = { userCode: req.filter }
+    } else if (req.filterType == "category") {
+        filters = { incCategory: req.filter }
+    } else if (req.filterType == "date") {
+        filters = { incDate: req.filter }
+    }else if (req.filterType == "money+") {
+        filters = { incDate: req.filter }
+    }else if (req.filterType == "money-") {
+        filters = { incDate: req.filter }
+    }
+    registers = await req.app.get("myDataSource").getRepository(Income).findBy({
+        filters
+    })
+    return res.json({ registers })
 })
 
-router.post("/query/all", async (req:Request, res:Response)=>{
+router.post("/query/all", async (req: Request, res: Response) => {
     //const decoded = await verify(req.body.token, 'segredo')
     const incomes = await req.app.get("myDataSource").getRepository(Income).find()
     return res.json(incomes)

@@ -9,6 +9,9 @@ export class User {
     userName: string
 
     @Column()
+    userMoney: number
+
+    @Column()
     userPhone: string
 
     @Column()

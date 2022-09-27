@@ -112,7 +112,7 @@ router.put("/setMoney", async (req:Request, res:Response) => {
     const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
         { userCode: req.body.id }
     )
-    req.app.get("myDataSource").getRepository(User).merge(user, req.body)
+    req.app.get("myDataSource").getRepository(User).merge(user, {userMoney: req.body.userMoney})
     const results = await req.app.get("myDataSource").getRepository(User).save(user)
     return res.json(results)
 })

@@ -45,7 +45,7 @@ var Income = /** @class */ (function () {
     ], Income.prototype, "incPending", void 0);
     __decorate([
         (0, typeorm_1.Column)(),
-        __metadata("design:type", String)
+        __metadata("design:type", Date)
     ], Income.prototype, "incDate", void 0);
     __decorate([
         (0, typeorm_1.Column)(),

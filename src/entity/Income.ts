@@ -25,7 +25,7 @@ export class Income {
     incPending: boolean
 
     @Column()
-    incDate: string
+    incDate: Date
     
     @Column()
     incDescription: string

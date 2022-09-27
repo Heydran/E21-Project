@@ -178,7 +178,7 @@ router.put("/setMoney", function (req, res) { return __awaiter(void 0, void 0, v
             case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userCode: req.body.id })];
             case 1:
                 user = _a.sent();
-                req.app.get("myDataSource").getRepository(User_1.User).merge(user, req.body);
+                req.app.get("myDataSource").getRepository(User_1.User).merge(user, { userMoney: req.body.userMoney });
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).save(user)];
             case 2:
                 results = _a.sent();
