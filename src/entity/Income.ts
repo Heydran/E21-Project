@@ -24,8 +24,8 @@ export class Income {
     @Column()
     incPending: boolean
 
-    @Column()
-    incDate: Date
+    @Column({ type: "date" })
+    incDate: string
     
     @Column()
     incDescription: string
