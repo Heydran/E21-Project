@@ -6,7 +6,7 @@ export class Income {
     @PrimaryGeneratedColumn()
     incCode: number
 
-    @Column({ type: "float" })
+    @Column({ type: "decimal" })
     incMoney: number
 
     @Column()
