@@ -21,7 +21,7 @@ router.post("/new", async function (req: Request, res: Response) {
     //var token = await sign(result, "segredo")
     return res.json(result)
 }catch (err) {
-    console.log(err.mesage)
+    console.log(err)
 }
 })
 

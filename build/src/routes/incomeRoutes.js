@@ -66,7 +66,7 @@ router.post("/new", function (req, res) {
                     return [2 /*return*/, res.json(result)];
                 case 3:
                     err_1 = _a.sent();
-                    console.log(err_1.mesage);
+                    console.log(err_1);
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];
             }
