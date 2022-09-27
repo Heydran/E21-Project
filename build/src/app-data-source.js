@@ -4,7 +4,7 @@ exports.myDataSource = void 0;
 var typeorm_1 = require("typeorm");
 var User_1 = require("./entity/User");
 var Income_1 = require("./entity/Income");
-var Expenses_1 = require("./entity/Expenses");
+var Expense_1 = require("./entity/Expense");
 var Wallet_1 = require("./entity/Wallet");
 var myDataSource = new typeorm_1.DataSource({
     type: "postgres",
@@ -13,7 +13,7 @@ var myDataSource = new typeorm_1.DataSource({
     username: "wuyrutizvjdnqe",
     password: "2f982159cab6aaeb310f2c4e684ef261fdfa60039b3a83ce0c9a16fb6616f4e5",
     database: "d91dhaif9e9kd5",
-    entities: [User_1.User, Income_1.Income, Expenses_1.Expenses, Wallet_1.Wallet],
+    entities: [User_1.User, Income_1.Income, Expense_1.Expense, Wallet_1.Wallet],
     logging: false,
     synchronize: true,
     migrations: [],

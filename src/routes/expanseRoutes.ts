@@ -1,12 +1,12 @@
 import { Router, Request, Response } from "express"
-import { Expenses } from "./../entity/Expenses"
+import { Expense } from "../entity/Expense"
 
 
 const router: Router = new Router()
 
 router.post("/new", async function (req: Request, res: Response) {
-    const expenses = await req.app.get("myDataSource").getRepository(Expenses).create(req.body.launch)
-    const results = await req.app.get("myDataSource").getRepository(Expenses).save(expenses)
+    const expense = await req.app.get("myDataSource").getRepository(Expense).create(req.body.launch)
+    const results = await req.app.get("myDataSource").getRepository(Expense).save(expense)
     var result = {}
     if (results)
         result = ({
@@ -23,7 +23,7 @@ router.post("/new", async function (req: Request, res: Response) {
 
 router.post("/query", async (req:Request, res:Response)=>{
     //const decoded = await verify(req.body.token, 'segredo')
-    const registers = await req.app.get("myDataSource").getRepository(Expenses).findBy({
+    const registers = await req.app.get("myDataSource").getRepository(Expense).findBy({
         userCode:req.body.userCode
     })
     return res.json(registers)
@@ -31,21 +31,21 @@ router.post("/query", async (req:Request, res:Response)=>{
 
 router.post("/query/all", async (req:Request, res:Response)=>{
     //const decoded = await verify(req.body.token, 'segredo')
-    const results = await req.app.get("myDataSource").getRepository(Expenses).find()
+    const results = await req.app.get("myDataSource").getRepository(Expense).find()
     return res.json(results)
 })
 
 router.put("/edit/:id", async (req: Request, res: Response) => {
-    const expenses = await req.app.get("myDataSource").getRepository(Expenses).findOneBy(
+    const expense = await req.app.get("myDataSource").getRepository(Expense).findOneBy(
         { userCode: req.params.id }
     )
-    req.app.get("myDataSource").getRepository(Expenses).merge(Expenses, req.body)
-    const results = await req.app.get("myDataSource").getRepository(Expenses).save(expenses)
+    req.app.get("myDataSource").getRepository(Expense).merge(Expense, req.body)
+    const results = await req.app.get("myDataSource").getRepository(Expense).save(expense)
     return res.json(results)
 })
 
 router.delete("/delete/:id", async (req: Request, res: Response) => {
-    const results = await req.app.get("myDataSource").getRepository(Expenses).delete(req.params.id)
+    const results = await req.app.get("myDataSource").getRepository(Expense).delete(req.params.id)
     return res.json(results)
 })
 

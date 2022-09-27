@@ -2,33 +2,33 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm"
 import { User } from "./User"
 
 @Entity()
-export class Expenses {
+export class Expense {
     @PrimaryGeneratedColumn()
-    incCode: number
+    expCode: number
 
     @Column()
-    incMoney: number
+    expMoney: number
 
     @Column()
-    incCategory: string
+    expCategory: string
 
     @Column()
-    incPayments: string
+    expPayments: string
 
     @Column()
-    incTotalValue: boolean
+    expTotalValue: boolean
 
     @Column()
-    incTimes: string
+    expTimes: string
 
     @Column()
-    incPending: boolean
+    expPending: boolean
 
-    @Column()
-    incDate: string
+    @Column({ type: "date" })
+    expDate: string
     
     @Column()
-    incDescription: string
+    expDescription: string
   
     @ManyToOne(() => User, (user) => user.userCode)
     userCode: User

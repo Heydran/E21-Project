@@ -37,17 +37,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
-var Expenses_1 = require("./../entity/Expenses");
+var Expense_1 = require("../entity/Expense");
 var router = new express_1.Router();
 router.post("/new", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var expenses, results, result;
+        var expense, results, result;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expenses_1.Expenses).create(req.body.launch)];
+                case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).create(req.body.launch)];
                 case 1:
-                    expenses = _a.sent();
-                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expenses_1.Expenses).save(expenses)];
+                    expense = _a.sent();
+                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).save(expense)];
                 case 2:
                     results = _a.sent();
                     result = {};
@@ -69,7 +69,7 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
     var registers;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expenses_1.Expenses).findBy({
+            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).findBy({
                     userCode: req.body.userCode
                 })];
             case 1:
@@ -82,7 +82,7 @@ router.post("/query/all", function (req, res) { return __awaiter(void 0, void 0,
     var results;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expenses_1.Expenses).find()];
+            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).find()];
             case 1:
                 results = _a.sent();
                 return [2 /*return*/, res.json(results)];
@@ -90,14 +90,14 @@ router.post("/query/all", function (req, res) { return __awaiter(void 0, void 0,
     });
 }); });
 router.put("/edit/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var expenses, results;
+    var expense, results;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expenses_1.Expenses).findOneBy({ userCode: req.params.id })];
+            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).findOneBy({ userCode: req.params.id })];
             case 1:
-                expenses = _a.sent();
-                req.app.get("myDataSource").getRepository(Expenses_1.Expenses).merge(Expenses_1.Expenses, req.body);
-                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expenses_1.Expenses).save(expenses)];
+                expense = _a.sent();
+                req.app.get("myDataSource").getRepository(Expense_1.Expense).merge(Expense_1.Expense, req.body);
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).save(expense)];
             case 2:
                 results = _a.sent();
                 return [2 /*return*/, res.json(results)];
@@ -108,7 +108,7 @@ router.delete("/delete/:id", function (req, res) { return __awaiter(void 0, void
     var results;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expenses_1.Expenses).delete(req.params.id)];
+            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).delete(req.params.id)];
             case 1:
                 results = _a.sent();
                 return [2 /*return*/, res.json(results)];
