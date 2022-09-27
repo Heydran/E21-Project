@@ -84,7 +84,7 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                     filters = { userCode: req.body.filter };
                 }
                 else if (req.body.filterType == "category") {
-                    filters = { incCategory: req.body.ilter };
+                    filters = { incCategory: (0, typeorm_1.Equal)(req.body.ilter) };
                 }
                 else if (req.body.filterType == "date") {
                     filters = { incDate: (0, typeorm_1.MoreThan)(req.body.filter) };

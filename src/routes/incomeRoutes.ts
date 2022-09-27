@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express"
 import { Income } from "./../entity/Income"
-import { MoreThan, LessThan, MoreThanOrEqual, LessThanOrEqual } from "typeorm"
+import { MoreThan, LessThan, MoreThanOrEqual, LessThanOrEqual, Equal } from "typeorm"
 //import { verify, sign } from "jsonwebtoken"
 
 
@@ -33,7 +33,7 @@ router.post("/query", async (req: Request, res: Response) => {
     if (req.body.filterType == "userCode") {
         filters = { userCode: req.body.filter }
     } else if (req.body.filterType == "category") {
-        filters = { incCategory: req.body.ilter }
+        filters = { incCategory: Equal(req.body.ilter) }
     } else if (req.body.filterType == "date") {
         filters = { incDate: MoreThan(req.body.filter) }
     }else if (req.body.filterType == "money+") {
