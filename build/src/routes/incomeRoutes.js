@@ -79,20 +79,20 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                if (req.filterType == "userCode") {
-                    filters = { userCode: req.filter };
+                if (req.body.filterType == "userCode") {
+                    filters = { userCode: req.body.filter };
                 }
-                else if (req.filterType == "category") {
-                    filters = { incCategory: req.filter };
+                else if (req.body.filterType == "category") {
+                    filters = { incCategory: req.body.ilter };
                 }
-                else if (req.filterType == "date") {
-                    filters = { incDate: req.filter };
+                else if (req.body.filterType == "date") {
+                    filters = { incDate: req.body.filter };
                 }
-                else if (req.filterType == "money+") {
-                    filters = { incDate: req.filter };
+                else if (req.body.filterType == "money+") {
+                    filters = { incDate: req.body.filter };
                 }
-                else if (req.filterType == "money-") {
-                    filters = { incDate: req.filter };
+                else if (req.body.filterType == "money-") {
+                    filters = { incDate: req.body.filter };
                 }
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).findBy({
                         filters: filters

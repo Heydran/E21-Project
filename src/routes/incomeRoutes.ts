@@ -29,16 +29,16 @@ router.post("/new", async function (req: Request, res: Response) {
 router.post("/query", async (req: Request, res: Response) => {
     var registers
     var filters
-    if (req.filterType == "userCode") {
-        filters = { userCode: req.filter }
-    } else if (req.filterType == "category") {
-        filters = { incCategory: req.filter }
-    } else if (req.filterType == "date") {
-        filters = { incDate: req.filter }
-    }else if (req.filterType == "money+") {
-        filters = { incDate: req.filter }
-    }else if (req.filterType == "money-") {
-        filters = { incDate: req.filter }
+    if (req.body.filterType == "userCode") {
+        filters = { userCode: req.body.filter }
+    } else if (req.body.filterType == "category") {
+        filters = { incCategory: req.body.ilter }
+    } else if (req.body.filterType == "date") {
+        filters = { incDate: req.body.filter }
+    }else if (req.body.filterType == "money+") {
+        filters = { incDate: req.body.filter }
+    }else if (req.body.filterType == "money-") {
+        filters = { incDate: req.body.filter }
     }
     registers = await req.app.get("myDataSource").getRepository(Income).findBy({
         filters
