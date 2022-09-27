@@ -94,9 +94,7 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                 else if (req.body.filterType == "money-") {
                     filters = { incDate: req.body.filter };
                 }
-                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).findBy({
-                        filters: filters
-                    })];
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).findBy(filters)];
             case 1:
                 registers = _a.sent();
                 return [2 /*return*/, res.json({ registers: registers })];

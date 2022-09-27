@@ -40,9 +40,7 @@ router.post("/query", async (req: Request, res: Response) => {
     }else if (req.body.filterType == "money-") {
         filters = { incDate: req.body.filter }
     }
-    registers = await req.app.get("myDataSource").getRepository(Income).findBy({
-        filters
-    })
+    registers = await req.app.get("myDataSource").getRepository(Income).findBy(filters)
     return res.json({ registers })
 })
 
