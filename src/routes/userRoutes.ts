@@ -8,42 +8,42 @@ const router: Router = new Router()
 
 router.post("/signUp", async function (req: Request, res: Response) {
     try {
-    const encoded = hash(req.body.newUser.userPasswd, 10, async (err, hash) => {
-        console.log(hash, err)
 
-        const tuser = req.app.get("myDataSource").getRepository(User).create({
+        const encoded = hash(req.body.newUser.userPasswd, 10, async (err, hash) => {
 
-            userName: req.body.newUser.userName,
-            userPhone: req.body.newUser.userPhone,
-            userEmail: req.body.newUser.userEmail,
-            userMoney: 0,
-            userPasswd: hash
+            const tuser = req.app.get("myDataSource").getRepository(User).create({
+
+                userName: req.body.newUser.userName,
+                userPhone: req.body.newUser.userPhone,
+                userEmail: req.body.newUser.userEmail,
+                userMoney: 0,
+                userPasswd: hash
+            })
+            
+            const results = await req.app.get("myDataSource").getRepository(User).save(tuser)
+            const user = await req.app.get("myDataSource").getRepository(User).findOneBy({ userEmail: req.body.newUser.userEmail })
+            var result = {}
+            if (user)
+                result = ({
+                    registered: true,
+                    userCode: user.userCode
+                })
+            else
+                result = ({
+                    registered: false,
+                    userCode: null
+                })
+            return res.json(result)
+
 
         })
-        const results = await req.app.get("myDataSource").getRepository(User).save(tuser)
-        const user = await req.app.get("myDataSource").getRepository(User).findOneBy({ userEmail: req.body.newUser.userEmail })
-        var result = {}
-        if (user)
-            result = ({
-                registered: true,
-                userCode: user.userCode
-            })
-        else
-            result = ({
-                registered: false,
-                userCode: null
-            })
-        return res.json(result)
 
-
-    })
-
-    //var token = await sign(result, "segredo")
+        //var token = await sign(result, "segredo")
     } catch (e) {
         return res.json({
             registered: false,
             userCode: null,
-            error:e
+            error: e
         })
     }
 
@@ -86,9 +86,9 @@ router.post("/login", async (req: Request, res: Response) => {
     )
     var token = null
     var result = {}
-    if (user){
+    if (user) {
 
-    
+
         compare(req.body.user.password, user.userPasswd, async (err, val) => {
             if (val)//bcrypt.compare( user.passwd,10)
                 result = {
@@ -100,28 +100,29 @@ router.post("/login", async (req: Request, res: Response) => {
                     }
 
                 }
-            else result = { logged: false, user:  "credenciais invalidas" } 
+            else result = { logged: false, user: "credenciais invalidas" }
 
             ///console.log("data",new Date().getDate())
 
-            
 
-            token = await sign(result, "segredo",{ expiresIn:  604800})
-            console.log({token});
-            return res.json({token})
-        })}
-        else {
-            return res.json({ token: { logged: false, user: "credenciais invalidas" } })
-        }
+
+            token = await sign(result, "segredo", { expiresIn: 604800 })
+            console.log({ token });
+            return res.json({ token })
+        })
+    }
+    else {
+        return res.json({ token: { logged: false, user: "credenciais invalidas" } })
+    }
 
 
 })
 
-router.put("/setMoney", async (req:Request, res:Response) => {
+router.put("/setMoney", async (req: Request, res: Response) => {
     const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
         { userCode: req.body.id }
     )
-    req.app.get("myDataSource").getRepository(User).merge(user, {userMoney: req.body.userMoney})
+    req.app.get("myDataSource").getRepository(User).merge(user, { userMoney: req.body.userMoney })
     const results = await req.app.get("myDataSource").getRepository(User).save(user)
     return res.json(results)
 })

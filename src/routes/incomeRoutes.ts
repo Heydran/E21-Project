@@ -6,6 +6,7 @@ import { Income } from "./../entity/Income"
 const router: Router = new Router()
 
 router.post("/new", async function (req: Request, res: Response) {
+    try {
     const income = await req.app.get("myDataSource").getRepository(Income).create(req.body.launch)
     const results = await req.app.get("myDataSource").getRepository(Income).save(income)
     var result = {}
@@ -19,7 +20,9 @@ router.post("/new", async function (req: Request, res: Response) {
         })
     //var token = await sign(result, "segredo")
     return res.json(result)
-
+}catch (err) {
+    console.log(err.mesage)
+}
 })
 
 router.post("/query", async (req: Request, res: Response) => {

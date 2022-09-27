@@ -52,7 +52,6 @@ router.post("/signUp", function (req, res) {
                     return __generator(this, function (_a) {
                         switch (_a.label) {
                             case 0:
-                                console.log(hash, err);
                                 tuser = req.app.get("myDataSource").getRepository(User_1.User).create({
                                     userName: req.body.newUser.userName,
                                     userPhone: req.body.newUser.userPhone,

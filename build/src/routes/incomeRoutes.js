@@ -42,10 +42,12 @@ var Income_1 = require("./../entity/Income");
 var router = new express_1.Router();
 router.post("/new", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var income, results, result;
+        var income, results, result, err_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).create(req.body.launch)];
+                case 0:
+                    _a.trys.push([0, 3, , 4]);
+                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).create(req.body.launch)];
                 case 1:
                     income = _a.sent();
                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).save(income)];
@@ -62,6 +64,11 @@ router.post("/new", function (req, res) {
                         });
                     //var token = await sign(result, "segredo")
                     return [2 /*return*/, res.json(result)];
+                case 3:
+                    err_1 = _a.sent();
+                    console.log(err_1.mesage);
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
             }
         });
     });
