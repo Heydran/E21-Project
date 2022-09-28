@@ -26,7 +26,7 @@ const myDataSource = new DataSource({
 //     username: "postgres",
 //     password: "1234",
 //     database: "postgres",
-//     entities: [ User, Income, Expenses, Wallet, WalletUsers],
+//     entities: [ User, Income, Expense, Wallet, WalletUsers],
 //     logging: false,
 //     synchronize: true
 // })

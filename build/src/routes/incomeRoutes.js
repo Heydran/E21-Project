@@ -76,25 +76,35 @@ router.post("/new", function (req, res) {
     });
 });
 router.post("/query", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var registers, filters;
+    var registers, filters, where;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                if (req.body.filterType == "userCode") {
-                    filters = { userCode: req.body.filter };
-                }
-                else if (req.body.filterType == "category") {
-                    filters = { incCategory: (0, typeorm_1.Equal)(req.body.ilter) };
-                }
-                else if (req.body.filterType == "date") {
-                    filters = { incDate: (0, typeorm_1.MoreThan)(req.body.filter) };
-                }
-                else if (req.body.filterType == "money+") {
-                    filters = { incMoney: (0, typeorm_1.MoreThanOrEqual)(req.body.filter) };
-                }
-                else if (req.body.filterType == "money-") {
-                    filters = { incMoney: (0, typeorm_1.LessThanOrEqual)(req.body.filter) };
-                }
+                filters = {};
+                where = {
+                    date: (0, typeorm_1.Between)(req.body.filter[0][0], req.body.filter[0][1]),
+                    category: req.body.filter[1]
+                };
+                if (req.body.filter[2].type == "")
+                    if (req.body.filterType == "=") {
+                        filters[req.body.column] = req.body.filter;
+                    }
+                    else if (req.body.filterType == ">=") {
+                        filters[req.body.column] = (0, typeorm_1.MoreThanOrEqual)(req.body.filter);
+                    }
+                    else if (req.body.filterType == "<=") {
+                        filters[req.body.column] = (0, typeorm_1.LessThanOrEqual)(req.body.filter);
+                    }
+                    else if (req.body.filterType == "==") {
+                        filters[req.body.column] = (0, typeorm_1.Equal)(req.body.filter);
+                    }
+                    else if (req.body.filterType == "[]") {
+                        filters[req.body.column] = (0, typeorm_1.Between)(req.body.filter[0], req.body.filter[1]);
+                    }
+                where[req.body.column[0]] = (0, typeorm_1.Between)(req.body.filter[0][0], req.body.filter[0][1]);
+                where[req.body.column[1]] = (0, typeorm_1.Equal)(req.body.filter[1]);
+                where[req.body.column[2]] = req.body.filter[2];
+                console.log(filters);
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).findBy(filters)];
             case 1:
                 registers = _a.sent();
