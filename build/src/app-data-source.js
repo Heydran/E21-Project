@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.myDataSource = void 0;
-var WalletUsers_1 = require("./entity/WalletUsers");
 var typeorm_1 = require("typeorm");
 var User_1 = require("./entity/User");
 var Income_1 = require("./entity/Income");
 var Expense_1 = require("./entity/Expense");
 var Wallet_1 = require("./entity/Wallet");
+var WalletUsers_1 = require("./entity/WalletUsers");
 var Parcel_1 = require("./entity/Parcel");
 // const myDataSource = new DataSource({
 //     type: "postgres",

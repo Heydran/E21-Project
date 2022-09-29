@@ -1,9 +1,9 @@
-import { WalletUsers } from './entity/WalletUsers';
 import { DataSource } from "typeorm"
 import { User } from "./entity/User"
 import { Income } from "./entity/Income"
 import { Expense } from "./entity/Expense"
 import { Wallet } from "./entity/Wallet"
+import { WalletUsers } from './entity/WalletUsers'
 import { Parcel } from "./entity/Parcel"
 // const myDataSource = new DataSource({
 //     type: "postgres",
