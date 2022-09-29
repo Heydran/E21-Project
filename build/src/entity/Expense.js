@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Expense = void 0;
 var typeorm_1 = require("typeorm");
 var User_1 = require("./User");
+var Parcel_1 = require("./Parcel");
 var Expense = /** @class */ (function () {
     function Expense() {
     }
@@ -20,7 +21,7 @@ var Expense = /** @class */ (function () {
         __metadata("design:type", Number)
     ], Expense.prototype, "expCode", void 0);
     __decorate([
-        (0, typeorm_1.Column)(),
+        (0, typeorm_1.Column)({ type: "real" }),
         __metadata("design:type", Number)
     ], Expense.prototype, "expMoney", void 0);
     __decorate([
@@ -29,12 +30,12 @@ var Expense = /** @class */ (function () {
     ], Expense.prototype, "expCategory", void 0);
     __decorate([
         (0, typeorm_1.Column)(),
-        __metadata("design:type", String)
-    ], Expense.prototype, "expPayments", void 0);
+        __metadata("design:type", Number)
+    ], Expense.prototype, "expPaymentMethod", void 0);
     __decorate([
         (0, typeorm_1.Column)(),
         __metadata("design:type", Boolean)
-    ], Expense.prototype, "expTotalValue", void 0);
+    ], Expense.prototype, "expTotalPayment", void 0);
     __decorate([
         (0, typeorm_1.Column)(),
         __metadata("design:type", String)
@@ -55,6 +56,10 @@ var Expense = /** @class */ (function () {
         (0, typeorm_1.ManyToOne)(function () { return User_1.User; }, function (user) { return user.userCode; }),
         __metadata("design:type", User_1.User)
     ], Expense.prototype, "userCode", void 0);
+    __decorate([
+        (0, typeorm_1.ManyToOne)(function () { return Parcel_1.Parcel; }, function (parcel) { return parcel.parcelCode; }),
+        __metadata("design:type", Parcel_1.Parcel)
+    ], Expense.prototype, "parcelCode", void 0);
     Expense = __decorate([
         (0, typeorm_1.Entity)()
     ], Expense);

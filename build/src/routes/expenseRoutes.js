@@ -37,15 +37,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
-var Income_1 = require("./../entity/Income");
-var Parcel_1 = require("./../entity/Parcel");
+var Expense_1 = require("../entity/Expense");
+var Parcel_1 = require("../entity/Parcel");
 var typeorm_1 = require("typeorm");
 var moment = require("moment");
 //import { verify, sign } from "jsonwebtoken"
 var router = new express_1.Router();
 router.post("/new", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var results, mDays, newIncome, newParcel, date, originalDay, i, result, err_1;
+        var results, mDays, newExpense, newParcel, date, originalDay, i, result, err_1;
         var _this = this;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -57,14 +57,14 @@ router.post("/new", function (req, res) {
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 11, , 12]);
-                    newIncome = function () { return __awaiter(_this, void 0, void 0, function () {
-                        var income, results;
+                    newExpense = function () { return __awaiter(_this, void 0, void 0, function () {
+                        var expanse, results;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
-                                case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).create(req.body.launch)];
+                                case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).create(req.body.launch)];
                                 case 1:
-                                    income = _a.sent();
-                                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).save(income)];
+                                    expanse = _a.sent();
+                                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).save(expanse)];
                                 case 2:
                                     results = _a.sent();
                                     return [2 /*return*/, results];
@@ -76,7 +76,7 @@ router.post("/new", function (req, res) {
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Parcel_1.Parcel).create({
-                                        parcelDescription: req.body.launch.incDescription,
+                                        parcelDescription: req.body.launch.expDescription,
                                         userCode: req.body.launch.userCode
                                     })];
                                 case 1:
@@ -89,22 +89,22 @@ router.post("/new", function (req, res) {
                             }
                         });
                     }); };
-                    if (!(req.body.launch.incPaymentMethod == 1)) return [3 /*break*/, 2];
+                    if (!(req.body.launch.expPaymentMethod == 1)) return [3 /*break*/, 2];
                     console.log("vista");
-                    results = newIncome();
+                    results = newExpense();
                     return [3 /*break*/, 10];
                 case 2:
-                    if (!(req.body.launch.incPaymentMethod == 2)) return [3 /*break*/, 9];
+                    if (!(req.body.launch.expPaymentMethod == 2)) return [3 /*break*/, 9];
                     return [4 /*yield*/, newParcel()];
                 case 3:
                     _a.sent();
-                    date = new Date(req.body.launch.incDate);
+                    date = new Date(req.body.launch.expDate);
                     originalDay = date.getDate() + 1;
                     i = 0;
                     _a.label = 4;
                 case 4:
-                    if (!(i < req.body.launch.incTimes)) return [3 /*break*/, 7];
-                    return [4 /*yield*/, newIncome()];
+                    if (!(i < req.body.launch.expTimes)) return [3 /*break*/, 7];
+                    return [4 /*yield*/, newExpense()];
                 case 5:
                     results = _a.sent();
                     if (originalDay > mDays[date.getMonth()]) {
@@ -115,17 +115,17 @@ router.post("/new", function (req, res) {
                         date.setMonth(date.getMonth() + 1);
                         date.setDate(originalDay);
                     }
-                    req.body.launch.incDate = moment(date).format("YYYY[-]MM[-]DD");
+                    req.body.launch.expDate = moment(date).format("YYYY[-]MM[-]DD");
                     _a.label = 6;
                 case 6:
                     i++;
                     return [3 /*break*/, 4];
-                case 7: return [4 /*yield*/, newIncome()];
+                case 7: return [4 /*yield*/, newExpense()];
                 case 8:
                     results = _a.sent();
                     return [3 /*break*/, 10];
                 case 9:
-                    if (req.body.incPaymentMethod == 3) {
+                    if (req.body.expPaymentMethod == 3) {
                         "continuo, limite de vezes desconhecido";
                     }
                     _a.label = 10;
@@ -173,18 +173,18 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                     filters[req.body.column] = (0, typeorm_1.Between)(req.body.filter[0], req.body.filter[1]);
                 }
                 else if (req.body.filterType == "+") {
-                    filters["incDate"] = (0, typeorm_1.Between)(req.body.filter[0][0], req.body.filter[0][1]);
+                    filters["expDate"] = (0, typeorm_1.Between)(req.body.filter[0][0], req.body.filter[0][1]);
                     if (req.body.filter[1][0] == ">=")
-                        filters["incMoney"] = (0, typeorm_1.MoreThanOrEqual)(req.body.filter[1][1]);
+                        filters["expMoney"] = (0, typeorm_1.MoreThanOrEqual)(req.body.filter[1][1]);
                     else if (req.body.filter[1][0] == "<=")
-                        filters["incMoney"] = (0, typeorm_1.LessThanOrEqual)(req.body.filter[1][1]);
+                        filters["expMoney"] = (0, typeorm_1.LessThanOrEqual)(req.body.filter[1][1]);
                     else if (req.body.filter[1][0] == "[]")
-                        filters["incMoney"] = (0, typeorm_1.Between)(req.body.filter[1][1], req.body.filter[1][2]);
-                    filters["incCategory"] = (0, typeorm_1.Equal)(req.body.filter[2]);
-                    filters["incDescription"] = (0, typeorm_1.Like)("%".concat(req.body.filter[3], "%"));
+                        filters["expMoney"] = (0, typeorm_1.Between)(req.body.filter[1][1], req.body.filter[1][2]);
+                    filters["expCategory"] = (0, typeorm_1.Equal)(req.body.filter[2]);
+                    filters["expDescription"] = (0, typeorm_1.Like)("%".concat(req.body.filter[3], "%"));
                 }
                 console.log(filters);
-                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).findBy(filters)];
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).findBy(filters)];
             case 1:
                 registers = _a.sent();
                 return [2 /*return*/, res.json({ registers: registers })];
@@ -192,25 +192,25 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
     });
 }); });
 router.post("/query/all", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var incomes;
+    var expanses;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).find()];
+            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).find()];
             case 1:
-                incomes = _a.sent();
-                return [2 /*return*/, res.json(incomes)];
+                expanses = _a.sent();
+                return [2 /*return*/, res.json(expanses)];
         }
     });
 }); });
 router.put("/edit/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var income, results;
+    var expanse, results;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).findOneBy({ userCode: req.params.id })];
+            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).findOneBy({ userCode: req.params.id })];
             case 1:
-                income = _a.sent();
-                req.app.get("myDataSource").getRepository(Income_1.Income).merge(income, req.body);
-                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).save(Income_1.Income)];
+                expanse = _a.sent();
+                req.app.get("myDataSource").getRepository(Expense_1.Expense).merge(expanse, req.body);
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).save(Expense_1.Expense)];
             case 2:
                 results = _a.sent();
                 return [2 /*return*/, res.json(results)];
@@ -221,7 +221,7 @@ router.delete("/delete/:id", function (req, res) { return __awaiter(void 0, void
     var results;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).delete(req.params.id)];
+            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).delete(req.params.id)];
             case 1:
                 results = _a.sent();
                 return [2 /*return*/, res.json(results)];

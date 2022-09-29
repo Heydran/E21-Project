@@ -1,22 +1,23 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm"
 import { User } from "./User"
+import { Parcel } from "./Parcel"
 
 @Entity()
 export class Expense {
     @PrimaryGeneratedColumn()
     expCode: number
 
-    @Column()
+    @Column({ type: "real" })
     expMoney: number
 
     @Column()
     expCategory: string
 
     @Column()
-    expPayments: string
+    expPaymentMethod: number
 
     @Column()
-    expTotalValue: boolean
+    expTotalPayment: boolean
 
     @Column()
     expTimes: string
@@ -26,10 +27,13 @@ export class Expense {
 
     @Column({ type: "date" })
     expDate: string
-    
+
     @Column()
     expDescription: string
-  
+
     @ManyToOne(() => User, (user) => user.userCode)
     userCode: User
+
+    @ManyToOne(() => Parcel, (parcel) => parcel.parcelCode)
+    parcelCode: Parcel
 }
