@@ -6,7 +6,7 @@
   "scripts": {
     "test": "tsc -w",
     "start": "nodemon ./build/src/app.js",
-    "startt": "tsc -w"
+    "bd": "tsc -w"
   },
   "author": "André Feuzer and Leonardo Augusto",
   "license": "ISC",

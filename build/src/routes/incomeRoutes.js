@@ -45,7 +45,7 @@ var moment = require("moment");
 var router = new express_1.Router();
 router.post("/new", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var results, mDays, newIncome, newParcel, date, i, result, err_1;
+        var results, mDays, newIncome, newParcel, date, originalDay, i, result, err_1;
         var _this = this;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -53,10 +53,10 @@ router.post("/new", function (req, res) {
                     console.log("start");
                     console.log(req.body.launch);
                     results = null;
-                    mDays = [null, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+                    mDays = [28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 31];
                     _a.label = 1;
                 case 1:
-                    _a.trys.push([1, 10, , 11]);
+                    _a.trys.push([1, 11, , 12]);
                     newIncome = function () { return __awaiter(_this, void 0, void 0, function () {
                         var income, results;
                         return __generator(this, function (_a) {
@@ -92,40 +92,44 @@ router.post("/new", function (req, res) {
                     if (!(req.body.launch.incPaymentMethod == 1)) return [3 /*break*/, 2];
                     console.log("vista");
                     results = newIncome();
-                    return [3 /*break*/, 9];
+                    return [3 /*break*/, 10];
                 case 2:
-                    if (!(req.body.launch.incPaymentMethod == 2)) return [3 /*break*/, 8];
-                    console.log("parcelado");
+                    if (!(req.body.launch.incPaymentMethod == 2)) return [3 /*break*/, 9];
                     return [4 /*yield*/, newParcel()];
                 case 3:
                     _a.sent();
-                    console.log(req.body.launch.incTimes);
                     date = new Date(req.body.launch.incDate);
+                    originalDay = date.getDate() + 1;
                     i = 0;
                     _a.label = 4;
                 case 4:
                     if (!(i < req.body.launch.incTimes)) return [3 /*break*/, 7];
-                    console.log(i, req.body.launch.incTimes);
                     return [4 /*yield*/, newIncome()];
                 case 5:
                     results = _a.sent();
-                    if (date.getDate() > mDays[date.getMonth() + 1]) {
-                        date.setDate(mDays[date.getMonth() + 1]);
+                    if (originalDay > mDays[date.getMonth()]) {
+                        date.setDate(mDays[date.getMonth()]);
+                        date.setMonth(date.getMonth() + 1);
                     }
-                    date.setMonth(date.getMonth() + 1);
+                    else {
+                        date.setMonth(date.getMonth() + 1);
+                        date.setDate(originalDay);
+                    }
                     req.body.launch.incDate = moment(date).format("YYYY[-]MM[-]DD");
                     _a.label = 6;
                 case 6:
                     i++;
                     return [3 /*break*/, 4];
-                case 7: return [3 /*break*/, 9];
+                case 7: return [4 /*yield*/, newIncome()];
                 case 8:
+                    results = _a.sent();
+                    return [3 /*break*/, 10];
+                case 9:
                     if (req.body.incPaymentMethod == 3) {
                         "continuo, limite de vezes desconhecido";
                     }
-                    _a.label = 9;
-                case 9:
-                    console.log(req.body.launch.incDate);
+                    _a.label = 10;
+                case 10:
                     result = {};
                     if (results)
                         result = ({
@@ -137,27 +141,34 @@ router.post("/new", function (req, res) {
                         });
                     //var token = await sign(result, "segredo")
                     return [2 /*return*/, res.json(result)];
-                case 10:
+                case 11:
                     err_1 = _a.sent();
                     console.log(err_1);
-                    return [3 /*break*/, 11];
-                case 11: return [2 /*return*/];
+                    return [3 /*break*/, 12];
+                case 12: return [2 /*return*/];
             }
         });
     });
 });
 router.post("/query", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var registers, filters;
+    var registers, filters, where;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 filters = {};
-                /*var where = {
-                    date: Between(req.body.filter[0][0], req.body.filter[0][1]),
-                    category: req.body.filter[1]
-                }*/
-                // if (req.body.filter[2].type == "")
-                if (req.body.filterType == "=") {
+                where = {};
+                if (req.body.filterType == "+") {
+                    where["incDate"] = (0, typeorm_1.Between)(req.body.filter[0][0], req.body.filter[0][1]);
+                    if (req.body.filter[1][0] == ">=")
+                        where["incMoney"] = (0, typeorm_1.MoreThanOrEqual)(req.body.filter[1][1]);
+                    else if (req.body.filter[1][0] == "<=")
+                        where["incMoney"] = (0, typeorm_1.LessThanOrEqual)(req.body.filter[1][1]);
+                    else if (req.body.filter[1][0] == "[]")
+                        where["incMoney"] = (0, typeorm_1.Between)(req.body.filter[1][1], req.body.filter[1][2]);
+                    where["incCategory"] = (0, typeorm_1.Equal)(req.body.filter[2]);
+                    where["incDescription"] = (0, typeorm_1.Equal)("%".concat(req.body.filter[3], "%"));
+                }
+                else if (req.body.filterType == "=") {
                     filters[req.body.column] = req.body.filter;
                 }
                 else if (req.body.filterType == ">=") {
@@ -172,14 +183,9 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                 else if (req.body.filterType == "[]") {
                     filters[req.body.column] = (0, typeorm_1.Between)(req.body.filter[0], req.body.filter[1]);
                 }
-                // where[req.body.column[0]] = Between(req.body.filter[0][0], req.body.filter[0][1])
-                // where[req.body.column[1]] = Equal(req.body.filter[1])
-                // where[req.body.column[2]] = req.body.filter[2]
-                console.log(filters);
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).findBy(filters)];
             case 1:
                 registers = _a.sent();
-                console.log(registers);
                 return [2 /*return*/, res.json({ registers: registers })];
         }
     });

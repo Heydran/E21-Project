@@ -1,19 +1,16 @@
 import { Router, Request, Response } from "express"
 import { Income } from "./../entity/Income"
 import { Parcel } from "./../entity/Parcel"
-import { MoreThan, LessThan, MoreThanOrEqual, LessThanOrEqual, Equal, Between } from "typeorm"
+import { MoreThanOrEqual, LessThanOrEqual, Equal, Between } from "typeorm"
 import * as moment from "moment"
 //import { verify, sign } from "jsonwebtoken"
 
-
 const router: Router = new Router()
-
 router.post("/new", async function (req: Request, res: Response) {
     console.log("start");
     console.log(req.body.launch);
     var results = null
-    const mDays = [null, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-
+    const mDays = [ 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31,31]
     try {
         const newIncome = async () => {
             const income = await req.app.get("myDataSource").getRepository(Income).create(req.body.launch)
@@ -22,44 +19,34 @@ router.post("/new", async function (req: Request, res: Response) {
         }
         var newParcel = async () => {
             const parcel = await req.app.get("myDataSource").getRepository(Parcel).create({
-
                 parcelDescription: req.body.launch.incDescription,
                 userCode: req.body.launch.userCode
-
             })
             const parcelResult = await req.app.get("myDataSource").getRepository(Parcel).save(parcel)
-
-
             req.body.launch["parcelCode"] = parcelResult.parcelCode
-
         }
-
-
         if (req.body.launch.incPaymentMethod == 1) {
             console.log("vista")
             results = newIncome()
         } else if (req.body.launch.incPaymentMethod == 2) {
-            console.log("parcelado");
             await newParcel()
-            console.log(req.body.launch.incTimes);
             const date = new Date(req.body.launch.incDate)
-            //date.setDate(date.getDate()+1)
+            const originalDay = date.getDate()+1
             for (let i = 0; i < req.body.launch.incTimes; i++) {
-                console.log(i, req.body.launch.incTimes);
-
-                results = await newIncome()
-                if (date.getDate() > mDays[date.getMonth() + 1]) {
-                    date.setDate(mDays[date.getMonth() + 1])
+                results = await newIncome()                
+                if (originalDay > mDays[date.getMonth()]) {
+                    date.setDate(mDays[date.getMonth()])
+                    date.setMonth(date.getMonth()+1)          
+                }else {
+                    date.setMonth(date.getMonth()+1)
+                    date.setDate(originalDay)                
                 }
-                date.setMonth(date.getMonth() + 1)
                 req.body.launch.incDate = moment(date).format("YYYY[-]MM[-]DD")
             }
+            results = await newIncome()
         } else if (req.body.incPaymentMethod == 3) {
             "continuo, limite de vezes desconhecido"
         }
-        console.log(req.body.launch.incDate);
-
-
         var result = {}
         if (results)
             result = ({
@@ -79,14 +66,15 @@ router.post("/new", async function (req: Request, res: Response) {
 router.post("/query", async (req: Request, res: Response) => {
     var registers
     var filters = {}
-    /*var where = {
-        date: Between(req.body.filter[0][0], req.body.filter[0][1]),
-        category: req.body.filter[1]
-    }*/
-
-    // if (req.body.filter[2].type == "")
-
-    if (req.body.filterType == "=") {
+    var where = {}
+    if (req.body.filterType == "+"){
+    where["incDate"] = Between(req.body.filter[0][0], req.body.filter[0][1])
+    if (req.body.filter[1][0] == ">=") where["incMoney"] = MoreThanOrEqual(req.body.filter[1][1])
+    else if (req.body.filter[1][0] == "<=") where["incMoney"] = LessThanOrEqual(req.body.filter[1][1])
+    else if (req.body.filter[1][0] == "[]") where["incMoney"] = Between(req.body.filter[1][1],req.body.filter[1][2])
+    where["incCategory"] = Equal(req.body.filter[2])
+    where["incDescription"] = Equal(`%${req.body.filter[3]}%`)
+    }else if (req.body.filterType == "=") {
         filters[req.body.column] = req.body.filter
     } else if (req.body.filterType == ">=") {
         filters[req.body.column] = MoreThanOrEqual(req.body.filter)
@@ -97,16 +85,7 @@ router.post("/query", async (req: Request, res: Response) => {
     } else if (req.body.filterType == "[]") {
         filters[req.body.column] = Between(req.body.filter[0], req.body.filter[1])
     }
-
-    // where[req.body.column[0]] = Between(req.body.filter[0][0], req.body.filter[0][1])
-    // where[req.body.column[1]] = Equal(req.body.filter[1])
-    // where[req.body.column[2]] = req.body.filter[2]
-
-    console.log(filters);
-
     registers = await req.app.get("myDataSource").getRepository(Income).findBy(filters)
-    console.log(registers);
-
     return res.json({ registers })
 })
 

@@ -23,7 +23,7 @@ app.use("/user", userRoutes_1.default);
 app.use("/wallet", walletRoutes_1.default);
 app.use("/income", incomeRoutes_1.default);
 app.get("/", function (req, res) {
-    return res.send("?");
+    return res.send("Olá xd");
 });
 var port = process.env.PORT;
 app.listen(port, function () {

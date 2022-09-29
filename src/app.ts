@@ -28,7 +28,7 @@ app.use("/wallet", walletRoutes)
 app.use("/income", incomeRoutes)
 
 app.get("/",(req: Request, res: Response)=> {
-    return res.send("?")
+    return res.send("Olá xd")
 })
 
 
