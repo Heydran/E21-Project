@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Income = void 0;
 var typeorm_1 = require("typeorm");
 var User_1 = require("./User");
+var Parcel_1 = require("./Parcel");
 var Income = /** @class */ (function () {
     function Income() {
     }
@@ -29,12 +30,12 @@ var Income = /** @class */ (function () {
     ], Income.prototype, "incCategory", void 0);
     __decorate([
         (0, typeorm_1.Column)(),
-        __metadata("design:type", String)
-    ], Income.prototype, "incPayments", void 0);
+        __metadata("design:type", Number)
+    ], Income.prototype, "incPaymentMethod", void 0);
     __decorate([
         (0, typeorm_1.Column)(),
         __metadata("design:type", Boolean)
-    ], Income.prototype, "incTotalValue", void 0);
+    ], Income.prototype, "incTotalPayment", void 0);
     __decorate([
         (0, typeorm_1.Column)(),
         __metadata("design:type", String)
@@ -55,6 +56,10 @@ var Income = /** @class */ (function () {
         (0, typeorm_1.ManyToOne)(function () { return User_1.User; }, function (user) { return user.userCode; }),
         __metadata("design:type", User_1.User)
     ], Income.prototype, "userCode", void 0);
+    __decorate([
+        (0, typeorm_1.ManyToOne)(function () { return Parcel_1.Parcel; }, function (parcel) { return parcel.parcelCode; }),
+        __metadata("design:type", Parcel_1.Parcel)
+    ], Income.prototype, "parcelCode", void 0);
     Income = __decorate([
         (0, typeorm_1.Entity)()
     ], Income);

@@ -38,23 +38,94 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
 var Income_1 = require("./../entity/Income");
+var Parcel_1 = require("./../entity/Parcel");
 var typeorm_1 = require("typeorm");
+var moment = require("moment");
 //import { verify, sign } from "jsonwebtoken"
 var router = new express_1.Router();
 router.post("/new", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var income, results, result, err_1;
+        var results, mDays, newIncome, newParcel, date, i, result, err_1;
+        var _this = this;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 3, , 4]);
-                    console.log(req.body.launch.incDate);
-                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).create(req.body.launch)];
+                    console.log("start");
+                    console.log(req.body.launch);
+                    results = null;
+                    mDays = [null, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+                    _a.label = 1;
                 case 1:
-                    income = _a.sent();
-                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).save(income)];
+                    _a.trys.push([1, 10, , 11]);
+                    newIncome = function () { return __awaiter(_this, void 0, void 0, function () {
+                        var income, results;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).create(req.body.launch)];
+                                case 1:
+                                    income = _a.sent();
+                                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).save(income)];
+                                case 2:
+                                    results = _a.sent();
+                                    return [2 /*return*/, results];
+                            }
+                        });
+                    }); };
+                    newParcel = function () { return __awaiter(_this, void 0, void 0, function () {
+                        var parcel, parcelResult;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Parcel_1.Parcel).create({
+                                        parcelDescription: req.body.launch.incDescription,
+                                        userCode: req.body.launch.userCode
+                                    })];
+                                case 1:
+                                    parcel = _a.sent();
+                                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(Parcel_1.Parcel).save(parcel)];
+                                case 2:
+                                    parcelResult = _a.sent();
+                                    req.body.launch["parcelCode"] = parcelResult.parcelCode;
+                                    return [2 /*return*/];
+                            }
+                        });
+                    }); };
+                    if (!(req.body.launch.incPaymentMethod == 1)) return [3 /*break*/, 2];
+                    console.log("vista");
+                    results = newIncome();
+                    return [3 /*break*/, 9];
                 case 2:
+                    if (!(req.body.launch.incPaymentMethod == 2)) return [3 /*break*/, 8];
+                    console.log("parcelado");
+                    return [4 /*yield*/, newParcel()];
+                case 3:
+                    _a.sent();
+                    console.log(req.body.launch.incTimes);
+                    date = new Date(req.body.launch.incDate);
+                    i = 0;
+                    _a.label = 4;
+                case 4:
+                    if (!(i < req.body.launch.incTimes)) return [3 /*break*/, 7];
+                    console.log(i, req.body.launch.incTimes);
+                    return [4 /*yield*/, newIncome()];
+                case 5:
                     results = _a.sent();
+                    if (date.getDate() > mDays[date.getMonth() + 1]) {
+                        date.setDate(mDays[date.getMonth() + 1]);
+                    }
+                    date.setMonth(date.getMonth() + 1);
+                    req.body.launch.incDate = moment(date).format("YYYY[-]MM[-]DD");
+                    _a.label = 6;
+                case 6:
+                    i++;
+                    return [3 /*break*/, 4];
+                case 7: return [3 /*break*/, 9];
+                case 8:
+                    if (req.body.incPaymentMethod == 3) {
+                        "continuo, limite de vezes desconhecido";
+                    }
+                    _a.label = 9;
+                case 9:
+                    console.log(req.body.launch.incDate);
                     result = {};
                     if (results)
                         result = ({
@@ -66,48 +137,49 @@ router.post("/new", function (req, res) {
                         });
                     //var token = await sign(result, "segredo")
                     return [2 /*return*/, res.json(result)];
-                case 3:
+                case 10:
                     err_1 = _a.sent();
                     console.log(err_1);
-                    return [3 /*break*/, 4];
-                case 4: return [2 /*return*/];
+                    return [3 /*break*/, 11];
+                case 11: return [2 /*return*/];
             }
         });
     });
 });
 router.post("/query", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var registers, filters, where;
+    var registers, filters;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 filters = {};
-                where = {
-                    date: (0, typeorm_1.Between)(req.body.filter[0][0], req.body.filter[0][1]),
+                /*var where = {
+                    date: Between(req.body.filter[0][0], req.body.filter[0][1]),
                     category: req.body.filter[1]
-                };
-                if (req.body.filter[2].type == "")
-                    if (req.body.filterType == "=") {
-                        filters[req.body.column] = req.body.filter;
-                    }
-                    else if (req.body.filterType == ">=") {
-                        filters[req.body.column] = (0, typeorm_1.MoreThanOrEqual)(req.body.filter);
-                    }
-                    else if (req.body.filterType == "<=") {
-                        filters[req.body.column] = (0, typeorm_1.LessThanOrEqual)(req.body.filter);
-                    }
-                    else if (req.body.filterType == "==") {
-                        filters[req.body.column] = (0, typeorm_1.Equal)(req.body.filter);
-                    }
-                    else if (req.body.filterType == "[]") {
-                        filters[req.body.column] = (0, typeorm_1.Between)(req.body.filter[0], req.body.filter[1]);
-                    }
-                where[req.body.column[0]] = (0, typeorm_1.Between)(req.body.filter[0][0], req.body.filter[0][1]);
-                where[req.body.column[1]] = (0, typeorm_1.Equal)(req.body.filter[1]);
-                where[req.body.column[2]] = req.body.filter[2];
+                }*/
+                // if (req.body.filter[2].type == "")
+                if (req.body.filterType == "=") {
+                    filters[req.body.column] = req.body.filter;
+                }
+                else if (req.body.filterType == ">=") {
+                    filters[req.body.column] = (0, typeorm_1.MoreThanOrEqual)(req.body.filter);
+                }
+                else if (req.body.filterType == "<=") {
+                    filters[req.body.column] = (0, typeorm_1.LessThanOrEqual)(req.body.filter);
+                }
+                else if (req.body.filterType == "==") {
+                    filters[req.body.column] = (0, typeorm_1.Equal)(req.body.filter);
+                }
+                else if (req.body.filterType == "[]") {
+                    filters[req.body.column] = (0, typeorm_1.Between)(req.body.filter[0], req.body.filter[1]);
+                }
+                // where[req.body.column[0]] = Between(req.body.filter[0][0], req.body.filter[0][1])
+                // where[req.body.column[1]] = Equal(req.body.filter[1])
+                // where[req.body.column[2]] = req.body.filter[2]
                 console.log(filters);
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).findBy(filters)];
             case 1:
                 registers = _a.sent();
+                console.log(registers);
                 return [2 /*return*/, res.json({ registers: registers })];
         }
     });
