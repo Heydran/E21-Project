@@ -45,3 +45,14 @@ drop table "user";
 
 
 export { myDataSource }
+
+
+var launch = {}
+var table
+if (true){}
+table = "inc"
+launch [ table+"Campo" ] = "ola"
+
+launch = {incCampo : "ola"}
+
+*/
