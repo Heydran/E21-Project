@@ -1,9 +1,10 @@
 import * as cors from "cors"
 import * as express from "express"
 import { Request, Response } from "express"
-import userRoutes  from "./routes/userRoutes"
-import walletRoutes  from "./routes/walletRoutes"
-import incomeRoutes  from "./routes/incomeRoutes"
+import userRoutes from "./routes/userRoutes"
+import walletRoutes from "./routes/walletRoutes"
+import incomeRoutes from "./routes/incomeRoutes"
+import expenseRoutes from "./routes/expenseRoutes"
 
 import { myDataSource } from "./app-data-source"
 
@@ -15,19 +16,20 @@ myDataSource
     .catch((err) => {
         console.error("Error during Data Source initialization:", err.message)
     })
-    
+
 
 const app = express()
 
-app.set("myDataSource",myDataSource)
+app.set("myDataSource", myDataSource)
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 app.use(cors())
 app.use("/user", userRoutes)
 app.use("/wallet", walletRoutes)
 app.use("/income", incomeRoutes)
+app.use("/expense", expenseRoutes)
 
-app.get("/",(req: Request, res: Response)=> {
+app.get("/", (req: Request, res: Response) => {
     return res.send("Olá xd")
 })
 
