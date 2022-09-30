@@ -27,7 +27,7 @@ router.post("/new", async function (req: Request, res: Response) {
         }
         if (req.body.launch.expPaymentMethod == 1) {
             console.log("vista")
-            results = newExpense()
+            results = await newExpense()
         } else if (req.body.launch.expPaymentMethod == 2) {
             await newParcel()
             const date = new Date(req.body.launch.expDate)
