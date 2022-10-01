@@ -56,7 +56,7 @@ router.post("/new", function (req, res) {
                     mDays = [28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 31];
                     _a.label = 1;
                 case 1:
-                    _a.trys.push([1, 11, , 12]);
+                    _a.trys.push([1, 12, , 13]);
                     newExpense = function () { return __awaiter(_this, void 0, void 0, function () {
                         var expanse, results;
                         return __generator(this, function (_a) {
@@ -89,23 +89,25 @@ router.post("/new", function (req, res) {
                             }
                         });
                     }); };
-                    if (!(req.body.launch.expPaymentMethod == 1)) return [3 /*break*/, 2];
+                    if (!(req.body.launch.expPaymentMethod == 1)) return [3 /*break*/, 3];
                     console.log("vista");
-                    results = newExpense();
-                    return [3 /*break*/, 10];
+                    return [4 /*yield*/, newExpense()];
                 case 2:
-                    if (!(req.body.launch.expPaymentMethod == 2)) return [3 /*break*/, 9];
-                    return [4 /*yield*/, newParcel()];
+                    results = _a.sent();
+                    return [3 /*break*/, 11];
                 case 3:
+                    if (!(req.body.launch.expPaymentMethod == 2)) return [3 /*break*/, 10];
+                    return [4 /*yield*/, newParcel()];
+                case 4:
                     _a.sent();
                     date = new Date(req.body.launch.expDate);
                     originalDay = date.getDate() + 1;
                     i = 0;
-                    _a.label = 4;
-                case 4:
-                    if (!(i < req.body.launch.expTimes)) return [3 /*break*/, 7];
-                    return [4 /*yield*/, newExpense()];
+                    _a.label = 5;
                 case 5:
+                    if (!(i < req.body.launch.expTimes)) return [3 /*break*/, 8];
+                    return [4 /*yield*/, newExpense()];
+                case 6:
                     results = _a.sent();
                     if (originalDay > mDays[date.getMonth()]) {
                         date.setDate(mDays[date.getMonth()]);
@@ -116,20 +118,20 @@ router.post("/new", function (req, res) {
                         date.setDate(originalDay);
                     }
                     req.body.launch.expDate = moment(date).format("YYYY[-]MM[-]DD");
-                    _a.label = 6;
-                case 6:
+                    _a.label = 7;
+                case 7:
                     i++;
-                    return [3 /*break*/, 4];
-                case 7: return [4 /*yield*/, newExpense()];
-                case 8:
-                    results = _a.sent();
-                    return [3 /*break*/, 10];
+                    return [3 /*break*/, 5];
+                case 8: return [4 /*yield*/, newExpense()];
                 case 9:
+                    results = _a.sent();
+                    return [3 /*break*/, 11];
+                case 10:
                     if (req.body.expPaymentMethod == 3) {
                         "continuo, limite de vezes desconhecido";
                     }
-                    _a.label = 10;
-                case 10:
+                    _a.label = 11;
+                case 11:
                     result = {};
                     if (results)
                         result = ({
@@ -141,11 +143,11 @@ router.post("/new", function (req, res) {
                         });
                     //var token = await sign(result, "segredo")
                     return [2 /*return*/, res.json(result)];
-                case 11:
+                case 12:
                     err_1 = _a.sent();
                     console.log(err_1);
-                    return [3 /*break*/, 12];
-                case 12: return [2 /*return*/];
+                    return [3 /*break*/, 13];
+                case 13: return [2 /*return*/];
             }
         });
     });
