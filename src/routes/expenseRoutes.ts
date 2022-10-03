@@ -67,7 +67,12 @@ router.post("/new", async function (req: Request, res: Response) {
 router.post("/query", async (req: Request, res: Response) => {
     var registers
     var filters = {}
-    var where = {}
+    
+    if (req.body.pending){
+        filters["incPending"] = true
+    } else {
+        filters["incPending"] = false
+    }
     if (req.body.filterType == "=") {
         filters[req.body.column] = req.body.filter
     } else if (req.body.filterType == ">=") {
@@ -87,7 +92,7 @@ router.post("/query", async (req: Request, res: Response) => {
         filters["expDescription"] = Like(`%${req.body.filter[3]}%`)
     }
     console.log(filters)
-    registers = await req.app.get("myDataSource").getRepository(Expense).findBy(filters)
+    registers = await req.app.get("myDataSource").getRepository(Expense).find({where:filters})
     return res.json({ registers })
 })
 
