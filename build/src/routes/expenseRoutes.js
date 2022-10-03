@@ -154,16 +154,16 @@ router.post("/new", function (req, res) {
     });
 });
 router.post("/query", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var registers, filters;
+    var filters, registers;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 filters = {};
                 if (req.body.pending) {
-                    filters["incPending"] = true;
+                    filters["expPending"] = true;
                 }
                 else {
-                    filters["incPending"] = false;
+                    filters["expPending"] = false;
                 }
                 if (req.body.filterType == "=") {
                     filters[req.body.column] = req.body.filter;
