@@ -66,8 +66,15 @@ router.post("/new", async function (req: Request, res: Response) {
 
 router.post("/query", async (req: Request, res: Response) => {
     var registers
+    
     var filters = {}
-    var where = {}
+
+    if (req.body.pending){
+        filters["incPending"] = true
+    } else {
+        filters["incPending"] = false
+    }
+
     if (req.body.filterType == "=") {
         filters[req.body.column] = req.body.filter
     } else if (req.body.filterType == ">=") {
@@ -78,7 +85,7 @@ router.post("/query", async (req: Request, res: Response) => {
         filters[req.body.column] = Equal(req.body.filter)
     } else if (req.body.filterType == "[]") {
         filters[req.body.column] = Between(req.body.filter[0], req.body.filter[1])
-    }else if (req.body.filterType == "+"){
+    }else if (req.body.filterType == "..."){
         filters["incDate"] = Between(req.body.filter[0][0], req.body.filter[0][1])
         if (req.body.filter[1][0] == ">=") filters["incMoney"] = MoreThanOrEqual(req.body.filter[1][1])
         else if (req.body.filter[1][0] == "<=") filters["incMoney"] = LessThanOrEqual(req.body.filter[1][1])
@@ -87,9 +94,10 @@ router.post("/query", async (req: Request, res: Response) => {
         filters["incDescription"] = Like(`%${req.body.filter[3]}%`)
     }
     console.log(filters)
-    registers = await req.app.get("myDataSource").getRepository(Income).findBy(filters)
-    return res.json({ registers })
+    registers = await req.app.get("myDataSource").getRepository(Income).find({where:filters})
+            return res.json({ registers })
 })
+
 
 router.post("/query/all", async (req: Request, res: Response) => {
     //const decoded = await verify(req.body.token, 'segredo')

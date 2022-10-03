@@ -152,12 +152,17 @@ router.post("/new", function (req, res) {
     });
 });
 router.post("/query", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var registers, filters, where;
+    var registers, filters;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 filters = {};
-                where = {};
+                if (req.body.pending) {
+                    filters["incPending"] = true;
+                }
+                else {
+                    filters["incPending"] = false;
+                }
                 if (req.body.filterType == "=") {
                     filters[req.body.column] = req.body.filter;
                 }
@@ -173,7 +178,7 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                 else if (req.body.filterType == "[]") {
                     filters[req.body.column] = (0, typeorm_1.Between)(req.body.filter[0], req.body.filter[1]);
                 }
-                else if (req.body.filterType == "+") {
+                else if (req.body.filterType == "...") {
                     filters["incDate"] = (0, typeorm_1.Between)(req.body.filter[0][0], req.body.filter[0][1]);
                     if (req.body.filter[1][0] == ">=")
                         filters["incMoney"] = (0, typeorm_1.MoreThanOrEqual)(req.body.filter[1][1]);
@@ -185,7 +190,7 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                     filters["incDescription"] = (0, typeorm_1.Like)("%".concat(req.body.filter[3], "%"));
                 }
                 console.log(filters);
-                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).findBy(filters)];
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).find({ where: filters })];
             case 1:
                 registers = _a.sent();
                 return [2 /*return*/, res.json({ registers: registers })];
