@@ -10,5 +10,5 @@ export class Wallet {
     walletName: string
 
     @Column()
-    userDesc: string
+    walletDesc: string
 }

@@ -37,32 +37,28 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
-var jsonwebtoken_1 = require("jsonwebtoken");
 var Wallet_1 = require("../entity/Wallet");
 var WalletUsers_1 = require("../entity/WalletUsers");
 var router = new express_1.Router();
 router.post("/new", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var decoded, wallet, results, walletOwner, woResults;
+        var wallet, results, walletOwner, woResults;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, jsonwebtoken_1.verify)(req.body.token, 'segredo')];
+                case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Wallet_1.Wallet).create(req.body.wallet)];
                 case 1:
-                    decoded = _a.sent();
-                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(Wallet_1.Wallet).create(decoded.Wallet)];
-                case 2:
                     wallet = _a.sent();
                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(Wallet_1.Wallet).save(wallet)];
-                case 3:
+                case 2:
                     results = _a.sent();
                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).create({
-                            userCode: decoded.userCode,
+                            userCode: req.body.wallet.userCode,
                             walletCode: results.walletCode
                         })];
-                case 4:
+                case 3:
                     walletOwner = _a.sent();
-                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(Wallet_1.Wallet).save(walletOwner)];
-                case 5:
+                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).save(walletOwner)];
+                case 4:
                     woResults = _a.sent();
                     return [2 /*return*/, res.json({ tryed: true })]; //provisorio
             }
@@ -73,7 +69,12 @@ router.get("/query/:id", function (req, res) { return __awaiter(void 0, void 0, 
     var wallets;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Wallet_1.Wallet).query("\n    SELECT Wallet.\"walletCode\" FROM wallet_users \n    INNER JOIN Wallet \n    ON Wallet.\"walletCode\" = wallet_users.\"walletCodeWalletCode\"\n    WHERE \"userCodeUserCode\" = $1\n\n\n", [req.params.id])];
+            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).find({
+                    relations: {
+                        walletCode: true,
+                        userCode: true
+                    },
+                })];
             case 1:
                 wallets = _a.sent();
                 console.log(wallets);

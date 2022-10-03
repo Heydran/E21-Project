@@ -81,6 +81,7 @@ router.post("/new", function (req, res) {
                                     })];
                                 case 1:
                                     parcel = _a.sent();
+                                    req.body.launch.expMoney = req.body.launch.expMoney / req.body.launch.expTimes;
                                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(Parcel_1.Parcel).save(parcel)];
                                 case 2:
                                     parcelResult = _a.sent();

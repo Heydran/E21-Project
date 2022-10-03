@@ -13,6 +13,7 @@ exports.Income = void 0;
 var typeorm_1 = require("typeorm");
 var User_1 = require("./User");
 var Parcel_1 = require("./Parcel");
+var Wallet_1 = require("./Wallet");
 var Income = /** @class */ (function () {
     function Income() {
     }
@@ -60,6 +61,10 @@ var Income = /** @class */ (function () {
         (0, typeorm_1.ManyToOne)(function () { return Parcel_1.Parcel; }, function (parcel) { return parcel.parcelCode; }),
         __metadata("design:type", Parcel_1.Parcel)
     ], Income.prototype, "parcelCode", void 0);
+    __decorate([
+        (0, typeorm_1.ManyToOne)(function () { return Wallet_1.Wallet; }, function (wallet) { return wallet.walletCode; }),
+        __metadata("design:type", Wallet_1.Wallet)
+    ], Income.prototype, "walletCode", void 0);
     Income = __decorate([
         (0, typeorm_1.Entity)()
     ], Income);

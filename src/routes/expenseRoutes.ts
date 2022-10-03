@@ -22,6 +22,7 @@ router.post("/new", async function (req: Request, res: Response) {
                 parcelDescription: req.body.launch.expDescription,
                 userCode: req.body.launch.userCode
             })
+            req.body.launch.expMoney = req.body.launch.expMoney/req.body.launch.expTimes
             const parcelResult = await req.app.get("myDataSource").getRepository(Parcel).save(parcel)
             req.body.launch["parcelCode"] = parcelResult.parcelCode
         }

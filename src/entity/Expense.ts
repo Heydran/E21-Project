@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm"
 import { User } from "./User"
 import { Parcel } from "./Parcel"
+import { Wallet } from "./Wallet"
 
 @Entity()
 export class Expense {
@@ -36,4 +37,7 @@ export class Expense {
 
     @ManyToOne(() => Parcel, (parcel) => parcel.parcelCode)
     parcelCode: Parcel
+
+    @ManyToOne(() => Wallet, (wallet) => wallet.walletCode)
+    walletCode: Wallet
 }

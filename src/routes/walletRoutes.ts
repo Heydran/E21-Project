@@ -8,32 +8,36 @@ import { WalletUsers } from "../entity/WalletUsers"
 const router: Router = new Router()
 
 router.post("/new", async function (req: Request, res: Response) {
-    const decoded = await verify(req.body.token, 'segredo')
-    const wallet = await req.app.get("myDataSource").getRepository(Wallet).create(decoded.Wallet)
+    ///const decoded = await verify(req.body.token, 'segredo')
+    const wallet = await req.app.get("myDataSource").getRepository(Wallet).create(req.body.wallet)
     const results = await req.app.get("myDataSource").getRepository(Wallet).save(wallet)
     const walletOwner = await req.app.get("myDataSource").getRepository(WalletUsers).create({
-        userCode: decoded.userCode,
+        userCode: req.body.wallet.userCode,
         walletCode: results.walletCode
         
     })
-    const woResults = await req.app.get("myDataSource").getRepository(Wallet).save(walletOwner)
+    const woResults = await req.app.get("myDataSource").getRepository(WalletUsers).save(walletOwner)
     return res.json({tryed:true})//provisorio
 })
 
 
+
 router.get("/query/:id", async (req: Request, res: Response) => {
 
-    const wallets = await req.app.get("myDataSource").getRepository(Wallet).query(`
-    SELECT Wallet."walletCode" FROM wallet_users 
-    INNER JOIN Wallet 
-    ON Wallet."walletCode" = wallet_users."walletCodeWalletCode"
-    WHERE "userCodeUserCode" = $1
-
-
-`, [req.params.id])
+    // const wallets = await req.app.get("myDataSource").getRepository(Wallet).query(`
+    // SELECT Wallet."walletCode" FROM wallet_users 
+    // INNER JOIN Wallet 
+    // ON Wallet."walletCode" = wallet_users."walletCodeWalletCode"`)
+    const wallets = await req.app.get("myDataSource").getRepository(WalletUsers).find({
+        relations: {
+            walletCode: true,
+            userCode: true
+        },
+    })
     console.log(wallets)
 
-
+    
+    
     res.json(wallets)
 })
 

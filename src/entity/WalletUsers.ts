@@ -8,8 +8,8 @@ export class WalletUsers {
     wuCode: number
 
     @ManyToOne(() => User, (user) => user.userCode)
-    userCode: number
+    userCode: User
 
     @ManyToOne(() => Wallet, (wallet) => wallet.walletCode)
-    walletCode: number
+    walletCode: Wallet
 }
