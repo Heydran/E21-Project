@@ -45,11 +45,12 @@ var moment = require("moment");
 var router = new express_1.Router();
 router.post("/new", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var results, mDays, newIncome, newParcel, date, originalDay, i, result, err_1;
+        var results, mDays, newIncome, newParcel, date, originalDay, i, result, err_1, e_1;
         var _this = this;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
+                    _a.trys.push([0, 13, , 14]);
                     console.log("start");
                     console.log(req.body.launch);
                     results = null;
@@ -146,7 +147,12 @@ router.post("/new", function (req, res) {
                     err_1 = _a.sent();
                     console.log(err_1);
                     return [3 /*break*/, 12];
-                case 12: return [2 /*return*/];
+                case 12: return [3 /*break*/, 14];
+                case 13:
+                    e_1 = _a.sent();
+                    console.log(e_1.mesage);
+                    return [3 /*break*/, 14];
+                case 14: return [2 /*return*/];
             }
         });
     });

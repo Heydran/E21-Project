@@ -7,6 +7,7 @@ import * as moment from "moment"
 
 const router: Router = new Router()
 router.post("/new", async function (req: Request, res: Response) {
+    try{
     console.log("start");
     console.log(req.body.launch);
     var results = null
@@ -62,6 +63,9 @@ router.post("/new", async function (req: Request, res: Response) {
     } catch (err) {
         console.log(err)
     }
+}catch(e){
+    console.log(e.mesage);
+}
 })
 
 router.post("/query", async (req: Request, res: Response) => {
