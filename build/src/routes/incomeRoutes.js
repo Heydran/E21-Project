@@ -229,14 +229,21 @@ router.put("/edit/:id", function (req, res) { return __awaiter(void 0, void 0, v
         }
     });
 }); });
-router.delete("/delete/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var results;
+router.post("/delete", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var results, e_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).delete(req.params.id)];
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).delete(req.body.incCode)];
             case 1:
                 results = _a.sent();
                 return [2 /*return*/, res.json(results)];
+            case 2:
+                e_2 = _a.sent();
+                console.log(e_2.message);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
     });
 }); });

@@ -116,9 +116,14 @@ router.put("/edit/:id", async (req: Request, res: Response) => {
     return res.json(results)
 })
 
-router.delete("/delete/:id", async (req: Request, res: Response) => {
-    const results = await req.app.get("myDataSource").getRepository(Income).delete(req.params.id)
-    return res.json(results)
+router.post("/delete", async (req: Request, res: Response) => {
+    try {
+        const results = await req.app.get("myDataSource").getRepository(Income).delete(req.body.incCode)
+        return res.json(results)
+    }catch(e){
+        console.log(e.message);
+        
+    }
 })
 
 export default router
