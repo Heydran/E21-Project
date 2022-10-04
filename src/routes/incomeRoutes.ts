@@ -107,11 +107,11 @@ router.post("/query/all", async (req: Request, res: Response) => {
     return res.json(incomes)
 })
 
-router.put("/edit/:id", async (req: Request, res: Response) => {
+router.post("/edit/", async (req: Request, res: Response) => {
     const income = await req.app.get("myDataSource").getRepository(Income).findOneBy(
-        { userCode: req.params.id }
+        { userCode: req.body.launch.incCode }
     )
-    req.app.get("myDataSource").getRepository(Income).merge(income, req.body)
+    req.app.get("myDataSource").getRepository(Income).merge(income, req.body.launch)
     const results = await req.app.get("myDataSource").getRepository(Income).save(Income)
     return res.json(results)
 })

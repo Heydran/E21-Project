@@ -106,18 +106,23 @@ router.post("/query/all", async (req: Request, res: Response) => {
     return res.json(expanses)
 })
 
-router.put("/edit/:id", async (req: Request, res: Response) => {
-    const expanse = await req.app.get("myDataSource").getRepository(Expense).findOneBy(
-        { userCode: req.params.id }
+router.post("/edit/", async (req: Request, res: Response) => {
+    const expense = await req.app.get("myDataSource").getRepository(Expense).findOneBy(
+        { userCode: req.body.launch.expCode }
     )
-    req.app.get("myDataSource").getRepository(Expense).merge(expanse, req.body)
+    req.app.get("myDataSource").getRepository(Expense).merge(expense, req.body.launch)
     const results = await req.app.get("myDataSource").getRepository(Expense).save(Expense)
     return res.json(results)
 })
 
-router.delete("/delete/:id", async (req: Request, res: Response) => {
-    const results = await req.app.get("myDataSource").getRepository(Expense).delete(req.params.id)
-    return res.json(results)
+router.post("/delete", async (req: Request, res: Response) => {
+    try {
+        const results = await req.app.get("myDataSource").getRepository(Expense).delete(req.body.expCode)
+        return res.json(results)
+    }catch(e){
+        console.log(e.message);
+        
+    }
 })
 
 export default router
