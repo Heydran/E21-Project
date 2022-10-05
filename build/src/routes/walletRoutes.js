@@ -83,7 +83,7 @@ router.post("/get", function (req, res) { return __awaiter(void 0, void 0, void 
             return [2 /*return*/, _b.apply(_a, [_c.sent()])];
             case 2:
                 e_1 = _c.sent();
-                e_1.message;
+                console.log(e_1.message);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }

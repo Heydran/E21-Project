@@ -36,7 +36,7 @@ router.post("/get", async (req: Request, res: Response) => {
         ON Wallet."walletCode" = wallet_users."walletCodeWalletCode"
         WHERE Wallet."userCode" = $1`, [req.body.userCode]))
     } catch (e) {
-        e.message
+        console.log(e.message)
     }
 })
 
