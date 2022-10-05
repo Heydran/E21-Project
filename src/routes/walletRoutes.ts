@@ -33,7 +33,7 @@ router.post("/get", async (req: Request, res: Response) => {
         return res.json(await req.app.get("myDataSource").getRepository(Wallet).query(`
         SELECT Wallet."walletCode" FROM wallet_users 
         INNER JOIN Wallet 
-        ON Wallet."walletCode" = wallet_users."walletCodeWalletCode"`, [req.body.userCode]))
+        ON Wallet."walletCode" = wallet_users."walletCodeWalletCode"`))
     } catch (e) {
         console.log(e.message)
         return res.json({err:e.message})
