@@ -79,9 +79,9 @@ router.post("/query", async (req: Request, res: Response) => {
 
     if (req.body.filterType == "=") {
         filters[req.body.column] = req.body.filter
-    } else if (req.body.filterType == ">") {
+    } else if (req.body.filterType == ">=") {
         filters[req.body.column] = MoreThanOrEqual(req.body.filter)
-    } else if (req.body.filterType == "<") {
+    } else if (req.body.filterType == "<=") {
         filters[req.body.column] = LessThanOrEqual(req.body.filter)
     } else if (req.body.filterType == "==") {
         filters[req.body.column] = Equal(req.body.filter)

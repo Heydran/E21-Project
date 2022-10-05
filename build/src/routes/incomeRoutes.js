@@ -172,10 +172,10 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                 if (req.body.filterType == "=") {
                     filters[req.body.column] = req.body.filter;
                 }
-                else if (req.body.filterType == ">") {
+                else if (req.body.filterType == ">=") {
                     filters[req.body.column] = (0, typeorm_1.MoreThanOrEqual)(req.body.filter);
                 }
-                else if (req.body.filterType == "<") {
+                else if (req.body.filterType == "<=") {
                     filters[req.body.column] = (0, typeorm_1.LessThanOrEqual)(req.body.filter);
                 }
                 else if (req.body.filterType == "==") {
