@@ -71,7 +71,7 @@ router.post("/get", function (req, res) { return __awaiter(void 0, void 0, void 
         switch (_c.label) {
             case 0:
                 _c.trys.push([0, 2, , 3]);
-                _b = (_a = req).json;
+                _b = (_a = res).json;
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(Wallet_1.Wallet).query("\n        SELECT Wallet.\"walletCode\" FROM wallet_users \n        INNER JOIN Wallet \n        ON Wallet.\"walletCode\" = wallet_users.\"walletCodeWalletCode\"\n        WHERE Wallet.\"userCode\" = $1", [req.body.userCode])];
             case 1: 
             // const wallets = await req.app.get("myDataSource").getRepository(WalletUsers).find({
@@ -84,7 +84,7 @@ router.post("/get", function (req, res) { return __awaiter(void 0, void 0, void 
             case 2:
                 e_1 = _c.sent();
                 console.log(e_1.message);
-                return [2 /*return*/, req.json({ err: e_1.message })];
+                return [2 /*return*/, res.json({ err: e_1.message })];
             case 3: return [2 /*return*/];
         }
     });
