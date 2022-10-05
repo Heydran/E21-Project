@@ -69,6 +69,7 @@ router.post("/new", async function (req: Request, res: Response) {
 })
 
 router.post("/query", async (req: Request, res: Response) => {
+    try{
     var filters = {}
 
     if (req.body.pending){
@@ -99,6 +100,9 @@ router.post("/query", async (req: Request, res: Response) => {
     console.log(filters)
     const registers = await req.app.get("myDataSource").getRepository(Income).find({where:filters})
             return res.json({ registers })
+        }catch(e){
+            res.json({err:e.message})
+        }        
 })
 
 

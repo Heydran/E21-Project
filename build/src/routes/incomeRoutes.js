@@ -158,10 +158,11 @@ router.post("/new", function (req, res) {
     });
 });
 router.post("/query", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var filters, registers;
+    var filters, registers, e_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
+                _a.trys.push([0, 2, , 3]);
                 filters = {};
                 if (req.body.pending) {
                     filters["incPending"] = true;
@@ -203,6 +204,11 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
             case 1:
                 registers = _a.sent();
                 return [2 /*return*/, res.json({ registers: registers })];
+            case 2:
+                e_2 = _a.sent();
+                res.json({ err: e_2.message });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
     });
 }); });
@@ -233,7 +239,7 @@ router.post("/edit/", function (req, res) { return __awaiter(void 0, void 0, voi
     });
 }); });
 router.post("/delete", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var results, e_2;
+    var results, e_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -243,8 +249,8 @@ router.post("/delete", function (req, res) { return __awaiter(void 0, void 0, vo
                 results = _a.sent();
                 return [2 /*return*/, res.json(results)];
             case 2:
-                e_2 = _a.sent();
-                console.log(e_2.message);
+                e_3 = _a.sent();
+                console.log(e_3.message);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
