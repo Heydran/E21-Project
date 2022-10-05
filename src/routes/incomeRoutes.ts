@@ -89,10 +89,11 @@ router.post("/query", async (req: Request, res: Response) => {
         filters[req.body.column] = Between(req.body.filter[0], req.body.filter[1])
     }else if (req.body.filterType == "..."){
         filters["incDate"] = Between(req.body.filter[0][0], req.body.filter[0][1])
-        if (req.body.filter[1][0] == ">=") filters["incMoney"] = MoreThanOrEqual(req.body.filter[1][1])
-        else if (req.body.filter[1][0] == "<=") filters["incMoney"] = LessThanOrEqual(req.body.filter[1][1])
+        if (req.body.filter[1][0] == ">") filters["incMoney"] = MoreThanOrEqual(req.body.filter[1][1])
+        else if (req.body.filter[1][0] == "<") filters["incMoney"] = LessThanOrEqual(req.body.filter[1][1])
         else if (req.body.filter[1][0] == "[]") filters["incMoney"] = Between(req.body.filter[1][1],req.body.filter[1][2])
-        filters["incCategory"] = Equal(req.body.filter[2])
+        if (req.body.filter[2] == "all") filters["incCategory"] = Like("%%")
+        else filters["incCategory"] = Equal(req.body.filter[2])
         filters["incDescription"] = Like(`%${req.body.filter[3]}%`)
     }
     console.log(filters)

@@ -66,28 +66,27 @@ router.post("/new", function (req, res) {
     });
 });
 router.post("/get", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var wallets, e_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var _a, _b, e_1;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
+                _c.trys.push([0, 2, , 3]);
+                _b = (_a = res).json;
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).find({
                         relations: {
                             walletCode: true,
                             userCode: true
                         },
-                    })
-                    // return res.json(await req.app.get("myDataSource").getRepository(Wallet).query(`
-                    // SELECT Wallet."walletCode" FROM wallet_users 
-                    // INNER JOIN Wallet 
-                    // ON Wallet."walletCode" = wallet_users."walletCodeWalletCode"
-                    // WHERE wallet_users."userCodeUserCode`)) 
-                ];
-            case 1:
-                wallets = _a.sent();
-                return [3 /*break*/, 3];
+                    })];
+            case 1: return [2 /*return*/, _b.apply(_a, [_c.sent()])
+                // return res.json(await req.app.get("myDataSource").getRepository(Wallet).query(`
+                // SELECT Wallet."walletCode" FROM wallet_users 
+                // INNER JOIN Wallet 
+                // ON Wallet."walletCode" = wallet_users."walletCodeWalletCode"
+                // WHERE wallet_users."userCodeUserCode`)) 
+            ];
             case 2:
-                e_1 = _a.sent();
+                e_1 = _c.sent();
                 console.log(e_1.message);
                 return [2 /*return*/, res.json({ err: e_1.message })];
             case 3: return [2 /*return*/];
