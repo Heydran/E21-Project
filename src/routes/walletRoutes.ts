@@ -12,7 +12,7 @@ router.post("/new", async function (req: Request, res: Response) {
     const wallet = await req.app.get("myDataSource").getRepository(Wallet).create(req.body.wallet)
     const results = await req.app.get("myDataSource").getRepository(Wallet).save(wallet)
     const walletOwner = await req.app.get("myDataSource").getRepository(WalletUsers).create({
-        userCode: req.body.wallet.userCode,
+        userCode: req.body.userCode,
         walletCode: results.walletCode
 
     })
@@ -24,16 +24,17 @@ router.post("/new", async function (req: Request, res: Response) {
 
 router.post("/get", async (req: Request, res: Response) => {
     try {
-        // const wallets = await req.app.get("myDataSource").getRepository(WalletUsers).find({
-        //     relations: {
-        //         walletCode: true,
-        //         userCode: true
-        //     },
-        // })
-        return res.json(await req.app.get("myDataSource").getRepository(Wallet).query(`
-        SELECT Wallet."walletCode" FROM wallet_users 
-        INNER JOIN Wallet 
-        ON Wallet."walletCode" = wallet_users."walletCodeWalletCode"`))
+        const wallets = await req.app.get("myDataSource").getRepository(WalletUsers).find({
+            relations: {
+                walletCode: true,
+                userCode: true
+            },
+        })
+        // return res.json(await req.app.get("myDataSource").getRepository(Wallet).query(`
+        // SELECT Wallet."walletCode" FROM wallet_users 
+        // INNER JOIN Wallet 
+        // ON Wallet."walletCode" = wallet_users."walletCodeWalletCode"
+        // WHERE wallet_users."userCodeUserCode`)) 
     } catch (e) {
         console.log(e.message)
         return res.json({err:e.message})

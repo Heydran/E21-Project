@@ -52,7 +52,7 @@ router.post("/new", function (req, res) {
                 case 2:
                     results = _a.sent();
                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).create({
-                            userCode: req.body.wallet.userCode,
+                            userCode: req.body.userCode,
                             walletCode: results.walletCode
                         })];
                 case 3:
@@ -66,23 +66,28 @@ router.post("/new", function (req, res) {
     });
 });
 router.post("/get", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, _b, e_1;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
+    var wallets, e_1;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
             case 0:
-                _c.trys.push([0, 2, , 3]);
-                _b = (_a = res).json;
-                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Wallet_1.Wallet).query("\n        SELECT Wallet.\"walletCode\" FROM wallet_users \n        INNER JOIN Wallet \n        ON Wallet.\"walletCode\" = wallet_users.\"walletCodeWalletCode\"")];
-            case 1: 
-            // const wallets = await req.app.get("myDataSource").getRepository(WalletUsers).find({
-            //     relations: {
-            //         walletCode: true,
-            //         userCode: true
-            //     },
-            // })
-            return [2 /*return*/, _b.apply(_a, [_c.sent()])];
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).find({
+                        relations: {
+                            walletCode: true,
+                            userCode: true
+                        },
+                    })
+                    // return res.json(await req.app.get("myDataSource").getRepository(Wallet).query(`
+                    // SELECT Wallet."walletCode" FROM wallet_users 
+                    // INNER JOIN Wallet 
+                    // ON Wallet."walletCode" = wallet_users."walletCodeWalletCode"
+                    // WHERE wallet_users."userCodeUserCode`)) 
+                ];
+            case 1:
+                wallets = _a.sent();
+                return [3 /*break*/, 3];
             case 2:
-                e_1 = _c.sent();
+                e_1 = _a.sent();
                 console.log(e_1.message);
                 return [2 /*return*/, res.json({ err: e_1.message })];
             case 3: return [2 /*return*/];
