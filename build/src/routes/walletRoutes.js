@@ -84,7 +84,7 @@ router.post("/get", function (req, res) { return __awaiter(void 0, void 0, void 
             case 2:
                 e_1 = _c.sent();
                 console.log(e_1.message);
-                return [3 /*break*/, 3];
+                return [2 /*return*/, req.json({ err: e_1.message })];
             case 3: return [2 /*return*/];
         }
     });

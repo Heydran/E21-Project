@@ -37,6 +37,7 @@ router.post("/get", async (req: Request, res: Response) => {
         WHERE Wallet."userCode" = $1`, [req.body.userCode]))
     } catch (e) {
         console.log(e.message)
+        return req.json({err:e.message})
     }
 })
 
