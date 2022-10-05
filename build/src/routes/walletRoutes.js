@@ -65,7 +65,7 @@ router.post("/new", function (req, res) {
         });
     });
 });
-router.get("/get", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+router.post("/get", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var wallets;
     return __generator(this, function (_a) {
         switch (_a.label) {

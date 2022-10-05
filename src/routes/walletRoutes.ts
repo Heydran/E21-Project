@@ -22,7 +22,7 @@ router.post("/new", async function (req: Request, res: Response) {
 
 
 
-router.get("/get", async (req: Request, res: Response) => {
+router.post("/get", async (req: Request, res: Response) => {
 
     const wallets = await req.app.get("myDataSource").getRepository(Wallet).query(`
     SELECT Wallet."walletCode" FROM wallet_users 
