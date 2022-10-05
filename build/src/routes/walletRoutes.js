@@ -65,21 +65,27 @@ router.post("/new", function (req, res) {
         });
     });
 });
-router.get("/query/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+router.get("/get", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var wallets;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).find({
-                    relations: {
-                        walletCode: true,
-                        userCode: true
-                    },
-                })];
+            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Wallet_1.Wallet).query("\n    SELECT Wallet.\"walletCode\" FROM wallet_users \n    INNER JOIN Wallet \n    ON Wallet.\"walletCode\" = wallet_users.\"walletCodeWalletCode\"\n    WHERE Wallet.\"userCode\" = $1", [req.body.userCode])
+                // const wallets = await req.app.get("myDataSource").getRepository(WalletUsers).find({
+                //     relations: {
+                //         walletCode: true,
+                //         userCode: true
+                //     },
+                // })
+            ];
             case 1:
                 wallets = _a.sent();
-                console.log(wallets);
-                res.json(wallets);
-                return [2 /*return*/];
+                // const wallets = await req.app.get("myDataSource").getRepository(WalletUsers).find({
+                //     relations: {
+                //         walletCode: true,
+                //         userCode: true
+                //     },
+                // })
+                return [2 /*return*/, req.json(wallets)];
         }
     });
 }); });

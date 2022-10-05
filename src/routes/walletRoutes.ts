@@ -22,19 +22,20 @@ router.post("/new", async function (req: Request, res: Response) {
 
 
 
-router.get("/query/:id", async (req: Request, res: Response) => {
+router.get("/get", async (req: Request, res: Response) => {
 
-    // const wallets = await req.app.get("myDataSource").getRepository(Wallet).query(`
-    // SELECT Wallet."walletCode" FROM wallet_users 
-    // INNER JOIN Wallet 
-    // ON Wallet."walletCode" = wallet_users."walletCodeWalletCode"`)
-    const wallets = await req.app.get("myDataSource").getRepository(WalletUsers).find({
-        relations: {
-            walletCode: true,
-            userCode: true
-        },
-    })
-    console.log(wallets)
+    const wallets = await req.app.get("myDataSource").getRepository(Wallet).query(`
+    SELECT Wallet."walletCode" FROM wallet_users 
+    INNER JOIN Wallet 
+    ON Wallet."walletCode" = wallet_users."walletCodeWalletCode"
+    WHERE Wallet."userCode" = $1`, [req.body.userCode])
+    // const wallets = await req.app.get("myDataSource").getRepository(WalletUsers).find({
+    //     relations: {
+    //         walletCode: true,
+    //         userCode: true
+    //     },
+    // })
+    return req.json(wallets)
 
     
     
