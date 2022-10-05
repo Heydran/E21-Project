@@ -89,9 +89,10 @@ router.post("/query", async (req: Request, res: Response) => {
         filters[req.body.column] = Between(req.body.filter[0], req.body.filter[1])
     }else if (req.body.filterType == "+"){
         filters["expDate"] = Between(req.body.filter[0][0], req.body.filter[0][1])
-        if (req.body.filter[1][0] == ">=") filters["expMoney"] = MoreThanOrEqual(req.body.filter[1][1])
-        else if (req.body.filter[1][0] == "<=") filters["expMoney"] = LessThanOrEqual(req.body.filter[1][1])
+        if (req.body.filter[1][0] == ">") filters["expMoney"] = MoreThanOrEqual(req.body.filter[1][1])
+        else if (req.body.filter[1][0] == "<") filters["expMoney"] = LessThanOrEqual(req.body.filter[1][1])
         else if (req.body.filter[1][0] == "[]") filters["expMoney"] = Between(req.body.filter[1][1],req.body.filter[1][2])
+        if (req.body.filter[2] == "all") filters["expCategory"] = Like("%%")
         filters["expCategory"] = Equal(req.body.filter[2])
         filters["expDescription"] = Like(`%${req.body.filter[3]}%`)
     }

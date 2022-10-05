@@ -188,12 +188,14 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                 }
                 else if (req.body.filterType == "+") {
                     filters["expDate"] = (0, typeorm_1.Between)(req.body.filter[0][0], req.body.filter[0][1]);
-                    if (req.body.filter[1][0] == ">=")
+                    if (req.body.filter[1][0] == ">")
                         filters["expMoney"] = (0, typeorm_1.MoreThanOrEqual)(req.body.filter[1][1]);
-                    else if (req.body.filter[1][0] == "<=")
+                    else if (req.body.filter[1][0] == "<")
                         filters["expMoney"] = (0, typeorm_1.LessThanOrEqual)(req.body.filter[1][1]);
                     else if (req.body.filter[1][0] == "[]")
                         filters["expMoney"] = (0, typeorm_1.Between)(req.body.filter[1][1], req.body.filter[1][2]);
+                    if (req.body.filter[2] == "all")
+                        filters["expCategory"] = (0, typeorm_1.Like)("%%");
                     filters["expCategory"] = (0, typeorm_1.Equal)(req.body.filter[2]);
                     filters["expDescription"] = (0, typeorm_1.Like)("%".concat(req.body.filter[3], "%"));
                 }
