@@ -66,26 +66,26 @@ router.post("/new", function (req, res) {
     });
 });
 router.post("/get", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var wallets;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Wallet_1.Wallet).query("\n    SELECT Wallet.\"walletCode\" FROM wallet_users \n    INNER JOIN Wallet \n    ON Wallet.\"walletCode\" = wallet_users.\"walletCodeWalletCode\"\n    WHERE Wallet.\"userCode\" = $1", [req.body.userCode])
-                // const wallets = await req.app.get("myDataSource").getRepository(WalletUsers).find({
-                //     relations: {
-                //         walletCode: true,
-                //         userCode: true
-                //     },
-                // })
-            ];
-            case 1:
-                wallets = _a.sent();
-                // const wallets = await req.app.get("myDataSource").getRepository(WalletUsers).find({
-                //     relations: {
-                //         walletCode: true,
-                //         userCode: true
-                //     },
-                // })
-                return [2 /*return*/, req.json(wallets)];
+    var _a, _b, e_1;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0:
+                _c.trys.push([0, 2, , 3]);
+                _b = (_a = req).json;
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Wallet_1.Wallet).query("\n        SELECT Wallet.\"walletCode\" FROM wallet_users \n        INNER JOIN Wallet \n        ON Wallet.\"walletCode\" = wallet_users.\"walletCodeWalletCode\"\n        WHERE Wallet.\"userCode\" = $1", [req.body.userCode])];
+            case 1: 
+            // const wallets = await req.app.get("myDataSource").getRepository(WalletUsers).find({
+            //     relations: {
+            //         walletCode: true,
+            //         userCode: true
+            //     },
+            // })
+            return [2 /*return*/, _b.apply(_a, [_c.sent()])];
+            case 2:
+                e_1 = _c.sent();
+                e_1.message;
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
     });
 }); });

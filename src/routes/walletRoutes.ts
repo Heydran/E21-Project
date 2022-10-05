@@ -14,32 +14,30 @@ router.post("/new", async function (req: Request, res: Response) {
     const walletOwner = await req.app.get("myDataSource").getRepository(WalletUsers).create({
         userCode: req.body.wallet.userCode,
         walletCode: results.walletCode
-        
+
     })
     const woResults = await req.app.get("myDataSource").getRepository(WalletUsers).save(walletOwner)
-    return res.json({tryed:true})//provisorio
+    return res.json({ tryed: true })//provisorio
 })
 
 
 
 router.post("/get", async (req: Request, res: Response) => {
-
-    const wallets = await req.app.get("myDataSource").getRepository(Wallet).query(`
-    SELECT Wallet."walletCode" FROM wallet_users 
-    INNER JOIN Wallet 
-    ON Wallet."walletCode" = wallet_users."walletCodeWalletCode"
-    WHERE Wallet."userCode" = $1`, [req.body.userCode])
-    // const wallets = await req.app.get("myDataSource").getRepository(WalletUsers).find({
-    //     relations: {
-    //         walletCode: true,
-    //         userCode: true
-    //     },
-    // })
-    return req.json(wallets)
-
-    
-    
-    res.json(wallets)
+    try {
+        // const wallets = await req.app.get("myDataSource").getRepository(WalletUsers).find({
+        //     relations: {
+        //         walletCode: true,
+        //         userCode: true
+        //     },
+        // })
+        return req.json(await req.app.get("myDataSource").getRepository(Wallet).query(`
+        SELECT Wallet."walletCode" FROM wallet_users 
+        INNER JOIN Wallet 
+        ON Wallet."walletCode" = wallet_users."walletCodeWalletCode"
+        WHERE Wallet."userCode" = $1`, [req.body.userCode]))
+    } catch (e) {
+        e.message
+    }
 })
 
 
