@@ -24,14 +24,14 @@ router.post("/new", async function (req: Request, res: Response) {
 
 router.post("/get", async (req: Request, res: Response) => {
     try {
-        const walltes = await req.app.get("myDataSource").getRepository(WalletUsers).find({
+        const wallets = await req.app.get("myDataSource").getRepository(WalletUsers).find({
             relations: {
                 walletCode: true,
                 userCode: true
             },
             where:{userCode:req.body.userCode}
         })
-        return res.json()
+        return res.json({registers:wallets})
         // return res.json(await req.app.get("myDataSource").getRepository(Wallet).query(`
         // SELECT Wallet."walletCode" FROM wallet_users 
         // INNER JOIN Wallet 

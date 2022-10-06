@@ -66,7 +66,7 @@ router.post("/new", function (req, res) {
     });
 });
 router.post("/get", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var walltes, e_1;
+    var wallets, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -79,8 +79,8 @@ router.post("/get", function (req, res) { return __awaiter(void 0, void 0, void 
                         where: { userCode: req.body.userCode }
                     })];
             case 1:
-                walltes = _a.sent();
-                return [2 /*return*/, res.json()
+                wallets = _a.sent();
+                return [2 /*return*/, res.json({ registers: wallets })
                     // return res.json(await req.app.get("myDataSource").getRepository(Wallet).query(`
                     // SELECT Wallet."walletCode" FROM wallet_users 
                     // INNER JOIN Wallet 
