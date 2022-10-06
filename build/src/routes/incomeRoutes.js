@@ -224,7 +224,7 @@ router.post("/query/all", function (req, res) { return __awaiter(void 0, void 0,
     });
 }); });
 router.post("/edit", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var income, results, e_3;
+    var income, newIncome, results, e_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -232,8 +232,8 @@ router.post("/edit", function (req, res) { return __awaiter(void 0, void 0, void
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).findOneBy({ incCode: req.body.launch.code })];
             case 1:
                 income = _a.sent();
-                req.app.get("myDataSource").getRepository(Income_1.Income).merge(income, req.body.launch.column);
-                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).save(Income_1.Income)];
+                newIncome = req.app.get("myDataSource").getRepository(Income_1.Income).merge(income, req.body.launch.column);
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).save(newIncome)];
             case 2:
                 results = _a.sent();
                 return [2 /*return*/, res.json({ results: results })];

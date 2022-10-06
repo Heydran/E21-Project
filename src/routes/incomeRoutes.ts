@@ -116,9 +116,9 @@ router.post("/edit", async (req: Request, res: Response) => {
         const income = await req.app.get("myDataSource").getRepository(Income).findOneBy(
             { incCode: req.body.launch.code }
         )
-        req.app.get("myDataSource").getRepository(Income).merge(income, req.body.launch.column)
+        const newIncome = req.app.get("myDataSource").getRepository(Income).merge(income, req.body.launch.column)
 
-        const results = await req.app.get("myDataSource").getRepository(Income).save(Income)
+        const results = await req.app.get("myDataSource").getRepository(Income).save(newIncome)
         return res.json({results})
     }catch(e){
         return res.json({results:null,error:e.message})
