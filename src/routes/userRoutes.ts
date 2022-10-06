@@ -7,6 +7,8 @@ import { hash, compare } from "bcrypt"
 const router: Router = new Router()
 
 router.post("/signUp", async function (req: Request, res: Response) {
+    console.log("ISSO N FAZ SENTIDOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+    
     try {req.body.newUser.userEmail
         const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
             { userCode: req.body.userCode })
