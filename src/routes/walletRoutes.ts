@@ -31,7 +31,7 @@ router.post("/get", async (req: Request, res: Response) => {
             },
             where:{userCode:req.body.userCode}
         })
-        wallets.forEach(wallet => {
+        await wallets.forEach(wallet => {
             wallet.userCode.userPasswd = "can't explaned"
         }); 
         return res.json({registers:wallets})
