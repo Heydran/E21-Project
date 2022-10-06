@@ -77,6 +77,7 @@ router.post("/get", function (req, res) { return __awaiter(void 0, void 0, void 
                             walletCode: true,
                             userCode: true
                         },
+                        where: { userCode: req.body.userCode }
                     })];
             case 1: return [2 /*return*/, _b.apply(_a, [_c.sent()])
                 // return res.json(await req.app.get("myDataSource").getRepository(Wallet).query(`

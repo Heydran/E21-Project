@@ -29,6 +29,7 @@ router.post("/get", async (req: Request, res: Response) => {
                 walletCode: true,
                 userCode: true
             },
+            where:{userCode:req.body.userCode}
         }))
         // return res.json(await req.app.get("myDataSource").getRepository(Wallet).query(`
         // SELECT Wallet."walletCode" FROM wallet_users 
