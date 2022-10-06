@@ -248,7 +248,7 @@ router.post("/delete", function (req, res) { return __awaiter(void 0, void 0, vo
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).delete(req.body.expCode)];
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).delete(req.body.code)];
             case 1:
                 results = _a.sent();
                 return [2 /*return*/, res.json(results)];

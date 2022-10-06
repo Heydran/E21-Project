@@ -121,7 +121,7 @@ router.post("/edit/", async (req: Request, res: Response) => {
 
 router.post("/delete", async (req: Request, res: Response) => {
     try {
-        const results = await req.app.get("myDataSource").getRepository(Expense).delete(req.body.expCode)
+        const results = await req.app.get("myDataSource").getRepository(Expense).delete(req.body.code)
         return res.json(results)
     } catch (e) {
         console.log(e.message);

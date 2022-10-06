@@ -122,7 +122,7 @@ router.post("/edit/", async (req: Request, res: Response) => {
 
 router.post("/delete", async (req: Request, res: Response) => {
     try {
-        const results = await req.app.get("myDataSource").getRepository(Income).delete(req.body.incCode)
+        const results = await req.app.get("myDataSource").getRepository(Income).delete(req.body.code)
         return res.json(results)
     } catch (e) {
         console.log(e.message);
