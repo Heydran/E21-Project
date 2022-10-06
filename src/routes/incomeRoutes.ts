@@ -77,7 +77,6 @@ router.post("/query", async (req: Request, res: Response) => {
     } else {
         filters["incPending"] = false
     }
-
     if (req.body.filterType == "=") {
         filters[req.body.column] = req.body.filter
     } else if (req.body.filterType == ">=") {

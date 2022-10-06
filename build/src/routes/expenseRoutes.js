@@ -160,11 +160,14 @@ router.post("/new", function (req, res) {
     });
 });
 router.post("/query", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var filters, registers;
+    var filters, registers, e_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 filters = {};
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
                 if (req.body.pending) {
                     filters["expPending"] = true;
                 }
@@ -186,7 +189,7 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                 else if (req.body.filterType == "[]") {
                     filters[req.body.column] = (0, typeorm_1.Between)(req.body.filter[0], req.body.filter[1]);
                 }
-                else if (req.body.filterType == "+") {
+                else if (req.body.filterType == "...") {
                     filters["expDate"] = (0, typeorm_1.Between)(req.body.filter[0][0], req.body.filter[0][1]);
                     if (req.body.filter[1][0] == ">")
                         filters["expMoney"] = (0, typeorm_1.MoreThanOrEqual)(req.body.filter[1][1]);
@@ -196,14 +199,20 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                         filters["expMoney"] = (0, typeorm_1.Between)(req.body.filter[1][1], req.body.filter[1][2]);
                     if (req.body.filter[2] == "all")
                         filters["expCategory"] = (0, typeorm_1.Like)("%%");
-                    filters["expCategory"] = (0, typeorm_1.Equal)(req.body.filter[2]);
+                    else
+                        filters["expCategory"] = (0, typeorm_1.Equal)(req.body.filter[2]);
                     filters["expDescription"] = (0, typeorm_1.Like)("%".concat(req.body.filter[3], "%"));
                 }
                 console.log(filters);
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).find({ where: filters })];
-            case 1:
+            case 2:
                 registers = _a.sent();
                 return [2 /*return*/, res.json({ registers: registers })];
+            case 3:
+                e_2 = _a.sent();
+                res.json({ err: e_2.message });
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); });
@@ -234,7 +243,7 @@ router.post("/edit/", function (req, res) { return __awaiter(void 0, void 0, voi
     });
 }); });
 router.post("/delete", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var results, e_2;
+    var results, e_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -244,8 +253,8 @@ router.post("/delete", function (req, res) { return __awaiter(void 0, void 0, vo
                 results = _a.sent();
                 return [2 /*return*/, res.json(results)];
             case 2:
-                e_2 = _a.sent();
-                console.log(e_2.message);
+                e_3 = _a.sent();
+                console.log(e_3.message);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
