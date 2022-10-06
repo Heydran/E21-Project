@@ -111,15 +111,19 @@ router.post("/query/all", async (req: Request, res: Response) => {
     return res.json(incomes)
 })
 
-router.post("/edit/", async (req: Request, res: Response) => {
-    const income = await req.app.get("myDataSource").getRepository(Income).findOneBy(
-        { incCode: req.body.launch.code }
-    )
-    req.app.get("myDataSource").getRepository(Income).merge(income, req.body.launch.column)
-    
+router.post("/edit", async (req: Request, res: Response) => {
+    try {
+        const income = await req.app.get("myDataSource").getRepository(Income).findOneBy(
+            { incCode: req.body.launch.code }
+        )
+        req.app.get("myDataSource").getRepository(Income).merge(income, req.body.launch.column)
+
         const results = await req.app.get("myDataSource").getRepository(Income).save(Income)
-        return res.json(results)
-    })
+        return res.json({results})
+    }catch(e){
+        return res.json({results:null,error:e.message})
+    }})
+
 
 router.post("/delete", async (req: Request, res: Response) => {
     try {
