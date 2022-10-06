@@ -7,19 +7,8 @@ import { hash, compare } from "bcrypt"
 const router: Router = new Router()
 
 router.post("/signUp", async function (req: Request, res: Response) {
-    console.log("ISSO N FAZ SENTIDOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
     
-    try {req.body.newUser.userEmail
-        const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
-            { userCode: req.body.userCode })
-        console.log("userrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr", user);
-        
-        if (user.userEmail == req.body.newUser.userEmail){
-            return res.json({
-                registered: false,
-                userCode: null,
-                error: "Email já cadastrado"
-            })}else{
+    try {
         const encoded = hash(req.body.newUser.userPasswd, 10, async (err, hash) => {
 
             const tuser = req.app.get("myDataSource").getRepository(User).create({
@@ -46,14 +35,14 @@ router.post("/signUp", async function (req: Request, res: Response) {
                 })
             return res.json(result)
         })
-    }
+    
     } catch (e) {
         console.log(e.message);
 
         return res.json({
             registered: false,
             userCode: null,
-            error: e
+            error: e.message
         })
     }
 })

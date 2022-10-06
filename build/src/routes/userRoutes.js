@@ -80,13 +80,13 @@ router.post("/signUp", function (req, res) {
                         }
                     });
                 }); });
-                //var token = await sign(result, "segredo")
             }
             catch (e) {
+                console.log(e.message);
                 return [2 /*return*/, res.json({
                         registered: false,
                         userCode: null,
-                        error: e
+                        error: e.message
                     })];
             }
             return [2 /*return*/];
@@ -106,11 +106,11 @@ router.get("/query", function (req, res) { return __awaiter(void 0, void 0, void
         }
     });
 }); });
-router.get("/query/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+router.post("/query", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var user;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userCode: req.params.id })];
+            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userCode: req.body.userCode })];
             case 1:
                 user = _a.sent();
                 res.json(user);
