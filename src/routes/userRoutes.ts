@@ -14,7 +14,7 @@ router.post("/signUp", async function (req: Request, res: Response) {
             { userCode: req.body.userCode })
         console.log("userrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr", user);
         
-        if (user){
+        if (user.userEmail == req.body.newUser.userEmail){
             return res.json({
                 registered: false,
                 userCode: null,
