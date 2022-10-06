@@ -121,6 +121,7 @@ router.post("/edit", async (req: Request, res: Response) => {
         const results = await req.app.get("myDataSource").getRepository(Income).save(newIncome)
         return res.json({results})
     }catch(e){
+        console.log(e.message)
         return res.json({results:null,error:e.message})
     }})
 

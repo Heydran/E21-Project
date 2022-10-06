@@ -227,23 +227,30 @@ router.post("/query/all", function (req, res) { return __awaiter(void 0, void 0,
         }
     });
 }); });
-router.post("/edit/", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var expense, results;
+router.post("/edit", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var expense, newExpense, results, e_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).findOneBy({ expCode: req.body.launch.code })];
+            case 0:
+                _a.trys.push([0, 3, , 4]);
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).findOneBy({ expCode: req.body.launch.code })];
             case 1:
                 expense = _a.sent();
-                req.app.get("myDataSource").getRepository(Expense_1.Expense).merge(expense, req.body.launch);
-                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).save(Expense_1.Expense)];
+                newExpense = req.app.get("myDataSource").getRepository(Expense_1.Expense).merge(expense, req.body.launch.column);
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).save(newExpense)];
             case 2:
                 results = _a.sent();
                 return [2 /*return*/, res.json(results)];
+            case 3:
+                e_3 = _a.sent();
+                console.log(e_3.message);
+                return [2 /*return*/, res.json({ results: null, error: e_3.message })];
+            case 4: return [2 /*return*/];
         }
     });
 }); });
 router.post("/delete", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var results, e_3;
+    var results, e_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -253,8 +260,8 @@ router.post("/delete", function (req, res) { return __awaiter(void 0, void 0, vo
                 results = _a.sent();
                 return [2 /*return*/, res.json({ result: results })];
             case 2:
-                e_3 = _a.sent();
-                console.log(e_3.message);
+                e_4 = _a.sent();
+                console.log(e_4.message);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }

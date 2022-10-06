@@ -110,13 +110,17 @@ router.post("/query/all", async (req: Request, res: Response) => {
     return res.json(expanses)
 })
 
-router.post("/edit/", async (req: Request, res: Response) => {
-    const expense = await req.app.get("myDataSource").getRepository(Expense).findOneBy(
+router.post("/edit", async (req: Request, res: Response) => {
+    try{const expense = await req.app.get("myDataSource").getRepository(Expense).findOneBy(
         { expCode: req.body.launch.code }
     )
-    req.app.get("myDataSource").getRepository(Expense).merge(expense, req.body.launch)
-    const results = await req.app.get("myDataSource").getRepository(Expense).save(Expense)
+    const newExpense = req.app.get("myDataSource").getRepository(Expense).merge(expense, req.body.launch.column)
+    const results = await req.app.get("myDataSource").getRepository(Expense).save(newExpense)
     return res.json(results)
+}catch(e){
+    console.log(e.message)
+    return res.json({results:null,error:e.message})
+}
 })
 
 router.post("/delete", async (req: Request, res: Response) => {

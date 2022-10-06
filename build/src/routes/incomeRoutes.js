@@ -239,6 +239,7 @@ router.post("/edit", function (req, res) { return __awaiter(void 0, void 0, void
                 return [2 /*return*/, res.json({ results: results })];
             case 3:
                 e_3 = _a.sent();
+                console.log(e_3.message);
                 return [2 /*return*/, res.json({ results: null, error: e_3.message })];
             case 4: return [2 /*return*/];
         }
