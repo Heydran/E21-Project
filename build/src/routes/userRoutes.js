@@ -43,53 +43,72 @@ var bcrypt_1 = require("bcrypt");
 var router = new express_1.Router();
 router.post("/signUp", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var encoded;
+        var user, encoded, e_1;
         var _this = this;
         return __generator(this, function (_a) {
-            try {
-                encoded = (0, bcrypt_1.hash)(req.body.newUser.userPasswd, 10, function (err, hash) { return __awaiter(_this, void 0, void 0, function () {
-                    var tuser, results, user, result;
-                    return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0:
-                                tuser = req.app.get("myDataSource").getRepository(User_1.User).create({
-                                    userName: req.body.newUser.userName,
-                                    userPhone: req.body.newUser.userPhone,
-                                    userEmail: req.body.newUser.userEmail,
-                                    userMoney: 0,
-                                    userPasswd: hash
-                                });
-                                return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).save(tuser)];
-                            case 1:
-                                results = _a.sent();
-                                return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.newUser.userEmail })];
-                            case 2:
-                                user = _a.sent();
-                                result = {};
-                                if (user)
-                                    result = ({
-                                        registered: true,
-                                        userCode: user.userCode
-                                    });
-                                else
-                                    result = ({
-                                        registered: false,
-                                        userCode: null
-                                    });
-                                return [2 /*return*/, res.json(result)];
-                        }
-                    });
-                }); });
+            switch (_a.label) {
+                case 0:
+                    console.log("ISSO N FAZ SENTIDOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userCode: req.body.userCode })];
+                case 2:
+                    user = _a.sent();
+                    console.log("userrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr", user);
+                    if (user.userEmail == req.body.newUser.userEmail) {
+                        return [2 /*return*/, res.json({
+                                registered: false,
+                                userCode: null,
+                                error: "Email já cadastrado"
+                            })];
+                    }
+                    else {
+                        encoded = (0, bcrypt_1.hash)(req.body.newUser.userPasswd, 10, function (err, hash) { return __awaiter(_this, void 0, void 0, function () {
+                            var tuser, results, user, result;
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0:
+                                        tuser = req.app.get("myDataSource").getRepository(User_1.User).create({
+                                            userName: req.body.newUser.userName,
+                                            userPhone: req.body.newUser.userPhone,
+                                            userEmail: req.body.newUser.userEmail,
+                                            userMoney: 0,
+                                            userPasswd: hash
+                                        });
+                                        return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).save(tuser)];
+                                    case 1:
+                                        results = _a.sent();
+                                        return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.newUser.userEmail })];
+                                    case 2:
+                                        user = _a.sent();
+                                        result = {};
+                                        if (user)
+                                            result = ({
+                                                registered: true,
+                                                userCode: user.userCode
+                                            });
+                                        else
+                                            result = ({
+                                                registered: false,
+                                                userCode: null
+                                            });
+                                        return [2 /*return*/, res.json(result)];
+                                }
+                            });
+                        }); });
+                    }
+                    return [3 /*break*/, 4];
+                case 3:
+                    e_1 = _a.sent();
+                    console.log(e_1.message);
+                    return [2 /*return*/, res.json({
+                            registered: false,
+                            userCode: null,
+                            error: e_1
+                        })];
+                case 4: return [2 /*return*/];
             }
-            catch (e) {
-                console.log(e.message);
-                return [2 /*return*/, res.json({
-                        registered: false,
-                        userCode: null,
-                        error: e.message
-                    })];
-            }
-            return [2 /*return*/];
         });
     });
 });
