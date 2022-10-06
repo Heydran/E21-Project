@@ -113,17 +113,18 @@ router.post("/query/all", async (req: Request, res: Response) => {
 
 router.post("/edit/", async (req: Request, res: Response) => {
     const income = await req.app.get("myDataSource").getRepository(Income).findOneBy(
-        { userCode: req.body.launch.incCode }
+        { incCode: req.body.launch.code }
     )
-    req.app.get("myDataSource").getRepository(Income).merge(income, req.body.launch)
-    const results = await req.app.get("myDataSource").getRepository(Income).save(Income)
-    return res.json(results)
-})
+    req.app.get("myDataSource").getRepository(Income).merge(income, req.body.launch.column)
+    
+        const results = await req.app.get("myDataSource").getRepository(Income).save(Income)
+        return res.json(results)
+    })
 
 router.post("/delete", async (req: Request, res: Response) => {
     try {
         const results = await req.app.get("myDataSource").getRepository(Income).delete(req.body.code)
-        return res.json({result:results})
+        return res.json({ result: results })
     } catch (e) {
         console.log(e.message);
 

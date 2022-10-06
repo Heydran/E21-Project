@@ -231,7 +231,7 @@ router.post("/edit/", function (req, res) { return __awaiter(void 0, void 0, voi
     var expense, results;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).findOneBy({ userCode: req.body.launch.expCode })];
+            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).findOneBy({ expCode: req.body.launch.code })];
             case 1:
                 expense = _a.sent();
                 req.app.get("myDataSource").getRepository(Expense_1.Expense).merge(expense, req.body.launch);
@@ -251,7 +251,7 @@ router.post("/delete", function (req, res) { return __awaiter(void 0, void 0, vo
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).delete(req.body.code)];
             case 1:
                 results = _a.sent();
-                return [2 /*return*/, res.json(results)];
+                return [2 /*return*/, res.json({ result: results })];
             case 2:
                 e_3 = _a.sent();
                 console.log(e_3.message);

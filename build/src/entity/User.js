@@ -31,7 +31,7 @@ var User = /** @class */ (function () {
         __metadata("design:type", String)
     ], User.prototype, "userPhone", void 0);
     __decorate([
-        (0, typeorm_1.Column)(),
+        (0, typeorm_1.Column)({ unique: true }),
         __metadata("design:type", String)
     ], User.prototype, "userEmail", void 0);
     __decorate([

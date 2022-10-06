@@ -112,7 +112,7 @@ router.post("/query/all", async (req: Request, res: Response) => {
 
 router.post("/edit/", async (req: Request, res: Response) => {
     const expense = await req.app.get("myDataSource").getRepository(Expense).findOneBy(
-        { userCode: req.body.launch.expCode }
+        { expCode: req.body.launch.code }
     )
     req.app.get("myDataSource").getRepository(Expense).merge(expense, req.body.launch)
     const results = await req.app.get("myDataSource").getRepository(Expense).save(Expense)

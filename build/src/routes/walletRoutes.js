@@ -70,7 +70,7 @@ router.post("/get", function (req, res) { return __awaiter(void 0, void 0, void 
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
+                _a.trys.push([0, 3, , 4]);
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).find({
                         relations: {
                             walletCode: true,
@@ -80,9 +80,11 @@ router.post("/get", function (req, res) { return __awaiter(void 0, void 0, void 
                     })];
             case 1:
                 wallets = _a.sent();
-                wallets.forEach(function (wallet) {
-                    wallet.userCode.userPasswd = "can't explaned";
-                });
+                return [4 /*yield*/, wallets.forEach(function (wallet) {
+                        wallet.userCode.userPasswd = "can't explaned";
+                    })];
+            case 2:
+                _a.sent();
                 return [2 /*return*/, res.json({ registers: wallets })
                     // return res.json(await req.app.get("myDataSource").getRepository(Wallet).query(`
                     // SELECT Wallet."walletCode" FROM wallet_users 
@@ -90,11 +92,11 @@ router.post("/get", function (req, res) { return __awaiter(void 0, void 0, void 
                     // ON Wallet."walletCode" = wallet_users."walletCodeWalletCode"
                     // WHERE wallet_users."userCodeUserCode`)) 
                 ];
-            case 2:
+            case 3:
                 e_1 = _a.sent();
                 console.log(e_1.message);
                 return [2 /*return*/, res.json({ err: e_1.message })];
-            case 3: return [2 /*return*/];
+            case 4: return [2 /*return*/];
         }
     });
 }); });
