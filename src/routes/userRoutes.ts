@@ -19,8 +19,11 @@ router.post("/signUp", async function (req: Request, res: Response) {
                 userMoney: 0,
                 userPasswd: hash
             })
-
-            const results = await req.app.get("myDataSource").getRepository(User).save(tuser)
+            try {
+                const results = await req.app.get("myDataSource").getRepository(User).save(tuser)
+            }catch(e){
+                throw e.message
+            }
             const user = await req.app.get("myDataSource").getRepository(User).findOneBy({ userEmail: req.body.newUser.userEmail })
             var result = {}
             if (user)
@@ -37,7 +40,7 @@ router.post("/signUp", async function (req: Request, res: Response) {
         })
     } catch (e) {
         console.log(e.message);
-        
+
         return res.json({
             registered: false,
             userCode: null,
@@ -93,7 +96,7 @@ router.post("/login", async (req: Request, res: Response) => {
                         userName: user.userName,
                         userPhone: user.userPhone,
                         userCode: user.userCode,
-                        userMoney:user.userMoney
+                        userMoney: user.userMoney
                     }
 
                 }
