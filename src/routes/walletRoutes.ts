@@ -31,6 +31,9 @@ router.post("/get", async (req: Request, res: Response) => {
             },
             where:{userCode:req.body.userCode}
         })
+        wallets.forEach(wallet => {
+            wallet.userCode.userPasswd = "can't explaned"
+        }); 
         return res.json({registers:wallets})
         // return res.json(await req.app.get("myDataSource").getRepository(Wallet).query(`
         // SELECT Wallet."walletCode" FROM wallet_users 

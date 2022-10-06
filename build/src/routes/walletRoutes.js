@@ -80,6 +80,9 @@ router.post("/get", function (req, res) { return __awaiter(void 0, void 0, void 
                     })];
             case 1:
                 wallets = _a.sent();
+                wallets.forEach(function (wallet) {
+                    wallet.userCode.userPasswd = "can't explaned";
+                });
                 return [2 /*return*/, res.json({ registers: wallets })
                     // return res.json(await req.app.get("myDataSource").getRepository(Wallet).query(`
                     // SELECT Wallet."walletCode" FROM wallet_users 
