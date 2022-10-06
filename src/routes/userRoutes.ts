@@ -7,8 +7,15 @@ import { hash, compare } from "bcrypt"
 const router: Router = new Router()
 
 router.post("/signUp", async function (req: Request, res: Response) {
-    try {
-
+    try {req.body.newUser.userEmail
+        const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
+            { userCode: req.body.userCode })
+        if (user){
+            return res.json({
+                registered: false,
+                userCode: null,
+                error: "Email já cadastrado"
+            })}else{
         const encoded = hash(req.body.newUser.userPasswd, 10, async (err, hash) => {
 
             const tuser = req.app.get("myDataSource").getRepository(User).create({
@@ -19,11 +26,8 @@ router.post("/signUp", async function (req: Request, res: Response) {
                 userMoney: 0,
                 userPasswd: hash
             })
-            try {
                 const results = await req.app.get("myDataSource").getRepository(User).save(tuser)
-            }catch(e){
-                throw e.message
-            }
+
             const user = await req.app.get("myDataSource").getRepository(User).findOneBy({ userEmail: req.body.newUser.userEmail })
             var result = {}
             if (user)
@@ -38,6 +42,7 @@ router.post("/signUp", async function (req: Request, res: Response) {
                 })
             return res.json(result)
         })
+    }
     } catch (e) {
         console.log(e.message);
 
@@ -55,9 +60,9 @@ router.get("/query", async (req: Request, res: Response) => {
 
     res.json(users)
 })
-router.get("/query/:id", async (req: Request, res: Response) => {
+router.post("/query", async (req: Request, res: Response) => {
     const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
-        { userCode: req.params.id })
+        { userCode: req.body.userCode })
 
 
     res.json(user)
