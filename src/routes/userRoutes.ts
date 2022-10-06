@@ -7,46 +7,43 @@ import { hash, compare } from "bcrypt"
 const router: Router = new Router()
 
 router.post("/signUp", async function (req: Request, res: Response) {
-    console.log("ISSO N FAZ SENTIDOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-    
     try {
         const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
             { userCode: req.body.userCode })
-        console.log("userrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr", user);
-        
-        if (user.userEmail == req.body.newUser.userEmail){
+        if (user.userEmail == req.body.newUser.userEmail) {
             return res.json({
                 registered: false,
                 userCode: null,
                 error: "Email já cadastrado"
-            })}else{
-        const encoded = hash(req.body.newUser.userPasswd, 10, async (err, hash) => {
-
-            const tuser = req.app.get("myDataSource").getRepository(User).create({
-
-                userName: req.body.newUser.userName,
-                userPhone: req.body.newUser.userPhone,
-                userEmail: req.body.newUser.userEmail,
-                userMoney: 0,
-                userPasswd: hash
             })
+        } else {
+            const encoded = hash(req.body.newUser.userPasswd, 10, async (err, hash) => {
+
+                const tuser = req.app.get("myDataSource").getRepository(User).create({
+
+                    userName: req.body.newUser.userName,
+                    userPhone: req.body.newUser.userPhone,
+                    userEmail: req.body.newUser.userEmail,
+                    userMoney: 0,
+                    userPasswd: hash
+                })
                 const results = await req.app.get("myDataSource").getRepository(User).save(tuser)
 
-            const user = await req.app.get("myDataSource").getRepository(User).findOneBy({ userEmail: req.body.newUser.userEmail })
-            var result = {}
-            if (user)
-                result = ({
-                    registered: true,
-                    userCode: user.userCode
-                })
-            else
-                result = ({
-                    registered: false,
-                    userCode: null
-                })
-            return res.json(result)
-        })
-    }
+                const user = await req.app.get("myDataSource").getRepository(User).findOneBy({ userEmail: req.body.newUser.userEmail })
+                var result = {}
+                if (user)
+                    result = ({
+                        registered: true,
+                        userCode: user.userCode
+                    })
+                else
+                    result = ({
+                        registered: false,
+                        userCode: null
+                    })
+                return res.json(result)
+            })
+        }
     } catch (e) {
         console.log(e.message);
 
@@ -98,7 +95,8 @@ router.post("/login", async (req: Request, res: Response) => {
 
 
         compare(req.body.user.password, user.userPasswd, async (err, val) => {
-            if (val)//bcrypt.compare( user.passwd,10)
+            if
+                (val)
                 result = {
                     logged: true,
                     user: {
@@ -109,22 +107,15 @@ router.post("/login", async (req: Request, res: Response) => {
                     }
 
                 }
-            else result = { logged: false, user: "credenciais invalidas" }
-
-            ///console.log("data",new Date().getDate())
-
-
-
+            else
+                result = { logged: false, user: null, error: "credenciais invalidas" }
             token = await sign(result, "segredo", { expiresIn: 604800 })
-            console.log({ token });
             return res.json({ token })
         })
     }
     else {
-        return res.json({ token: { logged: false, user: "credenciais invalidas" } })
+        return res.json({ token: { logged: false, user: null, error: "credenciais invalidas" } })
     }
-
-
 })
 
 router.put("/setMoney", async (req: Request, res: Response) => {

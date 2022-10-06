@@ -48,14 +48,10 @@ router.post("/signUp", function (req, res) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    console.log("ISSO N FAZ SENTIDOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-                    _a.label = 1;
-                case 1:
-                    _a.trys.push([1, 3, , 4]);
+                    _a.trys.push([0, 2, , 3]);
                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userCode: req.body.userCode })];
-                case 2:
+                case 1:
                     user = _a.sent();
-                    console.log("userrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr", user);
                     if (user.userEmail == req.body.newUser.userEmail) {
                         return [2 /*return*/, res.json({
                                 registered: false,
@@ -98,8 +94,8 @@ router.post("/signUp", function (req, res) {
                             });
                         }); });
                     }
-                    return [3 /*break*/, 4];
-                case 3:
+                    return [3 /*break*/, 3];
+                case 2:
                     e_1 = _a.sent();
                     console.log(e_1.message);
                     return [2 /*return*/, res.json({
@@ -107,7 +103,7 @@ router.post("/signUp", function (req, res) {
                             userCode: null,
                             error: e_1
                         })];
-                case 4: return [2 /*return*/];
+                case 3: return [2 /*return*/];
             }
         });
     });
@@ -172,7 +168,7 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0:
-                                    if (val) //bcrypt.compare( user.passwd,10)
+                                    if (val)
                                         result = {
                                             logged: true,
                                             user: {
@@ -183,19 +179,17 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
                                             }
                                         };
                                     else
-                                        result = { logged: false, user: "credenciais invalidas" };
+                                        result = { logged: false, user: null, error: "credenciais invalidas" };
                                     return [4 /*yield*/, (0, jsonwebtoken_1.sign)(result, "segredo", { expiresIn: 604800 })];
                                 case 1:
-                                    ///console.log("data",new Date().getDate())
                                     token = _a.sent();
-                                    console.log({ token: token });
                                     return [2 /*return*/, res.json({ token: token })];
                             }
                         });
                     }); });
                 }
                 else {
-                    return [2 /*return*/, res.json({ token: { logged: false, user: "credenciais invalidas" } })];
+                    return [2 /*return*/, res.json({ token: { logged: false, user: null, error: "credenciais invalidas" } })];
                 }
                 return [2 /*return*/];
         }
