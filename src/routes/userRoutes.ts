@@ -10,6 +10,8 @@ router.post("/signUp", async function (req: Request, res: Response) {
     try {req.body.newUser.userEmail
         const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
             { userCode: req.body.userCode })
+        console.log("userrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr", user);
+        
         if (user){
             return res.json({
                 registered: false,
