@@ -34,11 +34,7 @@ router.post("/signUp", async function (req: Request, res: Response) {
                     userCode: null
                 })
             return res.json(result)
-
-
         })
-
-        //var token = await sign(result, "segredo")
     } catch (e) {
         return res.json({
             registered: false,
@@ -46,8 +42,6 @@ router.post("/signUp", async function (req: Request, res: Response) {
             error: e
         })
     }
-
-
 })
 
 router.get("/query", async (req: Request, res: Response) => {
