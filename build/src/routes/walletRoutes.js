@@ -39,7 +39,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
 var Wallet_1 = require("../entity/Wallet");
 var WalletUsers_1 = require("../entity/WalletUsers");
-var router = new express_1.Router();
+var router = (0, express_1.Router)();
 router.post("/new", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var wallet, results, walletOwner, woResults, err_1;
@@ -102,25 +102,31 @@ router.post("/get", function (req, res) { return __awaiter(void 0, void 0, void 
 }); });
 router.post("/newCW", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var walletOwner, woResults, err_2;
+        var wallet, walletOwner, woResults, err_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 3, , 4]);
+                    _a.trys.push([0, 6, , 7]);
+                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(Wallet_1.Wallet).findOneBy({ walletCode: req.body.wallet.walletCode })];
+                case 1:
+                    wallet = _a.sent();
+                    if (!(wallet.walletPasswd == req.body.wallet.password)) return [3 /*break*/, 4];
                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).create({
                             userCode: req.body.userCode,
                             walletCode: req.body.walletCode
                         })];
-                case 1:
+                case 2:
                     walletOwner = _a.sent();
                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).save(walletOwner)];
-                case 2:
+                case 3:
                     woResults = _a.sent();
                     return [2 /*return*/, res.json({ result: { successful: true } })];
-                case 3:
+                case 4: return [2 /*return*/, res.json({ result: { successful: false, error: "crendenciais invalidas" } })];
+                case 5: return [3 /*break*/, 7];
+                case 6:
                     err_2 = _a.sent();
                     return [2 /*return*/, res.json({ result: { successful: false, error: err_2.message } })];
-                case 4: return [2 /*return*/];
+                case 7: return [2 /*return*/];
             }
         });
     });

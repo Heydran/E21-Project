@@ -40,7 +40,7 @@ var express_1 = require("express");
 var User_1 = require("./../entity/User");
 var jsonwebtoken_1 = require("jsonwebtoken");
 var bcrypt_1 = require("bcrypt");
-var router = new express_1.Router();
+var router = (0, express_1.Router)();
 router.post("/signUp", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var user, encoded, e_1;

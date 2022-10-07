@@ -42,7 +42,7 @@ var Parcel_1 = require("../entity/Parcel");
 var typeorm_1 = require("typeorm");
 var moment = require("moment");
 //import { verify, sign } from "jsonwebtoken"
-var router = new express_1.Router();
+var router = (0, express_1.Router)();
 router.post("/new", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var results, mDays, newExpense, newParcel, date, originalDay, i, result, err_1, e_1;

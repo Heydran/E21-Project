@@ -5,7 +5,7 @@ import { MoreThanOrEqual, LessThanOrEqual, Equal, Between, Like } from "typeorm"
 import * as moment from "moment"
 //import { verify, sign } from "jsonwebtoken"
 
-const router: Router = new Router()
+const router: Router = Router()
 router.post("/new", async function (req: Request, res: Response) {
     try {
         console.log("start");

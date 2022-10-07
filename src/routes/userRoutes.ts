@@ -1,10 +1,10 @@
 import { Router, Request, Response } from "express"
 import { User } from "./../entity/User"
-import { verify, sign } from "jsonwebtoken"
+import { sign } from "jsonwebtoken"
 import { hash, compare } from "bcrypt"
 
 
-const router: Router = new Router()
+const router: Router = Router()
 
 router.post("/signUp", async function (req: Request, res: Response) {
     try {
