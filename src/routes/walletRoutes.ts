@@ -45,5 +45,18 @@ router.post("/get", async (req: Request, res: Response) => {
 })
 
 
+router.post("/newCW", async function (req: Request, res: Response) {
+    try{
+    const walletOwner = await req.app.get("myDataSource").getRepository(WalletUsers).create({
+        userCode: req.body.userCode,
+        walletCode: req.body.walletCode
+
+    })
+    const woResults = await req.app.get("myDataSource").getRepository(WalletUsers).save(walletOwner)
+    return res.json({result:{ successful: true }})
+}catch(err){
+    return res.json({result:  { successful: false, error: err.message }})
+}
+})
 
 export default router

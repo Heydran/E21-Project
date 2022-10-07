@@ -100,4 +100,29 @@ router.post("/get", function (req, res) { return __awaiter(void 0, void 0, void 
         }
     });
 }); });
+router.post("/newCW", function (req, res) {
+    return __awaiter(this, void 0, void 0, function () {
+        var walletOwner, woResults, err_2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 3, , 4]);
+                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).create({
+                            userCode: req.body.userCode,
+                            walletCode: req.body.walletCode
+                        })];
+                case 1:
+                    walletOwner = _a.sent();
+                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).save(walletOwner)];
+                case 2:
+                    woResults = _a.sent();
+                    return [2 /*return*/, res.json({ result: { successful: true } })];
+                case 3:
+                    err_2 = _a.sent();
+                    return [2 /*return*/, res.json({ result: { successful: false, error: err_2.message } })];
+                case 4: return [2 /*return*/];
+            }
+        });
+    });
+});
 exports.default = router;
