@@ -51,8 +51,8 @@ router.post("/newCW", async function (req: Request, res: Response) {
         if (wallet.walletPasswd == req.body.wallet.password) {
 
             const walletOwner = await req.app.get("myDataSource").getRepository(WalletUsers).create({
-                userCode: req.body.userCode,
-                walletCode: req.body.walletCode
+                userCode: req.body.wallet.userCode,
+                walletCode: req.body.wallet.walletCode
 
             })
             const woResults = await req.app.get("myDataSource").getRepository(WalletUsers).save(walletOwner)

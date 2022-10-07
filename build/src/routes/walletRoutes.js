@@ -112,8 +112,8 @@ router.post("/newCW", function (req, res) {
                     wallet = _a.sent();
                     if (!(wallet.walletPasswd == req.body.wallet.password)) return [3 /*break*/, 4];
                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).create({
-                            userCode: req.body.userCode,
-                            walletCode: req.body.walletCode
+                            userCode: req.body.wallet.userCode,
+                            walletCode: req.body.wallet.walletCode
                         })];
                 case 2:
                     walletOwner = _a.sent();
