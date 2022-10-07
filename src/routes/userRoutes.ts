@@ -9,7 +9,7 @@ const router: Router = Router()
 router.post("/signUp", async function (req: Request, res: Response) {
     try {
         const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
-            { userCode: req.body.userCode })
+            { userCode: req.body.newUser.userCode })
         if (user.userEmail == req.body.newUser.userEmail) {
             return res.json({
                 registered: false,

@@ -49,7 +49,7 @@ router.post("/signUp", function (req, res) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userCode: req.body.userCode })];
+                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userCode: req.body.newUser.userCode })];
                 case 1:
                     user = _a.sent();
                     if (user.userEmail == req.body.newUser.userEmail) {
