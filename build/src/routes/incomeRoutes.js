@@ -236,11 +236,11 @@ router.post("/edit", function (req, res) { return __awaiter(void 0, void 0, void
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).save(newIncome)];
             case 2:
                 results = _a.sent();
-                return [2 /*return*/, res.json({ results: results })];
+                return [2 /*return*/, res.json({ result: { successful: true, results: results } })];
             case 3:
                 e_3 = _a.sent();
                 console.log(e_3.message);
-                return [2 /*return*/, res.json({ results: null, error: e_3.message })];
+                return [2 /*return*/, res.json({ result: { successful: false, error: e_3.message } })];
             case 4: return [2 /*return*/];
         }
     });
@@ -254,11 +254,11 @@ router.post("/delete", function (req, res) { return __awaiter(void 0, void 0, vo
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).delete(req.body.code)];
             case 1:
                 results = _a.sent();
-                return [2 /*return*/, res.json({ result: results })];
+                return [2 /*return*/, res.json({ result: { successful: true, results: results } })];
             case 2:
                 e_4 = _a.sent();
                 console.log(e_4.message);
-                return [3 /*break*/, 3];
+                return [2 /*return*/, res.json({ result: { successful: false, error: e_4.message } })];
             case 3: return [2 /*return*/];
         }
     });
