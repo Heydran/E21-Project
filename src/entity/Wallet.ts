@@ -10,5 +10,8 @@ export class Wallet {
     walletName: string
 
     @Column()
+    walletPasswd: string
+
+    @Column()
     walletDesc: string
 }
