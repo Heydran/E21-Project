@@ -226,7 +226,6 @@ router.post("/recoverPasswd", function (req, res) { return __awaiter(void 0, voi
                 user_1 = _a.sent();
                 console.log(user_1);
                 if (!user_1) return [3 /*break*/, 4];
-                console.log("user", process.env.EMAIL_URL, "pass", process.env.EMAIL_PASSWORD);
                 return [4 /*yield*/, (0, nodemailer_1.createTransport)({
                         service: 'gmail',
                         auth: {
