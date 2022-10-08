@@ -241,7 +241,7 @@ router.post("/recoverPasswd", function (req, res) { return __awaiter(void 0, voi
                         if (err)
                             return res.json({ result: { successful: false, error: err } });
                         else
-                            res.json({ result: { successful: true, message: "Sucessfull send email to ".concat(user_1.email) } });
+                            return res.json({ result: { successful: true, message: "Sucessfull send email to ".concat(user_1.email) } });
                     });
                 }
                 return [2 /*return*/, res.json({ result: { successful: false, error: "Email not registered" } })];

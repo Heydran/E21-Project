@@ -154,7 +154,7 @@ router.post("/recoverPasswd", async (req: Request, res: Response) => {
               }
               transporter.sendMail(mailOptions, (err: any)=> {
                 if (err)  return res.json({ result: { successful: false, error: err } })
-                else res.json({ result: { successful: true, message: `Sucessfull send email to ${user.email}` } })
+                else return res.json({ result: { successful: true, message: `Sucessfull send email to ${user.email}` } })
               })
         }
         return res.json({ result: { successful: false, error: "Email not registered" } })
