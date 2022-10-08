@@ -140,8 +140,10 @@ router.post("/recoverPasswd", async (req: Request, res: Response) => {
             { userEmail: req.body.user.userEmail }
         )
         console.log(user);
-        
+
         if (user) {
+            console.log(true);
+
             const transporter = await createTransport({
                 service: 'gmail',
                 auth: {
@@ -155,12 +157,20 @@ router.post("/recoverPasswd", async (req: Request, res: Response) => {
                 subject: `Recover password for BeezNees Account`,
                 text: `Hellow ${user.Name}, input this code ${"placeholder"} in our app to change your password`
             }
-            await transporter.sendMail(mailOptions, (err: any) => {
-                if (err) results = { result: { successful: false, error: err } }
-                else results = { result: { successful: true, message: `Sucessfull send email to ${user.email}` } }
+            await transporter.sendMail(mailOptions, (err: any, info: any) => {
+                console.log("sended");
+
+                if (err) {
+                    console.log("err", err);
+                    results = { result: { successful: false, error: err } }
+                } else {
+                    console.log("info", info);
+                    results = { result: { successful: true, message: `Sucessfull send email to ${user.email}` } }
+                }
             })
         } else results = { result: { successful: false, error: "Email not registered" } }
-
+        console.log("res.json");
+        
         return res.json(results)
     } catch (err) {
         console.log(err.message)

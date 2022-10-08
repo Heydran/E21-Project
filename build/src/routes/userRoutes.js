@@ -226,6 +226,7 @@ router.post("/recoverPasswd", function (req, res) { return __awaiter(void 0, voi
                 user_1 = _a.sent();
                 console.log(user_1);
                 if (!user_1) return [3 /*break*/, 4];
+                console.log(true);
                 return [4 /*yield*/, (0, nodemailer_1.createTransport)({
                         service: 'gmail',
                         auth: {
@@ -241,11 +242,16 @@ router.post("/recoverPasswd", function (req, res) { return __awaiter(void 0, voi
                     subject: "Recover password for BeezNees Account",
                     text: "Hellow ".concat(user_1.Name, ", input this code ").concat("placeholder", " in our app to change your password")
                 };
-                return [4 /*yield*/, transporter.sendMail(mailOptions, function (err) {
-                        if (err)
+                return [4 /*yield*/, transporter.sendMail(mailOptions, function (err, info) {
+                        console.log("sended");
+                        if (err) {
+                            console.log("err", err);
                             results = { result: { successful: false, error: err } };
-                        else
+                        }
+                        else {
+                            console.log("info", info);
                             results = { result: { successful: true, message: "Sucessfull send email to ".concat(user_1.email) } };
+                        }
                     })];
             case 3:
                 _a.sent();
@@ -253,7 +259,9 @@ router.post("/recoverPasswd", function (req, res) { return __awaiter(void 0, voi
             case 4:
                 results = { result: { successful: false, error: "Email not registered" } };
                 _a.label = 5;
-            case 5: return [2 /*return*/, res.json(results)];
+            case 5:
+                console.log("res.json");
+                return [2 /*return*/, res.json(results)];
             case 6:
                 err_1 = _a.sent();
                 console.log(err_1.message);
