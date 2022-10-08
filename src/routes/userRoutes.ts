@@ -135,7 +135,8 @@ router.post("/recoverPasswd"), async (req: Request, res: Response)=>{
     const email = await req.app.get("myDataSource").getRepository(User).findOneBy(
         { userEmail: req.body.user.userEmail }
     )
-    if (email) console.log(email);
+    if (email) console.log(email)
+    return res.json({ result: { successful: false, error: "placeholder" } })
     
 }
 

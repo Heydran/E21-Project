@@ -222,7 +222,7 @@ router.post("/recoverPasswd"), function (req, res) { return __awaiter(void 0, vo
                 email = _a.sent();
                 if (email)
                     console.log(email);
-                return [2 /*return*/];
+                return [2 /*return*/, res.json({ result: { successful: false, error: "placeholder" } })];
         }
     });
 }); };
