@@ -214,15 +214,22 @@ router.post("/setMoney", function (req, res) { return __awaiter(void 0, void 0, 
     });
 }); });
 router.post("/recoverPasswd"), function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var email;
+    var email, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.user.userEmail })];
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.user.userEmail })];
             case 1:
                 email = _a.sent();
                 if (email)
                     console.log(email);
                 return [2 /*return*/, res.json({ result: { successful: false, error: "placeholder" } })];
+            case 2:
+                err_1 = _a.sent();
+                console.log(err_1.message);
+                return [2 /*return*/, res.json({ result: { successful: false, error: err_1.message } })];
+            case 3: return [2 /*return*/];
         }
     });
 }); };
