@@ -219,37 +219,41 @@ router.post("/recoverPasswd", function (req, res) { return __awaiter(void 0, voi
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
+                _a.trys.push([0, 5, , 6]);
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.user.userEmail })];
             case 1:
                 user_1 = _a.sent();
-                if (user_1) {
-                    transporter = (0, nodemailer_1.createTransport)({
+                if (!user_1) return [3 /*break*/, 4];
+                return [4 /*yield*/, (0, nodemailer_1.createTransport)({
                         service: 'gmail',
                         auth: {
                             user: process.env.EMAIL_URL,
                             pass: process.env.EMAIL_PASSWORD
                         }
-                    });
-                    mailOptions = {
-                        from: process.env.EMAIL_URL,
-                        to: user_1.email,
-                        subject: "Recover password for BeezNees Account",
-                        text: "Hellow ".concat(user_1.Name, ", input this code ").concat("placeholder", " in our app to change your password")
-                    };
-                    transporter.sendMail(mailOptions, function (err) {
+                    })];
+            case 2:
+                transporter = _a.sent();
+                mailOptions = {
+                    from: process.env.EMAIL_URL,
+                    to: user_1.email,
+                    subject: "Recover password for BeezNees Account",
+                    text: "Hellow ".concat(user_1.Name, ", input this code ").concat("placeholder", " in our app to change your password")
+                };
+                return [4 /*yield*/, transporter.sendMail(mailOptions, function (err) {
                         if (err)
                             return res.json({ result: { successful: false, error: err } });
                         else
                             return res.json({ result: { successful: true, message: "Sucessfull send email to ".concat(user_1.email) } });
-                    });
-                }
-                return [2 /*return*/, res.json({ result: { successful: false, error: "Email not registered" } })];
-            case 2:
+                    })];
+            case 3:
+                _a.sent();
+                _a.label = 4;
+            case 4: return [2 /*return*/, res.json({ result: { successful: false, error: "Email not registered" } })];
+            case 5:
                 err_1 = _a.sent();
                 console.log(err_1.message);
                 return [2 /*return*/, res.json({ result: { successful: false, error: err_1.message } })];
-            case 3: return [2 /*return*/];
+            case 6: return [2 /*return*/];
         }
     });
 }); });
