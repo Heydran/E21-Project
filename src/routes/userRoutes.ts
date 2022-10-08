@@ -2,6 +2,8 @@ import { Router, Request, Response } from "express"
 import { User } from "./../entity/User"
 import { sign } from "jsonwebtoken"
 import { hash, compare } from "bcrypt"
+import { createTransport } from "nodemailer"
+import { env } from "process"
 
 
 const router: Router = Router()
@@ -133,11 +135,29 @@ router.post("/setMoney", async (req: Request, res: Response) => {
 
 router.post("/recoverPasswd", async (req: Request, res: Response) => {
     try {
-        const email = await req.app.get("myDataSource").getRepository(User).findOneBy(
+        const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
             { userEmail: req.body.user.userEmail }
         )
-        if (email) console.log(email)
-        return res.json({ result: { successful: false, error: "placeholder" } })
+        if (user) {
+            const transporter = createTransport({
+                service: 'gmail',
+                auth: {
+                  user: process.env.EMAIL_URL,
+                  pass: process.env.EMAIL_PASSWORD
+                }
+              })
+              const mailOptions = {
+                from: process.env.EMAIL_URL,
+                to: user.email,
+                subject: `Recover password for BeezNees Account`,
+                text: `Hellow ${user.Name}, input this code ${"placeholder"} in our app to change your password`
+              }
+              transporter.sendMail(mailOptions, (err: any)=> {
+                if (err)  return res.json({ result: { successful: false, error: err } })
+                else res.json({ result: { successful: true, message: `Sucessfull send email to ${user.email}` } })
+              })
+        }
+        return res.json({ result: { successful: false, error: "Email not registered" } })
     } catch (err) {
         console.log(err.message)
         return res.json({ result: { successful: false, error: err.message } })

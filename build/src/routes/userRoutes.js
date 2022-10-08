@@ -40,6 +40,7 @@ var express_1 = require("express");
 var User_1 = require("./../entity/User");
 var jsonwebtoken_1 = require("jsonwebtoken");
 var bcrypt_1 = require("bcrypt");
+var nodemailer_1 = require("nodemailer");
 var router = (0, express_1.Router)();
 router.post("/signUp", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
@@ -214,17 +215,36 @@ router.post("/setMoney", function (req, res) { return __awaiter(void 0, void 0, 
     });
 }); });
 router.post("/recoverPasswd", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var email, err_1;
+    var user_1, transporter, mailOptions, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.user.userEmail })];
             case 1:
-                email = _a.sent();
-                if (email)
-                    console.log(email);
-                return [2 /*return*/, res.json({ result: { successful: false, error: "placeholder" } })];
+                user_1 = _a.sent();
+                if (user_1) {
+                    transporter = (0, nodemailer_1.createTransport)({
+                        service: 'gmail',
+                        auth: {
+                            user: process.env.EMAIL_URL,
+                            pass: process.env.EMAIL_PASSWORD
+                        }
+                    });
+                    mailOptions = {
+                        from: process.env.EMAIL_URL,
+                        to: user_1.email,
+                        subject: "Recover password for BeezNees Account",
+                        text: "Hellow ".concat(user_1.Name, ", input this code ").concat("placeholder", " in our app to change your password")
+                    };
+                    transporter.sendMail(mailOptions, function (err) {
+                        if (err)
+                            return res.json({ result: { successful: false, error: err } });
+                        else
+                            res.json({ result: { successful: true, message: "Sucessfull send email to ".concat(user_1.email) } });
+                    });
+                }
+                return [2 /*return*/, res.json({ result: { successful: false, error: "Email not registered" } })];
             case 2:
                 err_1 = _a.sent();
                 console.log(err_1.message);
