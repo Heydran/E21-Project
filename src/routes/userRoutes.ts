@@ -48,9 +48,11 @@ router.post("/signUp", async function (req: Request, res: Response) {
         console.log(e.message);
 
         return res.json({
-            registered: false,
-            userCode: null,
-            error: e
+            result: {
+                registered: false,
+                userCode: null,
+                error: e
+            }
         })
     }
 })

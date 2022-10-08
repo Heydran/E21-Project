@@ -99,9 +99,11 @@ router.post("/signUp", function (req, res) {
                     e_1 = _a.sent();
                     console.log(e_1.message);
                     return [2 /*return*/, res.json({
-                            registered: false,
-                            userCode: null,
-                            error: e_1
+                            result: {
+                                registered: false,
+                                userCode: null,
+                                error: e_1
+                            }
                         })];
                 case 3: return [2 /*return*/];
             }
