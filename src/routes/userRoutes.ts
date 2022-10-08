@@ -131,7 +131,7 @@ router.post("/setMoney", async (req: Request, res: Response) => {
     return res.json(results)
 })
 
-router.post("/recoverPasswd"), async (req: Request, res: Response) => {
+router.post("/recoverPasswd" async (req: Request, res: Response) => {
     try {
         const email = await req.app.get("myDataSource").getRepository(User).findOneBy(
             { userEmail: req.body.user.userEmail }
@@ -144,6 +144,6 @@ router.post("/recoverPasswd"), async (req: Request, res: Response) => {
 
     }
 
-}
+})
 
 export default router
