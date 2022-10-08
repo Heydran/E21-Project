@@ -215,7 +215,7 @@ router.post("/setMoney", function (req, res) { return __awaiter(void 0, void 0, 
     });
 }); });
 router.post("/recoverPasswd", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var results, user_1, transporter, mailOptions, err_1;
+    var results, user_1, transporter, mailOptions, result, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -226,7 +226,7 @@ router.post("/recoverPasswd", function (req, res) { return __awaiter(void 0, voi
                 user_1 = _a.sent();
                 console.log(user_1);
                 if (!user_1) return [3 /*break*/, 4];
-                console.log(true);
+                console.log("user", process.env.EMAIL_URL, "pass", process.env.EMAIL_PASSWORD);
                 return [4 /*yield*/, (0, nodemailer_1.createTransport)({
                         service: 'gmail',
                         auth: {
@@ -254,7 +254,7 @@ router.post("/recoverPasswd", function (req, res) { return __awaiter(void 0, voi
                         }
                     })];
             case 3:
-                _a.sent();
+                result = _a.sent();
                 return [3 /*break*/, 5];
             case 4:
                 results = { result: { successful: false, error: "Email not registered" } };
