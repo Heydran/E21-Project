@@ -158,7 +158,7 @@ router.post("/recoverPasswd", async (req: Request, res: Response) => {
                 else results = { result: { successful: true, message: `Sucessfull send email to ${user.email}` } }
             })
         } else results = { result: { successful: false, error: "Email not registered" } }
-        return res.json()
+        return res.json(results)
     } catch (err) {
         console.log(err.message)
         return res.json({ result: { successful: false, error: err.message } })

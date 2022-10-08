@@ -252,7 +252,7 @@ router.post("/recoverPasswd", function (req, res) { return __awaiter(void 0, voi
             case 4:
                 results = { result: { successful: false, error: "Email not registered" } };
                 _a.label = 5;
-            case 5: return [2 /*return*/, res.json()];
+            case 5: return [2 /*return*/, res.json(results)];
             case 6:
                 err_1 = _a.sent();
                 console.log(err_1.message);
