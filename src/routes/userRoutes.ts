@@ -122,7 +122,7 @@ router.post("/login", async (req: Request, res: Response) => {
     }
 })
 
-router.put("/setMoney", async (req: Request, res: Response) => {
+router.post("/setMoney", async (req: Request, res: Response) => {
     const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
         { userCode: req.body.id }
     )
@@ -130,5 +130,13 @@ router.put("/setMoney", async (req: Request, res: Response) => {
     const results = await req.app.get("myDataSource").getRepository(User).save(user)
     return res.json(results)
 })
+
+router.post("/recoverPasswd"), async (req: Request, res: Response)=>{
+    const email = await req.app.get("myDataSource").getRepository(User).findOneBy(
+        { userEmail: req.body.user.userEmail }
+    )
+    if (email) console.log(email);
+    
+}
 
 export default router

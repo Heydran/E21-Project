@@ -198,7 +198,7 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
         }
     });
 }); });
-router.put("/setMoney", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+router.post("/setMoney", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var user, results;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -213,4 +213,17 @@ router.put("/setMoney", function (req, res) { return __awaiter(void 0, void 0, v
         }
     });
 }); });
+router.post("/recoverPasswd"), function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var email;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.user.userEmail })];
+            case 1:
+                email = _a.sent();
+                if (email)
+                    console.log(email);
+                return [2 /*return*/];
+        }
+    });
+}); };
 exports.default = router;
