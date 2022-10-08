@@ -139,6 +139,8 @@ router.post("/recoverPasswd", async (req: Request, res: Response) => {
         const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
             { userEmail: req.body.user.userEmail }
         )
+        console.log(user);
+        
         if (user) {
             const transporter = await createTransport({
                 service: 'gmail',
@@ -158,7 +160,7 @@ router.post("/recoverPasswd", async (req: Request, res: Response) => {
                 else results = { result: { successful: true, message: `Sucessfull send email to ${user.email}` } }
             })
         } else results = { result: { successful: false, error: "Email not registered" } }
-        
+
         return res.json(results)
     } catch (err) {
         console.log(err.message)

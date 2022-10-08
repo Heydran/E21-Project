@@ -224,6 +224,7 @@ router.post("/recoverPasswd", function (req, res) { return __awaiter(void 0, voi
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.user.userEmail })];
             case 1:
                 user_1 = _a.sent();
+                console.log(user_1);
                 if (!user_1) return [3 /*break*/, 4];
                 return [4 /*yield*/, (0, nodemailer_1.createTransport)({
                         service: 'gmail',
