@@ -18,8 +18,8 @@ router.post("/signUp", async function (req: Request, res: Response) {
                     error: "Email já cadastrado"
                 })
             }
-        }catch{}
-            const encoded = hash(req.body.newUser.userPasswd, 10, async (err, hash) => {
+        } catch { }
+        const encoded = hash(req.body.newUser.userPasswd, 10, async (err, hash) => {
 
             const tuser = req.app.get("myDataSource").getRepository(User).create({
 
@@ -131,19 +131,19 @@ router.post("/setMoney", async (req: Request, res: Response) => {
     return res.json(results)
 })
 
-router.post("/recoverPasswd"), async (req: Request, res: Response)=>{
-    try{
-    const email = await req.app.get("myDataSource").getRepository(User).findOneBy(
-        { userEmail: req.body.user.userEmail }
-    )
-    if (email) console.log(email)
-    return res.json({ result: { successful: false, error: "placeholder" } })
-}catch(err){
-    console.log(err.message)
-    return res.json({ result: { successful: false, error: err.message } })
-    
-}
-    
+router.post("/recoverPasswd"), async (req: Request, res: Response) => {
+    try {
+        const email = await req.app.get("myDataSource").getRepository(User).findOneBy(
+            { userEmail: req.body.user.userEmail }
+        )
+        if (email) console.log(email)
+        return res.json({ result: { successful: false, error: "placeholder" } })
+    } catch (err) {
+        console.log(err.message)
+        return res.json({ result: { successful: false, error: err.message } })
+
+    }
+
 }
 
 export default router
