@@ -52,48 +52,49 @@ router.post("/signUp", function (req, res) {
                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userCode: req.body.newUser.userCode })];
                 case 1:
                     user = _a.sent();
-                    if (user.userEmail == req.body.newUser.userEmail) {
-                        return [2 /*return*/, res.json({
-                                registered: false,
-                                userCode: null,
-                                error: "Email já cadastrado"
-                            })];
+                    try {
+                        if (user.userEmail == req.body.newUser.userEmail) {
+                            return [2 /*return*/, res.json({
+                                    registered: false,
+                                    userCode: null,
+                                    error: "Email já cadastrado"
+                                })];
+                        }
                     }
-                    else {
-                        encoded = (0, bcrypt_1.hash)(req.body.newUser.userPasswd, 10, function (err, hash) { return __awaiter(_this, void 0, void 0, function () {
-                            var tuser, results, user, result;
-                            return __generator(this, function (_a) {
-                                switch (_a.label) {
-                                    case 0:
-                                        tuser = req.app.get("myDataSource").getRepository(User_1.User).create({
-                                            userName: req.body.newUser.userName,
-                                            userPhone: req.body.newUser.userPhone,
-                                            userEmail: req.body.newUser.userEmail,
-                                            userMoney: 0,
-                                            userPasswd: hash
+                    catch (_b) { }
+                    encoded = (0, bcrypt_1.hash)(req.body.newUser.userPasswd, 10, function (err, hash) { return __awaiter(_this, void 0, void 0, function () {
+                        var tuser, results, user, result;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    tuser = req.app.get("myDataSource").getRepository(User_1.User).create({
+                                        userName: req.body.newUser.userName,
+                                        userPhone: req.body.newUser.userPhone,
+                                        userEmail: req.body.newUser.userEmail,
+                                        userMoney: 0,
+                                        userPasswd: hash
+                                    });
+                                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).save(tuser)];
+                                case 1:
+                                    results = _a.sent();
+                                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.newUser.userEmail })];
+                                case 2:
+                                    user = _a.sent();
+                                    result = {};
+                                    if (user)
+                                        result = ({
+                                            registered: true,
+                                            userCode: user.userCode
                                         });
-                                        return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).save(tuser)];
-                                    case 1:
-                                        results = _a.sent();
-                                        return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.newUser.userEmail })];
-                                    case 2:
-                                        user = _a.sent();
-                                        result = {};
-                                        if (user)
-                                            result = ({
-                                                registered: true,
-                                                userCode: user.userCode
-                                            });
-                                        else
-                                            result = ({
-                                                registered: false,
-                                                userCode: null
-                                            });
-                                        return [2 /*return*/, res.json(result)];
-                                }
-                            });
-                        }); });
-                    }
+                                    else
+                                        result = ({
+                                            registered: false,
+                                            userCode: null
+                                        });
+                                    return [2 /*return*/, res.json(result)];
+                            }
+                        });
+                    }); });
                     return [3 /*break*/, 3];
                 case 2:
                     e_1 = _a.sent();

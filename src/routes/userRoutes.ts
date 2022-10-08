@@ -10,40 +10,42 @@ router.post("/signUp", async function (req: Request, res: Response) {
     try {
         const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
             { userCode: req.body.newUser.userCode })
-        if (user.userEmail == req.body.newUser.userEmail) {
-            return res.json({
-                registered: false,
-                userCode: null,
-                error: "Email já cadastrado"
-            })
-        } else {
+        try {
+            if (user.userEmail == req.body.newUser.userEmail) {
+                return res.json({
+                    registered: false,
+                    userCode: null,
+                    error: "Email já cadastrado"
+                })
+            }
+        }catch{}
             const encoded = hash(req.body.newUser.userPasswd, 10, async (err, hash) => {
 
-                const tuser = req.app.get("myDataSource").getRepository(User).create({
+            const tuser = req.app.get("myDataSource").getRepository(User).create({
 
-                    userName: req.body.newUser.userName,
-                    userPhone: req.body.newUser.userPhone,
-                    userEmail: req.body.newUser.userEmail,
-                    userMoney: 0,
-                    userPasswd: hash
-                })
-                const results = await req.app.get("myDataSource").getRepository(User).save(tuser)
-
-                const user = await req.app.get("myDataSource").getRepository(User).findOneBy({ userEmail: req.body.newUser.userEmail })
-                var result = {}
-                if (user)
-                    result = ({
-                        registered: true,
-                        userCode: user.userCode
-                    })
-                else
-                    result = ({
-                        registered: false,
-                        userCode: null
-                    })
-                return res.json(result)
+                userName: req.body.newUser.userName,
+                userPhone: req.body.newUser.userPhone,
+                userEmail: req.body.newUser.userEmail,
+                userMoney: 0,
+                userPasswd: hash
             })
-        }
+            const results = await req.app.get("myDataSource").getRepository(User).save(tuser)
+
+            const user = await req.app.get("myDataSource").getRepository(User).findOneBy({ userEmail: req.body.newUser.userEmail })
+            var result = {}
+            if (user)
+                result = ({
+                    registered: true,
+                    userCode: user.userCode
+                })
+            else
+                result = ({
+                    registered: false,
+                    userCode: null
+                })
+            return res.json(result)
+        })
+
     } catch (e) {
         console.log(e.message);
 
