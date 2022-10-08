@@ -215,11 +215,12 @@ router.post("/setMoney", function (req, res) { return __awaiter(void 0, void 0, 
     });
 }); });
 router.post("/recoverPasswd", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user_1, transporter, mailOptions, err_1;
+    var results, user_1, transporter, mailOptions, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 5, , 6]);
+                _a.trys.push([0, 6, , 7]);
+                results = {};
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.user.userEmail })];
             case 1:
                 user_1 = _a.sent();
@@ -241,19 +242,22 @@ router.post("/recoverPasswd", function (req, res) { return __awaiter(void 0, voi
                 };
                 return [4 /*yield*/, transporter.sendMail(mailOptions, function (err) {
                         if (err)
-                            return res.json({ result: { successful: false, error: err } });
+                            results = { result: { successful: false, error: err } };
                         else
-                            return res.json({ result: { successful: true, message: "Sucessfull send email to ".concat(user_1.email) } });
+                            results = { result: { successful: true, message: "Sucessfull send email to ".concat(user_1.email) } };
                     })];
             case 3:
                 _a.sent();
-                _a.label = 4;
-            case 4: return [2 /*return*/, res.json({ result: { successful: false, error: "Email not registered" } })];
-            case 5:
+                return [3 /*break*/, 5];
+            case 4:
+                results = { result: { successful: false, error: "Email not registered" } };
+                _a.label = 5;
+            case 5: return [2 /*return*/, res.json()];
+            case 6:
                 err_1 = _a.sent();
                 console.log(err_1.message);
                 return [2 /*return*/, res.json({ result: { successful: false, error: err_1.message } })];
-            case 6: return [2 /*return*/];
+            case 7: return [2 /*return*/];
         }
     });
 }); });

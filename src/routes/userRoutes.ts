@@ -135,6 +135,7 @@ router.post("/setMoney", async (req: Request, res: Response) => {
 
 router.post("/recoverPasswd", async (req: Request, res: Response) => {
     try {
+        var results = {}
         const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
             { userEmail: req.body.user.userEmail }
         )
@@ -142,22 +143,22 @@ router.post("/recoverPasswd", async (req: Request, res: Response) => {
             const transporter = await createTransport({
                 service: 'gmail',
                 auth: {
-                  user: process.env.EMAIL_URL,
-                  pass: process.env.EMAIL_PASSWORD
+                    user: process.env.EMAIL_URL,
+                    pass: process.env.EMAIL_PASSWORD
                 }
-              })
-              const mailOptions = {
+            })
+            const mailOptions = {
                 from: process.env.EMAIL_URL,
                 to: user.email,
                 subject: `Recover password for BeezNees Account`,
                 text: `Hellow ${user.Name}, input this code ${"placeholder"} in our app to change your password`
-              }
-              await transporter.sendMail(mailOptions, (err: any)=> {
-                if (err)  return res.json({ result: { successful: false, error: err } })
-                else return res.json({ result: { successful: true, message: `Sucessfull send email to ${user.email}` } })
-              })
-        }
-        return res.json({ result: { successful: false, error: "Email not registered" } })
+            }
+            await transporter.sendMail(mailOptions, (err: any) => {
+                if (err) results = { result: { successful: false, error: err } }
+                else results = { result: { successful: true, message: `Sucessfull send email to ${user.email}` } }
+            })
+        } else results = { result: { successful: false, error: "Email not registered" } }
+        return res.json()
     } catch (err) {
         console.log(err.message)
         return res.json({ result: { successful: false, error: err.message } })
