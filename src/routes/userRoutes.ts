@@ -145,7 +145,8 @@ router.post("/recoverPasswd", async (req: Request, res: Response) => {
             console.log("user",process.env.EMAIL_URL, "pass", process.env.EMAIL_PASSWORD );
 
             const transporter = await createTransport({
-                service: 'gmail',
+                host:"",
+                port:587,
                 auth: {
                     user: process.env.EMAIL_URL,
                     pass: process.env.EMAIL_PASSWORD
