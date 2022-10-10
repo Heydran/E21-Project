@@ -226,7 +226,6 @@ router.post("/recoverPasswd", function (req, res) { return __awaiter(void 0, voi
                 user = _b.sent();
                 console.log(user);
                 if (!user) return [3 /*break*/, 4];
-                console.log("user", process.env.EMAIL_URL, "pass", process.env.EMAIL_PASSWORD);
                 return [4 /*yield*/, (0, nodemailer_1.createTransport)({
                         host: "smtp.umbler.com",
                         port: 587,

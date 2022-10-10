@@ -142,8 +142,6 @@ router.post("/recoverPasswd", async (req: Request, res: Response) => {
         console.log(user);
 
         if (user) {
-            console.log("user", process.env.EMAIL_URL, "pass", process.env.EMAIL_PASSWORD);
-
             const transporter = await createTransport({
                 host: "smtp.umbler.com",
                 port: 587,
