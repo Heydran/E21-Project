@@ -164,7 +164,7 @@ router.post("/recoverPasswd", async (req: Request, res: Response) => {
                         result:
                         {
                             successful: true,
-                            message: `Sucessfull send email to ${user.email}`
+                            message: `Sucessfull send email ${info}`
                         }
                     })).catch(err =>
                         res.json(

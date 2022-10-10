@@ -215,7 +215,7 @@ router.post("/setMoney", function (req, res) { return __awaiter(void 0, void 0, 
     });
 }); });
 router.post("/recoverPasswd", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var results, user_1, transporter, mailOptions, result, _a;
+    var results, user, transporter, mailOptions, result, _a;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -223,9 +223,9 @@ router.post("/recoverPasswd", function (req, res) { return __awaiter(void 0, voi
                 results = {};
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.user.userEmail })];
             case 1:
-                user_1 = _b.sent();
-                console.log(user_1);
-                if (!user_1) return [3 /*break*/, 4];
+                user = _b.sent();
+                console.log(user);
+                if (!user) return [3 /*break*/, 4];
                 console.log("user", process.env.EMAIL_URL, "pass", process.env.EMAIL_PASSWORD);
                 return [4 /*yield*/, (0, nodemailer_1.createTransport)({
                         host: "smtp.umbler.com",
@@ -239,15 +239,15 @@ router.post("/recoverPasswd", function (req, res) { return __awaiter(void 0, voi
                 transporter = _b.sent();
                 mailOptions = {
                     from: process.env.EMAIL_URL,
-                    to: user_1.userEmail,
+                    to: user.userEmail,
                     subject: "Recover password for BeezNees Account",
-                    text: "Hellow ".concat(user_1.Name, ", input this code ").concat("placeholder", " in our app to change your password")
+                    text: "Hellow ".concat(user.Name, ", input this code ").concat("placeholder", " in our app to change your password")
                 };
                 return [4 /*yield*/, transporter.sendMail(mailOptions).then(function (info) {
                         return res.json({
                             result: {
                                 successful: true,
-                                message: "Sucessfull send email to ".concat(user_1.email)
+                                message: "Sucessfull send email ".concat(info)
                             }
                         });
                     }).catch(function (err) {
