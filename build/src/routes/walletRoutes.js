@@ -131,4 +131,16 @@ router.post("/join", function (req, res) {
         });
     });
 });
+router.post("/share", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var sharing;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).create({})];
+            case 1:
+                sharing = _a.sent();
+                res.json({});
+                return [2 /*return*/];
+        }
+    });
+}); });
 exports.default = router;

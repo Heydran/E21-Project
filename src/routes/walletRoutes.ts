@@ -65,4 +65,11 @@ router.post("/join", async function (req: Request, res: Response) {
     }
 })
 
+
+router.post("/share", async (req:Request, res:Response) => {
+    const sharing = await req.app.get("myDataSource").getRepository(WalletUsers).create({
+
+    })
+    res.json({})
+})
 export default router
