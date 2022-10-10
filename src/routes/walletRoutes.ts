@@ -43,7 +43,7 @@ router.post("/get", async (req: Request, res: Response) => {
 })
 
 
-router.post("/newCW", async function (req: Request, res: Response) {
+router.post("/join", async function (req: Request, res: Response) {
     try {
         const wallet = await req.app.get("myDataSource").getRepository(Wallet).findOneBy(
             { walletCode: req.body.wallet.walletCode }
