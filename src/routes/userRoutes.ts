@@ -142,11 +142,11 @@ router.post("/recoverPasswd", async (req: Request, res: Response) => {
         console.log(user);
 
         if (user) {
-            console.log("user",process.env.EMAIL_URL, "pass", process.env.EMAIL_PASSWORD );
+            console.log("user", process.env.EMAIL_URL, "pass", process.env.EMAIL_PASSWORD);
 
             const transporter = await createTransport({
-                host:"",
-                port:587,
+                host: "smtp.umbler.com",
+                port: 587,
                 auth: {
                     user: process.env.EMAIL_URL,
                     pass: process.env.EMAIL_PASSWORD
@@ -158,24 +158,28 @@ router.post("/recoverPasswd", async (req: Request, res: Response) => {
                 subject: `Recover password for BeezNees Account`,
                 text: `Hellow ${user.Name}, input this code ${"placeholder"} in our app to change your password`
             }
-            const result = await transporter.sendMail(mailOptions, (err: any, info: any) => {
-                console.log("sended");
+            const result = await transporter.sendMail(mailOptions).then(info =>
+                res.json(
+                    {
+                        result:
+                        {
+                            successful: true,
+                            message: `Sucessfull send email to ${user.email}`
+                        }
+                    })).catch(err =>
+                        res.json(
+                            {
+                                result:
+                                {
+                                    successful: true,
+                                    error: err.message
+                                }
+                            }))
+        }
+        else results = { result: { successful: false, error: "Email not registered" } }
 
-                if (err) {
-                    console.log("err", err);
-                    results = { result: { successful: false, error: err } }
-                } else {
-                    console.log("info", info);
-                    results = { result: { successful: true, message: `Sucessfull send email to ${user.email}` } }
-                }
-            })
-        } else results = { result: { successful: false, error: "Email not registered" } }
-        console.log("res.json");
-        
-        return res.json(results)
-    } catch (err) {
-        console.log(err.message)
-        return res.json({ result: { successful: false, error: err.message } })
+
+    } catch {
 
     }
 

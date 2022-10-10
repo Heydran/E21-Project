@@ -215,20 +215,20 @@ router.post("/setMoney", function (req, res) { return __awaiter(void 0, void 0, 
     });
 }); });
 router.post("/recoverPasswd", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var results, user_1, transporter, mailOptions, result, err_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var results, user_1, transporter, mailOptions, result, _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
-                _a.trys.push([0, 6, , 7]);
+                _b.trys.push([0, 6, , 7]);
                 results = {};
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.user.userEmail })];
             case 1:
-                user_1 = _a.sent();
+                user_1 = _b.sent();
                 console.log(user_1);
                 if (!user_1) return [3 /*break*/, 4];
                 console.log("user", process.env.EMAIL_URL, "pass", process.env.EMAIL_PASSWORD);
                 return [4 /*yield*/, (0, nodemailer_1.createTransport)({
-                        host: "",
+                        host: "smtp.umbler.com",
                         port: 587,
                         auth: {
                             user: process.env.EMAIL_URL,
@@ -236,37 +236,38 @@ router.post("/recoverPasswd", function (req, res) { return __awaiter(void 0, voi
                         }
                     })];
             case 2:
-                transporter = _a.sent();
+                transporter = _b.sent();
                 mailOptions = {
                     from: process.env.EMAIL_URL,
                     to: user_1.email,
                     subject: "Recover password for BeezNees Account",
                     text: "Hellow ".concat(user_1.Name, ", input this code ").concat("placeholder", " in our app to change your password")
                 };
-                return [4 /*yield*/, transporter.sendMail(mailOptions, function (err, info) {
-                        console.log("sended");
-                        if (err) {
-                            console.log("err", err);
-                            results = { result: { successful: false, error: err } };
-                        }
-                        else {
-                            console.log("info", info);
-                            results = { result: { successful: true, message: "Sucessfull send email to ".concat(user_1.email) } };
-                        }
+                return [4 /*yield*/, transporter.sendMail(mailOptions).then(function (info) {
+                        return res.json({
+                            result: {
+                                successful: true,
+                                message: "Sucessfull send email to ".concat(user_1.email)
+                            }
+                        });
+                    }).catch(function (err) {
+                        return res.json({
+                            result: {
+                                successful: true,
+                                error: err.message
+                            }
+                        });
                     })];
             case 3:
-                result = _a.sent();
+                result = _b.sent();
                 return [3 /*break*/, 5];
             case 4:
                 results = { result: { successful: false, error: "Email not registered" } };
-                _a.label = 5;
-            case 5:
-                console.log("res.json");
-                return [2 /*return*/, res.json(results)];
+                _b.label = 5;
+            case 5: return [3 /*break*/, 7];
             case 6:
-                err_1 = _a.sent();
-                console.log(err_1.message);
-                return [2 /*return*/, res.json({ result: { successful: false, error: err_1.message } })];
+                _a = _b.sent();
+                return [3 /*break*/, 7];
             case 7: return [2 /*return*/];
         }
     });
