@@ -90,8 +90,6 @@ router.put("/edit/:id", async (req: Request, res: Response) => {
 // })
 
 router.post("/login", async (req: Request, res: Response) => {
-    console.log(req.body.user)
-
     const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
         { userEmail: req.body.user.email }
     )
@@ -120,7 +118,10 @@ router.post("/login", async (req: Request, res: Response) => {
         })
     }
     else {
-        return res.json({ token: { logged: false, user: null, error: "credenciais invalidas" } })
+        return res.json(await sign({
+            token:
+                { logged: false, user: null, error: "credenciais invalidas" }
+        }, "segredo", { expiresIn: 604800 }))
     }
 })
 
