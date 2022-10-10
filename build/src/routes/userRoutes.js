@@ -239,7 +239,7 @@ router.post("/recoverPasswd", function (req, res) { return __awaiter(void 0, voi
                 transporter = _b.sent();
                 mailOptions = {
                     from: process.env.EMAIL_URL,
-                    to: user_1.email,
+                    to: user_1.userEmail,
                     subject: "Recover password for BeezNees Account",
                     text: "Hellow ".concat(user_1.Name, ", input this code ").concat("placeholder", " in our app to change your password")
                 };
@@ -253,7 +253,7 @@ router.post("/recoverPasswd", function (req, res) { return __awaiter(void 0, voi
                     }).catch(function (err) {
                         return res.json({
                             result: {
-                                successful: true,
+                                successful: false,
                                 error: err.message
                             }
                         });

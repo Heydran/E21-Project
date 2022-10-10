@@ -154,7 +154,7 @@ router.post("/recoverPasswd", async (req: Request, res: Response) => {
             })
             const mailOptions = {
                 from: process.env.EMAIL_URL,
-                to: user.email,
+                to: user.userEmail,
                 subject: `Recover password for BeezNees Account`,
                 text: `Hellow ${user.Name}, input this code ${"placeholder"} in our app to change your password`
             }
@@ -171,7 +171,7 @@ router.post("/recoverPasswd", async (req: Request, res: Response) => {
                             {
                                 result:
                                 {
-                                    successful: true,
+                                    successful: false,
                                     error: err.message
                                 }
                             }))
