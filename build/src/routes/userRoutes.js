@@ -244,7 +244,8 @@ router.post("/recoverPasswd", function (req, res) { return __awaiter(void 0, voi
                     text: "Hellow ".concat(user.Name, ", input this code ").concat("placeholder", " in our app to change your password")
                 };
                 return [4 /*yield*/, transporter.sendMail(mailOptions).then(function (info) {
-                        return res.json({
+                        console.log(info);
+                        res.json({
                             result: {
                                 successful: true,
                                 message: "Sucessfull send email ".concat(info)

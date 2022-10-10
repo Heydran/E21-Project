@@ -158,7 +158,8 @@ router.post("/recoverPasswd", async (req: Request, res: Response) => {
                 subject: `Recover password for BeezNees Account`,
                 text: `Hellow ${user.Name}, input this code ${"placeholder"} in our app to change your password`
             }
-            const result = await transporter.sendMail(mailOptions).then(info =>
+            const result = await transporter.sendMail(mailOptions).then(info => {
+                console.log(info)
                 res.json(
                     {
                         result:
@@ -166,15 +167,16 @@ router.post("/recoverPasswd", async (req: Request, res: Response) => {
                             successful: true,
                             message: `Sucessfull send email ${info}`
                         }
-                    })).catch(err =>
-                        res.json(
-                            {
-                                result:
-                                {
-                                    successful: false,
-                                    error: err.message
-                                }
-                            }))
+                    })
+            }).catch(err =>
+                res.json(
+                    {
+                        result:
+                        {
+                            successful: false,
+                            error: err.message
+                        }
+                    }))
         }
         else results = { result: { successful: false, error: "Email not registered" } }
 
