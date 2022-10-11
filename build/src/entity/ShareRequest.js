@@ -26,7 +26,7 @@ var ShareRequest = /** @class */ (function () {
     __decorate([
         (0, typeorm_1.ManyToOne)(function () { return Wallet_1.Wallet; }, function (wallet) { return wallet.walletCode; }),
         __metadata("design:type", Wallet_1.Wallet)
-    ], ShareRequest.prototype, "walletCode", void 0);
+    ], ShareRequest.prototype, "wallet", void 0);
     ShareRequest = __decorate([
         (0, typeorm_1.Entity)()
     ], ShareRequest);

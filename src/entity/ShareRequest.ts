@@ -11,5 +11,5 @@ export class ShareRequest {
     shareCode: number
 
     @ManyToOne(() => Wallet, (wallet) => wallet.walletCode)
-    walletCode: Wallet
+    wallet: Wallet
 }

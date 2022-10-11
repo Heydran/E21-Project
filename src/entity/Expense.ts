@@ -33,11 +33,11 @@ export class Expense {
     expDescription: string
 
     @ManyToOne(() => User, (user) => user.userCode)
-    userCode: User
+    user: User
 
     @ManyToOne(() => Parcel, (parcel) => parcel.parcelCode)
-    parcelCode: Parcel
+    parcel: Parcel
 
     @ManyToOne(() => Wallet, (wallet) => wallet.walletCode)
-    walletCode: Wallet
+    wallet: Wallet
 }

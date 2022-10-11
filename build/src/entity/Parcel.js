@@ -26,7 +26,7 @@ var Parcel = /** @class */ (function () {
     __decorate([
         (0, typeorm_1.ManyToOne)(function () { return User_1.User; }, function (user) { return user.userCode; }),
         __metadata("design:type", User_1.User)
-    ], Parcel.prototype, "userCode", void 0);
+    ], Parcel.prototype, "user", void 0);
     Parcel = __decorate([
         (0, typeorm_1.Entity)()
     ], Parcel);

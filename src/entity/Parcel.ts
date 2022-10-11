@@ -10,7 +10,7 @@ export class Parcel {
     parcelDescription: string
     
     @ManyToOne(() => User, (user) => user.userCode)
-    userCode: User
+    user: User
 
 
 }

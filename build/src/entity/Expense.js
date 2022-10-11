@@ -56,15 +56,15 @@ var Expense = /** @class */ (function () {
     __decorate([
         (0, typeorm_1.ManyToOne)(function () { return User_1.User; }, function (user) { return user.userCode; }),
         __metadata("design:type", User_1.User)
-    ], Expense.prototype, "userCode", void 0);
+    ], Expense.prototype, "user", void 0);
     __decorate([
         (0, typeorm_1.ManyToOne)(function () { return Parcel_1.Parcel; }, function (parcel) { return parcel.parcelCode; }),
         __metadata("design:type", Parcel_1.Parcel)
-    ], Expense.prototype, "parcelCode", void 0);
+    ], Expense.prototype, "parcel", void 0);
     __decorate([
         (0, typeorm_1.ManyToOne)(function () { return Wallet_1.Wallet; }, function (wallet) { return wallet.walletCode; }),
         __metadata("design:type", Wallet_1.Wallet)
-    ], Expense.prototype, "walletCode", void 0);
+    ], Expense.prototype, "wallet", void 0);
     Expense = __decorate([
         (0, typeorm_1.Entity)()
     ], Expense);

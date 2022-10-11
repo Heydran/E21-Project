@@ -11,8 +11,8 @@ export class WalletUsers {
     favorite: boolean
 
     @ManyToOne(() => User, (user) => user.userCode)
-    userCode: User
+    user: User
 
     @ManyToOne(() => Wallet, (wallet) => wallet.walletCode)
-    walletCode: Wallet
+    wallet: Wallet
 }
