@@ -157,15 +157,17 @@ router.put("/edit/:id", function (req, res) { return __awaiter(void 0, void 0, v
 //     return res.json(results)
 // })
 router.post("/login", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, token, result;
+    var user_1, token, result, e_2, result_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.user.email })];
+            case 0:
+                _a.trys.push([0, 3, , 5]);
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.user.email })];
             case 1:
-                user = _a.sent();
+                user_1 = _a.sent();
                 token = null;
                 result = {};
-                return [4 /*yield*/, (0, bcrypt_1.compare)(req.body.user.password, user.userPasswd, function (err, val) { return __awaiter(void 0, void 0, void 0, function () {
+                return [4 /*yield*/, (0, bcrypt_1.compare)(req.body.user.password, user_1.userPasswd, function (err, val) { return __awaiter(void 0, void 0, void 0, function () {
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0:
@@ -173,10 +175,10 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
                                         result = {
                                             logged: true,
                                             user: {
-                                                userName: user.userName,
-                                                userPhone: user.userPhone,
-                                                userCode: user.userCode,
-                                                userMoney: user.userMoney
+                                                userName: user_1.userName,
+                                                userPhone: user_1.userPhone,
+                                                userCode: user_1.userCode,
+                                                userMoney: user_1.userMoney
                                             }
                                         };
                                     else
@@ -190,7 +192,15 @@ router.post("/login", function (req, res) { return __awaiter(void 0, void 0, voi
                     }); })];
             case 2:
                 _a.sent();
-                return [2 /*return*/];
+                return [3 /*break*/, 5];
+            case 3:
+                e_2 = _a.sent();
+                result_1 = { logged: false, user: null, error: "credenciais invalidas" };
+                return [4 /*yield*/, (0, jsonwebtoken_1.sign)(result_1, "segredo", { expiresIn: 604800 })];
+            case 4:
+                token = _a.sent();
+                return [2 /*return*/, res.json({ token: token })];
+            case 5: return [2 /*return*/];
         }
     });
 }); });

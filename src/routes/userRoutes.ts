@@ -90,30 +90,36 @@ router.put("/edit/:id", async (req: Request, res: Response) => {
 // })
 
 router.post("/login", async (req: Request, res: Response) => {
-    const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
-        { userEmail: req.body.user.email }
-    )
-    var token = null
-    var result = {}
+    try {
+        const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
+            { userEmail: req.body.user.email }
+        )
+        var token = null
+        var result = {}
 
 
-    await compare(req.body.user.password, user.userPasswd, async (err, val) => {
-        if (val)
-            result = {
-                logged: true,
-                user: {
-                    userName: user.userName,
-                    userPhone: user.userPhone,
-                    userCode: user.userCode,
-                    userMoney: user.userMoney
+        await compare(req.body.user.password, user.userPasswd, async (err, val) => {
+            if (val)
+                result = {
+                    logged: true,
+                    user: {
+                        userName: user.userName,
+                        userPhone: user.userPhone,
+                        userCode: user.userCode,
+                        userMoney: user.userMoney
+                    }
+
                 }
-
-            }
-        else
-            result = { logged: false, user: null, error: "credenciais invalidas" }
+            else
+                result = { logged: false, user: null, error: "credenciais invalidas" }
+            token = await sign(result, "segredo", { expiresIn: 604800 })
+            return res.json({ token })
+        })
+    } catch (e) {
+        const result = { logged: false, user: null, error: "credenciais invalidas" }
         token = await sign(result, "segredo", { expiresIn: 604800 })
         return res.json({ token })
-    })
+    }
 })
 
 router.post("/setMoney", async (req: Request, res: Response) => {

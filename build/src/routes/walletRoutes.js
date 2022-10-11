@@ -88,7 +88,7 @@ router.post("/get", function (req, res) { return __awaiter(void 0, void 0, void 
             case 1:
                 wallets = _a.sent();
                 return [4 /*yield*/, wallets.forEach(function (wallet) {
-                        wallet.userCode.userPasswd = "can't explaned";
+                        wallet.user.userPasswd = "can't explaned";
                     })];
             case 2:
                 _a.sent();
