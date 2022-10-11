@@ -164,10 +164,8 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                filters = {};
-                _a.label = 1;
-            case 1:
-                _a.trys.push([1, 3, , 4]);
+                _a.trys.push([0, 2, , 3]);
+                filters = { user: req.body.user };
                 if (req.body.pending) {
                     filters["expPending"] = true;
                 }
@@ -205,14 +203,14 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                 }
                 console.log(filters);
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).find({ where: filters })];
-            case 2:
+            case 1:
                 registers = _a.sent();
                 return [2 /*return*/, res.json({ registers: registers })];
-            case 3:
+            case 2:
                 e_2 = _a.sent();
                 res.json({ err: e_2.message });
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
     });
 }); });

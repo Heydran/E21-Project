@@ -163,7 +163,7 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                filters = { userCode: req.body.userCode };
+                filters = { user: req.body.user };
                 if (req.body.pending) {
                     filters["incPending"] = true;
                 }

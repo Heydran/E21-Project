@@ -70,11 +70,11 @@ router.post("/new", async function (req: Request, res: Response) {
 })
 
 router.post("/query", async (req: Request, res: Response) => {
-    var filters = {}
     try {
+        var filters = {user:req.body.user}
         if (req.body.pending) {
             filters["expPending"] = true
-        } else {
+        } else {    
             filters["expPending"] = false
         }
         if (req.body.filterType == "=") {

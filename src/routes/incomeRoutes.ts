@@ -70,14 +70,12 @@ router.post("/new", async function (req: Request, res: Response) {
 
 router.post("/query", async (req: Request, res: Response) => {
     try {
-        var filters = {userCode:req.body.userCode}
-
+        var filters = {user:req.body.user}
         if (req.body.pending) {
             filters["incPending"] = true
-        } else {
+        } else {                    
             filters["incPending"] = false
         }
-
         if (req.body.filterType == "=") {
             filters[req.body.column] = req.body.filter
         } else if (req.body.filterType == ">=") {
