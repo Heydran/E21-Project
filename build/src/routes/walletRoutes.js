@@ -39,6 +39,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
 var Wallet_1 = require("../entity/Wallet");
 var WalletUsers_1 = require("../entity/WalletUsers");
+var ShareRequest_1 = require("../entity/ShareRequest");
 var router = (0, express_1.Router)();
 router.post("/new", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
@@ -125,21 +126,63 @@ router.post("/join", function (req, res) {
                 case 5: return [3 /*break*/, 7];
                 case 6:
                     err_2 = _a.sent();
-                    return [2 /*return*/, res.json({ result: { successful: false, error: err_2.message } })];
+                    return [2 /*return*/, res.json({ result: { successful: false, error: "Wallet inexistente" } })];
                 case 7: return [2 /*return*/];
             }
         });
     });
 });
-router.post("/share", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var sharing;
+router.post("/shareCreate", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var shareCode, wallet, sharingConn, sharing;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).create({})];
+            case 0:
+                shareCode = null;
+                wallet = null;
+                _a.label = 1;
             case 1:
+                shareCode = Math.random() * (999999 - 111111) + 111111;
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Wallet_1.Wallet).findOneBy({ shareCode: shareCode })];
+            case 2:
+                wallet = _a.sent();
+                _a.label = 3;
+            case 3:
+                if (wallet.shareCode) return [3 /*break*/, 1];
+                _a.label = 4;
+            case 4: return [4 /*yield*/, req.app.get("myDataSource").getRepository(ShareRequest_1.ShareRequest).create({
+                    shareCode: shareCode,
+                    walletCode: req.body.walletCode
+                })];
+            case 5:
+                sharingConn = _a.sent();
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(ShareRequest_1.ShareRequest).create(sharingConn)];
+            case 6:
                 sharing = _a.sent();
-                res.json({});
+                res.json({ result: { successful: true, sharing: sharing } });
                 return [2 /*return*/];
+        }
+    });
+}); });
+router.post("/share", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var share, walletOwner, woResult, delShare;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(ShareRequest_1.ShareRequest).findOneBy({ shareCode: req.body.shareCode })];
+            case 1:
+                share = _a.sent();
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).create({
+                        userCode: req.body.userCode,
+                        walletCode: share.walletCode
+                    })];
+            case 2:
+                walletOwner = _a.sent();
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).save(walletOwner)];
+            case 3:
+                woResult = _a.sent();
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(ShareRequest_1.ShareRequest).delete(req.body.shareCode)];
+            case 4:
+                delShare = _a.sent();
+                return [2 /*return*/, res.json({ result: { successful: true } })];
         }
     });
 }); });

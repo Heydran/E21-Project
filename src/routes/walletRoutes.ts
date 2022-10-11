@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express"
 import { Wallet } from "../entity/Wallet"
 import { WalletUsers } from "../entity/WalletUsers"
+import { ShareRequest } from "../entity/ShareRequest"
 
 
 const router: Router = Router()
@@ -57,19 +58,45 @@ router.post("/join", async function (req: Request, res: Response) {
             })
             const woResults = await req.app.get("myDataSource").getRepository(WalletUsers).save(walletOwner)
             return res.json({ result: { successful: true } })
-        }else {
-            return res.json({ result: { successful: false, error: "crendenciais invalidas" } })    
+        } else {
+            return res.json({ result: { successful: false, error: "crendenciais invalidas" } })
         }
     } catch (err) {
-        return res.json({ result: { successful: false, error: err.message } })
+        return res.json({ result: { successful: false, error: "Wallet inexistente" } })
     }
 })
 
 
-router.post("/share", async (req:Request, res:Response) => {
-    const sharing = await req.app.get("myDataSource").getRepository(WalletUsers).create({
+router.post("/shareCreate", async (req: Request, res: Response) => {
+    let shareCode = null
+    let wallet = null
+    do {
+        shareCode = Math.random() * (999999 - 111111) + 111111
+        wallet = await req.app.get("myDataSource").getRepository(Wallet).findOneBy(
+            { shareCode }
+        )
+    } while (wallet.shareCode)
+    const sharingConn = await req.app.get("myDataSource").getRepository(ShareRequest).create({
+        shareCode,
+        walletCode: req.body.walletCode
+    })
+    const sharing = await req.app.get("myDataSource").getRepository(ShareRequest).create(sharingConn)
+    res.json({ result: { successful: true, sharing } })
+})
+
+
+router.post("/share", async (req: Request, res: Response) => {
+    const share = await req.app.get("myDataSource").getRepository(ShareRequest).findOneBy(
+        { shareCode: req.body.shareCode }
+    )
+    const walletOwner = await req.app.get("myDataSource").getRepository(WalletUsers).create({
+        userCode: req.body.userCode,
+        walletCode: share.walletCode
 
     })
-    res.json({})
+    const woResult = await req.app.get("myDataSource").getRepository(WalletUsers).save(walletOwner)
+
+    const delShare = await req.app.get("myDataSource").getRepository(ShareRequest).delete(req.body.shareCode)
+    return res.json({ result: { successful: true } })
 })
 export default router

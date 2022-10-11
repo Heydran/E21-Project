@@ -3,15 +3,12 @@ import { User } from "./User"
 import { Wallet } from "./Wallet"
 
 @Entity()
-export class WalletUsers {
+export class ShareRequest {
     @PrimaryGeneratedColumn()
-    wuCode: number
+    SRCode: number
 
     @Column()
-    favorite: boolean
-
-    @ManyToOne(() => User, (user) => user.userCode)
-    userCode: User
+    shareCode: number
 
     @ManyToOne(() => Wallet, (wallet) => wallet.walletCode)
     walletCode: Wallet

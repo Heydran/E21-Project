@@ -95,34 +95,25 @@ router.post("/login", async (req: Request, res: Response) => {
     )
     var token = null
     var result = {}
-    if (user) {
 
 
-        compare(req.body.user.password, user.userPasswd, async (err, val) => {
-            if
-                (val)
-                result = {
-                    logged: true,
-                    user: {
-                        userName: user.userName,
-                        userPhone: user.userPhone,
-                        userCode: user.userCode,
-                        userMoney: user.userMoney
-                    }
-
+    await compare(req.body.user.password, user.userPasswd, async (err, val) => {
+        if (val)
+            result = {
+                logged: true,
+                user: {
+                    userName: user.userName,
+                    userPhone: user.userPhone,
+                    userCode: user.userCode,
+                    userMoney: user.userMoney
                 }
-            else
-                result = { logged: false, user: null, error: "credenciais invalidas" }
-            token = await sign(result, "segredo", { expiresIn: 604800 })
-            return res.json({ token })
-        })
-    }
-    else {
-        return res.json(await sign({
-            token:
-                { logged: false, user: null, error: "credenciais invalidas" }
-        }, "segredo", { expiresIn: 604800 }))
-    }
+
+            }
+        else
+            result = { logged: false, user: null, error: "credenciais invalidas" }
+        token = await sign(result, "segredo", { expiresIn: 604800 })
+        return res.json({ token })
+    })
 })
 
 router.post("/setMoney", async (req: Request, res: Response) => {

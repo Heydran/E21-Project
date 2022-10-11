@@ -157,46 +157,40 @@ router.put("/edit/:id", function (req, res) { return __awaiter(void 0, void 0, v
 //     return res.json(results)
 // })
 router.post("/login", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, token, result, _a, _b;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
+    var user, token, result;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
             case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.user.email })];
             case 1:
-                user = _c.sent();
+                user = _a.sent();
                 token = null;
                 result = {};
-                if (!user) return [3 /*break*/, 2];
-                (0, bcrypt_1.compare)(req.body.user.password, user.userPasswd, function (err, val) { return __awaiter(void 0, void 0, void 0, function () {
-                    return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0:
-                                if (val)
-                                    result = {
-                                        logged: true,
-                                        user: {
-                                            userName: user.userName,
-                                            userPhone: user.userPhone,
-                                            userCode: user.userCode,
-                                            userMoney: user.userMoney
-                                        }
-                                    };
-                                else
-                                    result = { logged: false, user: null, error: "credenciais invalidas" };
-                                return [4 /*yield*/, (0, jsonwebtoken_1.sign)(result, "segredo", { expiresIn: 604800 })];
-                            case 1:
-                                token = _a.sent();
-                                return [2 /*return*/, res.json({ token: token })];
-                        }
-                    });
-                }); });
-                return [3 /*break*/, 4];
+                return [4 /*yield*/, (0, bcrypt_1.compare)(req.body.user.password, user.userPasswd, function (err, val) { return __awaiter(void 0, void 0, void 0, function () {
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    if (val)
+                                        result = {
+                                            logged: true,
+                                            user: {
+                                                userName: user.userName,
+                                                userPhone: user.userPhone,
+                                                userCode: user.userCode,
+                                                userMoney: user.userMoney
+                                            }
+                                        };
+                                    else
+                                        result = { logged: false, user: null, error: "credenciais invalidas" };
+                                    return [4 /*yield*/, (0, jsonwebtoken_1.sign)(result, "segredo", { expiresIn: 604800 })];
+                                case 1:
+                                    token = _a.sent();
+                                    return [2 /*return*/, res.json({ token: token })];
+                            }
+                        });
+                    }); })];
             case 2:
-                _b = (_a = res).json;
-                return [4 /*yield*/, (0, jsonwebtoken_1.sign)({
-                        token: { logged: false, user: null, error: "credenciais invalidas" }
-                    }, "segredo", { expiresIn: 604800 })];
-            case 3: return [2 /*return*/, _b.apply(_a, [_c.sent()])];
-            case 4: return [2 /*return*/];
+                _a.sent();
+                return [2 /*return*/];
         }
     });
 }); });

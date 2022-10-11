@@ -9,32 +9,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.WalletUsers = void 0;
+exports.ShareRequest = void 0;
 var typeorm_1 = require("typeorm");
-var User_1 = require("./User");
 var Wallet_1 = require("./Wallet");
-var WalletUsers = /** @class */ (function () {
-    function WalletUsers() {
+var ShareRequest = /** @class */ (function () {
+    function ShareRequest() {
     }
     __decorate([
         (0, typeorm_1.PrimaryGeneratedColumn)(),
         __metadata("design:type", Number)
-    ], WalletUsers.prototype, "wuCode", void 0);
+    ], ShareRequest.prototype, "SRCode", void 0);
     __decorate([
         (0, typeorm_1.Column)(),
-        __metadata("design:type", Boolean)
-    ], WalletUsers.prototype, "favorite", void 0);
-    __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return User_1.User; }, function (user) { return user.userCode; }),
-        __metadata("design:type", User_1.User)
-    ], WalletUsers.prototype, "userCode", void 0);
+        __metadata("design:type", Number)
+    ], ShareRequest.prototype, "shareCode", void 0);
     __decorate([
         (0, typeorm_1.ManyToOne)(function () { return Wallet_1.Wallet; }, function (wallet) { return wallet.walletCode; }),
         __metadata("design:type", Wallet_1.Wallet)
-    ], WalletUsers.prototype, "walletCode", void 0);
-    WalletUsers = __decorate([
+    ], ShareRequest.prototype, "walletCode", void 0);
+    ShareRequest = __decorate([
         (0, typeorm_1.Entity)()
-    ], WalletUsers);
-    return WalletUsers;
+    ], ShareRequest);
+    return ShareRequest;
 }());
-exports.WalletUsers = WalletUsers;
+exports.ShareRequest = ShareRequest;
