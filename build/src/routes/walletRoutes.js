@@ -88,7 +88,7 @@ router.post("/get", function (req, res) { return __awaiter(void 0, void 0, void 
                             wallet: true,
                             user: true
                         },
-                        where: { user: req.body.userCode }
+                        where: { userCode: req.body.userCode }
                     })];
             case 1:
                 wallets = _a.sent();
