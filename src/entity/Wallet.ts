@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm"
 import { User } from "./User"
 
 @Entity()
@@ -14,4 +14,8 @@ export class Wallet {
 
     @Column()
     walletDesc: string
+
+    @ManyToOne(() => User, (user) => user.userCode)
+    owner: User
+
 }
