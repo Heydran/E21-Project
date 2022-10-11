@@ -78,7 +78,7 @@ router.post("/new", function (req, res) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Parcel_1.Parcel).create({
                                         parcelDescription: req.body.launch.incDescription,
-                                        userCode: req.body.launch.userCode
+                                        user: req.body.launch.user
                                     })];
                                 case 1:
                                     parcel = _a.sent();
@@ -163,7 +163,8 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                filters = { user: req.body.user };
+                filters = {};
+                filters["user"] = req.body.user;
                 if (req.body.pending) {
                     filters["incPending"] = true;
                 }

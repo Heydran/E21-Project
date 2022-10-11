@@ -21,7 +21,7 @@ router.post("/new", async function (req: Request, res: Response) {
             var newParcel = async () => {
                 const parcel = await req.app.get("myDataSource").getRepository(Parcel).create({
                     parcelDescription: req.body.launch.incDescription,
-                    userCode: req.body.launch.userCode
+                    user: req.body.launch.user
                 })
                 req.body.launch.incMoney = req.body.launch.incMoney / req.body.launch.incTimes
                 const parcelResult = await req.app.get("myDataSource").getRepository(Parcel).save(parcel)
@@ -70,7 +70,8 @@ router.post("/new", async function (req: Request, res: Response) {
 
 router.post("/query", async (req: Request, res: Response) => {
     try {
-        var filters = {user:req.body.user}
+        var filters = {}
+        filters["user"] = req.body.user
         if (req.body.pending) {
             filters["incPending"] = true
         } else {                    
