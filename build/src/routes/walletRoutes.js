@@ -56,7 +56,8 @@ router.post("/new", function (req, res) {
                     results = _a.sent();
                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).create({
                             userCode: req.body.userCode,
-                            walletCode: results.walletCode
+                            walletCode: results.walletCode,
+                            favorite: req.body.wallet.favorite
                         })];
                 case 3:
                     walletOwner = _a.sent();
