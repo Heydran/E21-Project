@@ -11,8 +11,8 @@ router.post("/new", async function (req: Request, res: Response) {
         const wallet = await req.app.get("myDataSource").getRepository(Wallet).create(req.body.wallet)
         const results = await req.app.get("myDataSource").getRepository(Wallet).save(wallet)
         const walletOwner = await req.app.get("myDataSource").getRepository(WalletUsers).create({
-            userCode: req.body.userCode,
-            walletCode: results.walletCode,
+            user: req.body.userCode,
+            wallet: results.walletCode,
             favorite: req.body.wallet.favorite
 
         })
