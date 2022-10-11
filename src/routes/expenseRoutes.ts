@@ -71,10 +71,10 @@ router.post("/new", async function (req: Request, res: Response) {
 
 router.post("/query", async (req: Request, res: Response) => {
     try {
-        var filters = {user:req.body.user}
+        var filters = { user: { userCode: req.body.user } }
         if (req.body.pending) {
             filters["expPending"] = true
-        } else {    
+        } else {
             filters["expPending"] = false
         }
         if (req.body.filterType == "=") {
@@ -111,22 +111,23 @@ router.post("/query/all", async (req: Request, res: Response) => {
 })
 
 router.post("/edit", async (req: Request, res: Response) => {
-    try{const expense = await req.app.get("myDataSource").getRepository(Expense).findOneBy(
-        { expCode: req.body.launch.code }
-    )
-    const newExpense = req.app.get("myDataSource").getRepository(Expense).merge(expense, req.body.launch.column)
-    const results = await req.app.get("myDataSource").getRepository(Expense).save(newExpense)
-    return res.json(results)
-}catch(e){
-    console.log(e.message)
-    return res.json({results:null,error:e.message})
-}
+    try {
+        const expense = await req.app.get("myDataSource").getRepository(Expense).findOneBy(
+            { expCode: req.body.launch.code }
+        )
+        const newExpense = req.app.get("myDataSource").getRepository(Expense).merge(expense, req.body.launch.column)
+        const results = await req.app.get("myDataSource").getRepository(Expense).save(newExpense)
+        return res.json(results)
+    } catch (e) {
+        console.log(e.message)
+        return res.json({ results: null, error: e.message })
+    }
 })
 
 router.post("/delete", async (req: Request, res: Response) => {
     try {
         const results = await req.app.get("myDataSource").getRepository(Expense).delete(req.body.code)
-        return res.json({result:results})
+        return res.json({ result: results })
     } catch (e) {
         console.log(e.message);
 
