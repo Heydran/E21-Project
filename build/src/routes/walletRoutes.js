@@ -64,7 +64,11 @@ router.post("/new", function (req, res) {
                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).save(walletOwner)];
                 case 4:
                     woResults = _a.sent();
-                    return [2 /*return*/, res.json({ result: { successful: true } })];
+                    if (woResults)
+                        return [2 /*return*/, res.json({ result: { successful: true } })];
+                    else
+                        return [2 /*return*/, res.json({ result: { successful: false }, woResults: woResults })];
+                    return [3 /*break*/, 6];
                 case 5:
                     err_1 = _a.sent();
                     return [2 /*return*/, res.json({ result: { successful: false, error: err_1.message } })];
@@ -81,8 +85,8 @@ router.post("/get", function (req, res) { return __awaiter(void 0, void 0, void 
                 _a.trys.push([0, 3, , 4]);
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).find({
                         relations: {
-                            walletCode: true,
-                            userCode: true
+                            wallet: true,
+                            user: true
                         },
                         where: { userCode: req.body.userCode }
                     })];

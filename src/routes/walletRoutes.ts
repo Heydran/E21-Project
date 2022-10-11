@@ -17,7 +17,8 @@ router.post("/new", async function (req: Request, res: Response) {
 
         })
         const woResults = await req.app.get("myDataSource").getRepository(WalletUsers).save(walletOwner)
-        return res.json({ result: { successful: true } })
+        if (woResults) return res.json({ result: { successful: true } })
+        else return res.json({ result: { successful: false }, woResults })
     } catch (err) {
         return res.json({ result: { successful: false, error: err.message } })
     }
@@ -29,8 +30,8 @@ router.post("/get", async (req: Request, res: Response) => {
     try {
         const wallets = await req.app.get("myDataSource").getRepository(WalletUsers).find({
             relations: {
-                walletCode: true,
-                userCode: true
+                wallet: true,
+                user: true
             },
             where: { userCode: req.body.userCode }
         })
