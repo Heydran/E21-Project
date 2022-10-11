@@ -71,7 +71,7 @@ router.post("/new", async function (req: Request, res: Response) {
 router.post("/query", async (req: Request, res: Response) => {
     try {
         var filters = {}
-        filters["user"] = req.body.user
+        filters["userCode"] = req.body.user
         if (req.body.pending) {
             filters["incPending"] = true
         } else {                    
