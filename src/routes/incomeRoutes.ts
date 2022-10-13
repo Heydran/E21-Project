@@ -83,7 +83,7 @@ router.post("/query", async (req: Request, res: Response) => {
         } else if (req.body.filterType == "<=") {
             filters[req.body.column] = LessThanOrEqual(req.body.filter)
         } else if (req.body.filterType == "==") {
-            filters[req.body.column] = Equal(req.body.filter)
+            filters[req.body.column] = Like(`%${req.body.filter}%`)
         } else if (req.body.filterType == "[]") {
             filters[req.body.column] = Between(req.body.filter[0], req.body.filter[1])
         } else if (req.body.filterType == "...") {
