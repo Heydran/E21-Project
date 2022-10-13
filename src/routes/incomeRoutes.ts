@@ -70,11 +70,12 @@ router.post("/new", async function (req: Request, res: Response) {
 
 router.post("/query", async (req: Request, res: Response) => {
 
+console.log(req.body);
 
     try {
         var filters = {
             user:
-                { code: req.body.user.code },
+                { userCode: req.body.user.code },
             incPending: false
         }
 

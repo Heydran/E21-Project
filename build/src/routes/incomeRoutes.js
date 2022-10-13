@@ -162,9 +162,12 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
+                console.log(req.body);
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
                 filters = {
-                    user: { code: req.body.user.code },
+                    user: { userCode: req.body.user.code },
                     incPending: false
                 };
                 try {
@@ -207,17 +210,17 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                 }
                 catch (_g) { }
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).find({ where: filters })];
-            case 1:
+            case 2:
                 registers = _a.sent();
                 console.log("filters", filters);
                 console.log("registers", registers);
                 return [2 /*return*/, res.json({ registers: registers })];
-            case 2:
+            case 3:
                 e_2 = _a.sent();
                 console.log("erro in income:", e_2.message);
                 res.json({ err: e_2.message });
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); });
