@@ -166,45 +166,59 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 filters = {
-                    user: { userCode: req.body.user.code },
+                    user: req.body.user.code,
                     incPending: false
                 };
-                if (typeof req.body.filter.wallet !== undefined && req.body.filter.wallet)
+                try {
                     filters["wallet"] = { walletCode: req.body.filter.wallet.code };
-                if (typeof req.body.filter.parcel !== undefined && req.body.filter.parcel)
+                }
+                catch (_b) { }
+                try {
                     filters["parcel"] = { parcelCode: req.body.filter.parcel.code };
-                if (typeof req.body.pending !== undefined && req.body.filter)
+                }
+                catch (_c) { }
+                if (req.body.pending == true)
                     filters["expPending"] = true;
-                if (typeof req.body.filter.date !== undefined && req.body.filter.date)
+                try {
                     if (req.body.filter.date.type == "[]")
                         filters["expDate"] = (0, typeorm_1.Between)(req.body.filter.date.initDate, req.body.filter.date.endDate);
                     else if (req.body.filter.date.type == ">")
                         filters["expDate"] = (0, typeorm_1.MoreThanOrEqual)(req.body.filter.date.initDate);
                     else if (req.body.filter.date.type == "<")
                         filters["expDate"] = (0, typeorm_1.LessThanOrEqual)(req.body.filter.date.endDate);
-                if (typeof req.body.filter.momey !== undefined && req.body.filter.momey)
+                }
+                catch (_d) { }
+                try {
                     if (req.body.filter.money.type == ">")
                         filters["expMoney"] = (0, typeorm_1.MoreThanOrEqual)(req.body.filter.money.minValue);
                     else if (req.body.filter.money.type == "<")
                         filters["expMoney"] = (0, typeorm_1.LessThanOrEqual)(req.body.filter.money.maxValue);
                     else if (req.body.filter.money.type == "[]")
                         filters["expMoney"] = (0, typeorm_1.Between)(req.body.filter.money.minValue, req.body.filter.maxValue);
-                if (typeof req.body.filter.category !== undefined && req.body.filter.category)
+                }
+                catch (_e) { }
+                try {
                     if (req.body.filter.category.type == "all")
                         filters["expCategory"] = (0, typeorm_1.Like)("%%");
                     else
                         filters["expCategory"] = (0, typeorm_1.Equal)(req.body.filter.category.value);
-                if (typeof req.body.filter.description !== undefined && req.body.filter.description)
+                }
+                catch (_f) { }
+                try {
                     filters["expDescription"] = (0, typeorm_1.Like)("%".concat(req.body.filter.description.value, "%"));
+                }
+                catch (e) {
+                    console.log("err in description filter:", e.message);
+                }
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).find({ where: filters })];
             case 1:
                 registers = _a.sent();
-                console.log(filters);
-                console.log(registers);
+                console.log("filters", filters);
+                console.log("registers", registers);
                 return [2 /*return*/, res.json({ registers: registers })];
             case 2:
                 e_2 = _a.sent();
-                console.log("erro in expense:", e_2.message);
+                console.log("erro in income:", e_2.message);
                 res.json({ err: e_2.message });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];

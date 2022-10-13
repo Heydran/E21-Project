@@ -72,57 +72,67 @@ router.post("/new", async function (req: Request, res: Response) {
 router.post("/query", async (req: Request, res: Response) => {
     try {
         var filters = {
-            user:
-                { userCode: req.body.user.code },
+            user: req.body.user.code,
             incPending: false
         }
+        try {
 
-
-        if (typeof req.body.filter.wallet !== undefined && req.body.filter.wallet)
             filters["wallet"] = { walletCode: req.body.filter.wallet.code }
+        } catch { }
 
-        if (typeof req.body.filter.parcel !== undefined && req.body.filter.parcel)
+        try {
+
             filters["parcel"] = { parcelCode: req.body.filter.parcel.code }
+        } catch { }
 
-        if (typeof req.body.pending !== undefined && req.body.filter)
+        if (req.body.pending == true)
             filters["expPending"] = true
+        try {
 
-        if (typeof req.body.filter.date !== undefined && req.body.filter.date)
             if (req.body.filter.date.type == "[]")
                 filters["expDate"] = Between(req.body.filter.date.initDate, req.body.filter.date.endDate)
             else if (req.body.filter.date.type == ">")
                 filters["expDate"] = MoreThanOrEqual(req.body.filter.date.initDate)
             else if (req.body.filter.date.type == "<")
                 filters["expDate"] = LessThanOrEqual(req.body.filter.date.endDate)
+        } catch { }
 
-        if (typeof req.body.filter.momey !== undefined && req.body.filter.momey)
+        try {
+
             if (req.body.filter.money.type == ">")
                 filters["expMoney"] = MoreThanOrEqual(req.body.filter.money.minValue)
             else if (req.body.filter.money.type == "<")
                 filters["expMoney"] = LessThanOrEqual(req.body.filter.money.maxValue)
             else if (req.body.filter.money.type == "[]")
                 filters["expMoney"] = Between(req.body.filter.money.minValue, req.body.filter.maxValue)
+        } catch { }
 
 
-        if (typeof req.body.filter.category !== undefined && req.body.filter.category)
+        try {
+
             if (req.body.filter.category.type == "all")
                 filters["expCategory"] = Like("%%")
             else
                 filters["expCategory"] = Equal(req.body.filter.category.value)
+        } catch { }
 
 
-        if (typeof req.body.filter.description !== undefined && req.body.filter.description)
+
+        try {
             filters["expDescription"] = Like(`%${req.body.filter.description.value}%`)
+        } catch (e) {
+            console.log("err in description filter:", e.message)
+         }
 
 
         const registers = await req.app.get("myDataSource").getRepository(Expense).find({ where: filters })
 
-        console.log(filters)
-        console.log(registers)
+        console.log("filters", filters)
+        console.log("registers", registers)
         return res.json({ registers })
     } catch (e) {
 
-        console.log("erro in expense:", e.message)
+        console.log("erro in income:", e.message)
         res.json({ err: e.message })
     }
 })
