@@ -80,7 +80,10 @@ router.post("/query", async (req: Request, res: Response) => {
         try {
 
             filters["wallet"] = req.body.filter.wallet.code 
-        } catch { }
+        } catch(e) { 
+            console.log("error in wallet", e.message);
+            
+        }
 
         try {
             filters["parcel"] = req.body.filter.parcel.code 
@@ -122,7 +125,6 @@ router.post("/query", async (req: Request, res: Response) => {
         try {
             filters["incDescription"] = Like(`%${req.body.filter.description.value}%`)
         } catch (e) {
-            console.log("err in description filter:", e.message)
          }
 
 

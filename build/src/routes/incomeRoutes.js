@@ -173,11 +173,13 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                 try {
                     filters["wallet"] = req.body.filter.wallet.code;
                 }
-                catch (_b) { }
+                catch (e) {
+                    console.log("error in wallet", e.message);
+                }
                 try {
                     filters["parcel"] = req.body.filter.parcel.code;
                 }
-                catch (_c) { }
+                catch (_b) { }
                 if (req.body.pending == true)
                     filters["incPending"] = true;
                 try {
@@ -188,7 +190,7 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                     else if (req.body.filter.date.type == "<")
                         filters["incDate"] = (0, typeorm_1.LessThanOrEqual)(req.body.filter.date.endDate);
                 }
-                catch (_d) { }
+                catch (_c) { }
                 try {
                     if (req.body.filter.money.type == ">")
                         filters["incMoney"] = (0, typeorm_1.MoreThanOrEqual)(req.body.filter.money.minValue);
@@ -197,19 +199,18 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                     else if (req.body.filter.money.type == "[]")
                         filters["incMoney"] = (0, typeorm_1.Between)(req.body.filter.money.minValue, req.body.filter.maxValue);
                 }
-                catch (_e) { }
+                catch (_d) { }
                 try {
                     if (req.body.filter.category.type == "all")
                         filters["incCategory"] = (0, typeorm_1.Like)("%%");
                     else
                         filters["incCategory"] = (0, typeorm_1.Equal)(req.body.filter.category.value);
                 }
-                catch (_f) { }
+                catch (_e) { }
                 try {
                     filters["incDescription"] = (0, typeorm_1.Like)("%".concat(req.body.filter.description.value, "%"));
                 }
                 catch (e) {
-                    console.log("err in description filter:", e.message);
                 }
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).find({ where: filters })];
             case 2:
