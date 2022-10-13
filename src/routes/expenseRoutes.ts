@@ -71,32 +71,46 @@ router.post("/new", async function (req: Request, res: Response) {
 
 router.post("/query", async (req: Request, res: Response) => {
     try {
-        var filters = { user: { userCode: req.body.user } }
-        if (req.body.pending) {
+        var filters = {
+            user:
+                { userCode: req.body.user.code },
+            incPending: false
+        }
+
+        if (req.body.filter.wallet.code)
+            filters["wallet"] = { walletCode: req.body.filter.wallet.code }
+
+        if (req.body.filter.parcel.code)
+            filters["parcel"] = { parcelCode: req.body.filter.parcel.code }
+
+        if (req.body.pending)
             filters["expPending"] = true
-        } else {
-            filters["expPending"] = false
-        }
-        if (req.body.filterType == "=") {
-            filters[req.body.column] = req.body.filter
-        } else if (req.body.filterType == ">=") {
-            filters[req.body.column] = MoreThanOrEqual(req.body.filter)
-        } else if (req.body.filterType == "<=") {
-            filters[req.body.column] = LessThanOrEqual(req.body.filter)
-        } else if (req.body.filterType == "==") {
-            filters[req.body.column] = Equal(req.body.filter)
-        } else if (req.body.filterType == "[]") {
-            filters[req.body.column] = Between(req.body.filter[0], req.body.filter[1])
-        } else if (req.body.filterType == "...") {
-            filters["expDate"] = Between(req.body.filter[0][0], req.body.filter[0][1])
-            if (req.body.filter[1][0] == ">") filters["expMoney"] = MoreThanOrEqual(req.body.filter[1][1])
-            else if (req.body.filter[1][0] == "<") filters["expMoney"] = LessThanOrEqual(req.body.filter[1][1])
-            else if (req.body.filter[1][0] == "[]") filters["expMoney"] = Between(req.body.filter[1][1], req.body.filter[1][2])
-            if (req.body.filter[2] == "all") filters["expCategory"] = Like("%%")
-            else filters["expCategory"] = Equal(req.body.filter[2])
-            filters["expDescription"] = Like(`%${req.body.filter[3]}%`)
-        }
-        console.log(filters)
+
+
+        if (req.body.filter.date.type && req.body.filter.date.type == "[]")
+            filters["expDate"] = Between(req.body.filter.date.initDate, req.body.filter.date.endDate)
+        else if (req.body.filter.date.type == ">")
+            filters["expDate"] = MoreThanOrEqual(req.body.filter.date.initDate)
+        else if (req.body.filter.date.type == "<")
+            filters["expDate"] = LessThanOrEqual(req.body.filter.date.endDate)
+
+
+        if (req.body.filter.omey.type && req.body.filter.money.type == ">")
+            filters["expMoney"] = MoreThanOrEqual(req.body.filter.money.minValue)
+        else if (req.body.filter[1][0] == "<")
+            filters["expMoney"] = LessThanOrEqual(req.body.filter.money.maxValue)
+        else if (req.body.filter[1][0] == "[]")
+            filters["expMoney"] = Between(req.body.filter.money.minValue, req.body.filter.maxValue)
+
+
+        if (req.body.filter.category.type && req.body.filter.category.type == "all")
+            filters["expCategory"] = Like("%%")
+        else
+            filters["expCategory"] = Equal(req.body.filter.category.value)
+        if (req.body.filter.description.value)
+            filters["expDescription"] = Like(`%${req.body.filter.description.value}%`)
+
+
         const registers = await req.app.get("myDataSource").getRepository(Expense).find({ where: filters })
         return res.json({ registers })
     } catch (e) {
