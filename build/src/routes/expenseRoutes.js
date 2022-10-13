@@ -167,7 +167,7 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                 _a.trys.push([0, 2, , 3]);
                 filters = {
                     user: req.body.user.code,
-                    incPending: false
+                    expPending: false
                 };
                 try {
                     filters["wallet"] = { walletCode: req.body.filter.wallet.code };
