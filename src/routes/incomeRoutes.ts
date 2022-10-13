@@ -70,14 +70,13 @@ router.post("/new", async function (req: Request, res: Response) {
 
 router.post("/query", async (req: Request, res: Response) => {
 
-console.log(req.body);
+    console.log(req.body)
 
     try {
         var filters = {
-            user: req.body.user.code ,
+            user: req.body.user.code,
             incPending: false
         }
-
         try {
 
             filters["wallet"] = { walletCode: req.body.filter.wallet.code }
@@ -123,13 +122,15 @@ console.log(req.body);
 
         try {
             filters["incDescription"] = Like(`%${req.body.filter.description.value}%`)
-        } catch { }
+        } catch (e) {
+            console.log("err in description filter:", e.message)
+         }
 
 
         const registers = await req.app.get("myDataSource").getRepository(Income).find({ where: filters })
 
-        console.log("filters",filters)
-        console.log("registers" , registers)
+        console.log("filters", filters)
+        console.log("registers", registers)
         return res.json({ registers })
     } catch (e) {
 

@@ -208,7 +208,9 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                 try {
                     filters["incDescription"] = (0, typeorm_1.Like)("%".concat(req.body.filter.description.value, "%"));
                 }
-                catch (_g) { }
+                catch (e) {
+                    console.log("err in description filter:", e.message);
+                }
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).find({ where: filters })];
             case 2:
                 registers = _a.sent();
