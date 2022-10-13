@@ -51,6 +51,7 @@ var Tasks = /** @class */ (function () {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
+                            console.log("tentou schedue");
                             date = new Date();
                             mounth = date.getMonth() + 1;
                             year = date.getFullYear();

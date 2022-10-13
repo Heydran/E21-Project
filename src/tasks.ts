@@ -8,8 +8,9 @@ import * as moment from "moment"
 class Tasks  {
     myDataSource:any                        //sec min hor day monthy weekDay
     monthlyBalance: any = () =>  scheduleJob(`20 00 00 * * *`, async function () {
+        console.log("tentou schedue");
         
-         const date = new Date()
+        const date = new Date()
         const mounth = date.getMonth() + 1
         const year = date.getFullYear()
         const datePeriod = Between(`${year}[-]${mounth}[-]01`, `${year}[-]${mounth}[-]31`)//"Automatic Launch Monthy Balance"
