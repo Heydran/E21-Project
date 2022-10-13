@@ -74,8 +74,7 @@ console.log(req.body);
 
     try {
         var filters = {
-            user:
-                { userCode: req.body.user.code },
+            user: req.body.user.code ,
             incPending: false
         }
 
