@@ -174,10 +174,9 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                     filters["wallet"] = (0, typeorm_1.Equal)(req.body.filter.wallet.code);
                 }
                 catch (e) {
-                    console.log("error in wallet", e.message);
                 }
                 try {
-                    filters["parcel"] = req.body.filter.parcel.code;
+                    filters["parcel"] = { parcel: req.body.filter.parcel.code };
                 }
                 catch (_b) { }
                 if (req.body.pending == true)

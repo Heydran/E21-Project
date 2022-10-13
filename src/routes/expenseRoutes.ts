@@ -72,17 +72,18 @@ router.post("/new", async function (req: Request, res: Response) {
 router.post("/query", async (req: Request, res: Response) => {
     try {
         var filters = {
-            user: req.body.user.code,
+            user: {userCode:req.body.user.code},
             expPending: false
         }
         try {
 
-            filters["wallet"] = req.body.filter.wallet.code 
-        } catch { }
+            filters["wallet"] = Equal(req.body.filter.wallet.code)
+        } catch (e) {
+
+        }
 
         try {
-
-            filters["parcel"] =  req.body.filter.parcel.code 
+            filters["parcel"] = {parcel: req.body.filter.parcel.code}
         } catch { }
 
         if (req.body.pending == true)
@@ -120,11 +121,7 @@ router.post("/query", async (req: Request, res: Response) => {
 
         try {
             filters["expDescription"] = Like(`%${req.body.filter.description.value}%`)
-        } catch (e) {
-            console.log("err in description filter:", e.message)
-         }
-
-
+        } catch (e) { }
         const registers = await req.app.get("myDataSource").getRepository(Expense).find({ where: filters })
 
         console.log("filters", filters)

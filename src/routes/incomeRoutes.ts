@@ -81,12 +81,10 @@ router.post("/query", async (req: Request, res: Response) => {
 
             filters["wallet"] = Equal(req.body.filter.wallet.code)
         } catch (e) {
-            console.log("error in wallet", e.message);
-
         }
 
         try {
-            filters["parcel"] = req.body.filter.parcel.code
+            filters["parcel"] = {parcel: req.body.filter.parcel.code}
         } catch { }
 
         if (req.body.pending == true)
