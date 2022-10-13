@@ -121,6 +121,8 @@ router.post("/query", async (req: Request, res: Response) => {
         console.log(registers)
         return res.json({ registers })
     } catch (e) {
+        
+        console.log("erro in income:", e.message)
         res.json({ err: e.message })
     }
 })
