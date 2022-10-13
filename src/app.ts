@@ -5,6 +5,8 @@ import userRoutes from "./routes/userRoutes"
 import walletRoutes from "./routes/walletRoutes"
 import incomeRoutes from "./routes/incomeRoutes"
 import expenseRoutes from "./routes/expenseRoutes"
+import Tasks from "./tasks"
+
 
 import { myDataSource } from "./app-data-source"
 
@@ -20,6 +22,9 @@ myDataSource
 
 const app = express()
 
+const task:any = Tasks(myDataSource)
+task.monthlyBalance()
+
 app.set("myDataSource", myDataSource)
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
@@ -28,6 +33,8 @@ app.use("/user", userRoutes)
 app.use("/wallet", walletRoutes)
 app.use("/income", incomeRoutes)
 app.use("/expense", expenseRoutes)
+
+
 
 app.get("/", (req: Request, res: Response) => {
     return res.send("Olá xd")

@@ -6,6 +6,7 @@ var userRoutes_1 = require("./routes/userRoutes");
 var walletRoutes_1 = require("./routes/walletRoutes");
 var incomeRoutes_1 = require("./routes/incomeRoutes");
 var expenseRoutes_1 = require("./routes/expenseRoutes");
+var tasks_1 = require("./tasks");
 var app_data_source_1 = require("./app-data-source");
 app_data_source_1.myDataSource
     .initialize()
@@ -16,6 +17,8 @@ app_data_source_1.myDataSource
     console.error("Error during Data Source initialization:", err.message);
 });
 var app = express();
+var task = (0, tasks_1.default)(app_data_source_1.myDataSource);
+task.monthlyBalance();
 app.set("myDataSource", app_data_source_1.myDataSource);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
