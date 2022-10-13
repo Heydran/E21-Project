@@ -37,13 +37,96 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var node_schedule_1 = require("node-schedule");
+var Income_1 = require("./entity/Income");
+var Expense_1 = require("./entity/Expense");
+var User_1 = require("./entity/User");
+var typeorm_1 = require("typeorm");
+var moment = require("moment");
 var Tasks = /** @class */ (function () {
     function Tasks(myDataSource) {
-        this.monthlyBalance = function () { return (0, node_schedule_1.scheduleJob)("20 * * * * *", function () {
+        this.monthlyBalance = function () { return (0, node_schedule_1.scheduleJob)("20 00 00 * * *", function () {
             return __awaiter(this, void 0, void 0, function () {
+                var date, mounth, year, datePeriod, users;
+                var _this = this;
                 return __generator(this, function (_a) {
-                    console.log("acontecendo");
-                    return [2 /*return*/];
+                    switch (_a.label) {
+                        case 0:
+                            date = new Date();
+                            mounth = date.getMonth() + 1;
+                            year = date.getFullYear();
+                            datePeriod = (0, typeorm_1.Between)("".concat(year, "[-]").concat(mounth, "[-]01"), "".concat(year, "[-]").concat(mounth, "[-]31")) //"Automatic Launch Monthy Balance"
+                            ;
+                            return [4 /*yield*/, this.myDataSource.getRepository(User_1.User).find()];
+                        case 1:
+                            users = _a.sent();
+                            return [4 /*yield*/, users.forEach(function (user) { return __awaiter(_this, void 0, void 0, function () {
+                                    var totalIncomes, totalExpenses, incomes, expenses, table, total, scheme, launche, monthlyBalance;
+                                    return __generator(this, function (_a) {
+                                        switch (_a.label) {
+                                            case 0:
+                                                totalIncomes = 0;
+                                                totalExpenses = 0;
+                                                return [4 /*yield*/, this.myDataSource.getRepository(Income_1.Income).find({
+                                                        where: {
+                                                            user: { userCode: user.userCode },
+                                                            incDate: datePeriod
+                                                        }
+                                                    })];
+                                            case 1:
+                                                incomes = _a.sent();
+                                                return [4 /*yield*/, incomes.forEach(function (income) {
+                                                        totalIncomes = totalIncomes + income.incMoney;
+                                                    })];
+                                            case 2:
+                                                _a.sent();
+                                                return [4 /*yield*/, this.myDataSource.getRepository(Expense_1.Expense).find({
+                                                        where: {
+                                                            user: { userCode: user.userCode },
+                                                            expDate: datePeriod
+                                                        }
+                                                    })];
+                                            case 3:
+                                                expenses = _a.sent();
+                                                return [4 /*yield*/, expenses.forEach(function (income) {
+                                                        totalExpenses = totalExpenses + income.expMoney;
+                                                    })];
+                                            case 4:
+                                                _a.sent();
+                                                table = "";
+                                                total = 0;
+                                                scheme = null;
+                                                if (totalIncomes > totalExpenses) {
+                                                    table = "inc",
+                                                        total = totalIncomes - totalExpenses;
+                                                }
+                                                else {
+                                                    table = "exp",
+                                                        total = totalExpenses - totalIncomes;
+                                                }
+                                                launche = {};
+                                                launche["".concat(table, "Money")] = total;
+                                                launche["".concat(table, "Category")] = "MonthlyBalance";
+                                                launche["".concat(table, "PaymentMethod")] = 1;
+                                                launche["".concat(table, "Times")] = 1;
+                                                launche["".concat(table, "Peding")] = false;
+                                                launche["".concat(table, "Date")] = moment(date).format("YYYY[-]MM[-]DD");
+                                                launche["".concat(table, "Description")] = "Automatic Monthly Balance Launche";
+                                                launche["user"] = user.userCode;
+                                                launche["wallet"] = 0;
+                                                return [4 /*yield*/, this.myDataSource.getRepository(totalIncomes > totalExpenses ? Income_1.Income : Expense_1.Expense).create(launche)];
+                                            case 5:
+                                                monthlyBalance = _a.sent();
+                                                return [4 /*yield*/, this.myDataSource.getRepository(Income_1.Income).save(monthlyBalance)];
+                                            case 6:
+                                                _a.sent();
+                                                return [2 /*return*/];
+                                        }
+                                    });
+                                }); })];
+                        case 2:
+                            _a.sent();
+                            return [2 /*return*/];
+                    }
                 });
             });
         }); };
