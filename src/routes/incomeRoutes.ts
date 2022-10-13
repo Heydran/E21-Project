@@ -74,7 +74,7 @@ router.post("/query", async (req: Request, res: Response) => {
 
     try {
         var filters = {
-            user: req.body.user.code,
+            user: {userCode:req.body.user.code},
             incPending: false
         }
         try {
@@ -125,7 +125,7 @@ router.post("/query", async (req: Request, res: Response) => {
         try {
             filters["incDescription"] = Like(`%${req.body.filter.description.value}%`)
         } catch (e) { }
-        const registers = await req.app.get("myDataSource").getRepository(Income).find({ where: { user: 1 } })
+        const registers = await req.app.get("myDataSource").getRepository(Income).find({ where: filters })
 
         console.log("filters", filters)
         console.log("registers", registers)

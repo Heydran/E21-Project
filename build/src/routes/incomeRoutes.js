@@ -167,7 +167,7 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
             case 1:
                 _a.trys.push([1, 3, , 4]);
                 filters = {
-                    user: req.body.user.code,
+                    user: { userCode: req.body.user.code },
                     incPending: false
                 };
                 try {
@@ -211,7 +211,7 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                     filters["incDescription"] = (0, typeorm_1.Like)("%".concat(req.body.filter.description.value, "%"));
                 }
                 catch (e) { }
-                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).find({ where: { user: 1 } })];
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).find({ where: filters })];
             case 2:
                 registers = _a.sent();
                 console.log("filters", filters);
