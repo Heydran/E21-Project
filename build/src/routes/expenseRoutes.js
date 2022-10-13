@@ -218,7 +218,7 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                 return [2 /*return*/, res.json({ registers: registers })];
             case 2:
                 e_2 = _a.sent();
-                console.log("erro in income:", e_2.message);
+                console.log("erro in expense:", e_2.message);
                 res.json({ err: e_2.message });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
