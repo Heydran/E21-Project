@@ -78,42 +78,55 @@ router.post("/query", async (req: Request, res: Response) => {
             incPending: false
         }
 
+        try {
 
-        if (typeof req.body.filter.wallet !== undefined && req.body.filter.wallet)
             filters["wallet"] = { walletCode: req.body.filter.wallet.code }
+        } catch { }
 
-        if (typeof req.body.filter.parcel !== undefined && req.body.filter.parcel)
+        try {
+
             filters["parcel"] = { parcelCode: req.body.filter.parcel.code }
+        } catch { }
 
-        if (typeof req.body.pending !== undefined && req.body.filter)
+        try {
+
             filters["incPending"] = true
+        } catch { }
 
-        if (typeof req.body.filter.date !== undefined && req.body.filter.date)
+        try {
+
             if (req.body.filter.date.type == "[]")
                 filters["incDate"] = Between(req.body.filter.date.initDate, req.body.filter.date.endDate)
             else if (req.body.filter.date.type == ">")
                 filters["incDate"] = MoreThanOrEqual(req.body.filter.date.initDate)
             else if (req.body.filter.date.type == "<")
                 filters["incDate"] = LessThanOrEqual(req.body.filter.date.endDate)
+        } catch { }
 
-        if (typeof req.body.filter.momey !== undefined && req.body.filter.momey)
+        try {
+
             if (req.body.filter.money.type == ">")
                 filters["incMoney"] = MoreThanOrEqual(req.body.filter.money.minValue)
             else if (req.body.filter.money.type == "<")
                 filters["incMoney"] = LessThanOrEqual(req.body.filter.money.maxValue)
             else if (req.body.filter.money.type == "[]")
                 filters["incMoney"] = Between(req.body.filter.money.minValue, req.body.filter.maxValue)
+        } catch { }
 
 
-        if (typeof req.body.filter.category !== undefined && req.body.filter.category)
+        try {
+
             if (req.body.filter.category.type == "all")
                 filters["incCategory"] = Like("%%")
             else
                 filters["incCategory"] = Equal(req.body.filter.category.value)
+        } catch { }
 
 
-        if (typeof req.body.filter.description !== undefined && req.body.filter.description)
+
+        try {
             filters["incDescription"] = Like(`%${req.body.filter.description.value}%`)
+        } catch { }
 
 
         const registers = await req.app.get("myDataSource").getRepository(Income).find({ where: filters })

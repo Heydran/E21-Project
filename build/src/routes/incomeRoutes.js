@@ -167,33 +167,47 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                     user: { userCode: req.body.user.code },
                     incPending: false
                 };
-                if (typeof req.body.filter.wallet !== undefined && req.body.filter.wallet)
+                try {
                     filters["wallet"] = { walletCode: req.body.filter.wallet.code };
-                if (typeof req.body.filter.parcel !== undefined && req.body.filter.parcel)
+                }
+                catch (_b) { }
+                try {
                     filters["parcel"] = { parcelCode: req.body.filter.parcel.code };
-                if (typeof req.body.pending !== undefined && req.body.filter)
+                }
+                catch (_c) { }
+                try {
                     filters["incPending"] = true;
-                if (typeof req.body.filter.date !== undefined && req.body.filter.date)
+                }
+                catch (_d) { }
+                try {
                     if (req.body.filter.date.type == "[]")
                         filters["incDate"] = (0, typeorm_1.Between)(req.body.filter.date.initDate, req.body.filter.date.endDate);
                     else if (req.body.filter.date.type == ">")
                         filters["incDate"] = (0, typeorm_1.MoreThanOrEqual)(req.body.filter.date.initDate);
                     else if (req.body.filter.date.type == "<")
                         filters["incDate"] = (0, typeorm_1.LessThanOrEqual)(req.body.filter.date.endDate);
-                if (typeof req.body.filter.momey !== undefined && req.body.filter.momey)
+                }
+                catch (_e) { }
+                try {
                     if (req.body.filter.money.type == ">")
                         filters["incMoney"] = (0, typeorm_1.MoreThanOrEqual)(req.body.filter.money.minValue);
                     else if (req.body.filter.money.type == "<")
                         filters["incMoney"] = (0, typeorm_1.LessThanOrEqual)(req.body.filter.money.maxValue);
                     else if (req.body.filter.money.type == "[]")
                         filters["incMoney"] = (0, typeorm_1.Between)(req.body.filter.money.minValue, req.body.filter.maxValue);
-                if (typeof req.body.filter.category !== undefined && req.body.filter.category)
+                }
+                catch (_f) { }
+                try {
                     if (req.body.filter.category.type == "all")
                         filters["incCategory"] = (0, typeorm_1.Like)("%%");
                     else
                         filters["incCategory"] = (0, typeorm_1.Equal)(req.body.filter.category.value);
-                if (typeof req.body.filter.description !== undefined && req.body.filter.description)
+                }
+                catch (_g) { }
+                try {
                     filters["incDescription"] = (0, typeorm_1.Like)("%".concat(req.body.filter.description.value, "%"));
+                }
+                catch (_h) { }
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).find({ where: filters })];
             case 1:
                 registers = _a.sent();
