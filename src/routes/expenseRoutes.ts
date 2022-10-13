@@ -77,12 +77,12 @@ router.post("/query", async (req: Request, res: Response) => {
         }
         try {
 
-            filters["wallet"] = { walletCode: req.body.filter.wallet.code }
+            filters["wallet"] = req.body.filter.wallet.code 
         } catch { }
 
         try {
 
-            filters["parcel"] = { parcelCode: req.body.filter.parcel.code }
+            filters["parcel"] =  req.body.filter.parcel.code 
         } catch { }
 
         if (req.body.pending == true)

@@ -171,11 +171,11 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                     incPending: false
                 };
                 try {
-                    filters["wallet"] = { walletCode: req.body.filter.wallet.code };
+                    filters["wallet"] = req.body.filter.wallet.code;
                 }
                 catch (_b) { }
                 try {
-                    filters["parcel"] = { parcelCode: req.body.filter.parcel.code };
+                    filters["parcel"] = req.body.filter.parcel.code;
                 }
                 catch (_c) { }
                 if (req.body.pending == true)
