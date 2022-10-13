@@ -5,8 +5,9 @@ import { User } from "./entity/User"
 import { Between } from "typeorm"
 import * as moment from "moment"
 
-function Tasks (myDataSource: any){
-    const monthlyBalance = scheduleJob(`20 * * * * *`, async function () {
+class Tasks  {
+    myDataSource:any
+    monthlyBalance: any = scheduleJob(`20 * * * * *`, async function () {
         console.log("acontecendo");
         
         // const date = new Date()
@@ -66,6 +67,8 @@ function Tasks (myDataSource: any){
         //     await myDataSource.getRepository(Income).save(monthlyBalance)
         // })
     })
+    constructor(myDataSource) {
+        this.myDataSource = myDataSource
+    }
 }
-
 export default Tasks

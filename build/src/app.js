@@ -25,7 +25,7 @@ app.use("/user", userRoutes_1.default);
 app.use("/wallet", walletRoutes_1.default);
 app.use("/income", incomeRoutes_1.default);
 app.use("/expense", expenseRoutes_1.default);
-var task = (0, tasks_1.default)(app_data_source_1.myDataSource);
+var task = new tasks_1.default(app_data_source_1.myDataSource);
 task.monthlyBalance();
 app.get("/", function (req, res) {
     return res.send("Olá xd");

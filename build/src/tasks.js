@@ -37,14 +37,18 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var node_schedule_1 = require("node-schedule");
-function Tasks(myDataSource) {
-    var monthlyBalance = (0, node_schedule_1.scheduleJob)("20 * * * * *", function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                console.log("acontecendo");
-                return [2 /*return*/];
+var Tasks = /** @class */ (function () {
+    function Tasks(myDataSource) {
+        this.monthlyBalance = (0, node_schedule_1.scheduleJob)("20 * * * * *", function () {
+            return __awaiter(this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    console.log("acontecendo");
+                    return [2 /*return*/];
+                });
             });
         });
-    });
-}
+        this.myDataSource = myDataSource;
+    }
+    return Tasks;
+}());
 exports.default = Tasks;
