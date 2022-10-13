@@ -167,29 +167,32 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                     user: { userCode: req.body.user.code },
                     incPending: false
                 };
-                if (req.body.filter.wallet.code)
+                if (req.body.filter.wallet)
                     filters["wallet"] = { walletCode: req.body.filter.wallet.code };
-                if (req.body.filter.parcel.code)
+                if (req.body.filter.parcel)
                     filters["parcel"] = { parcelCode: req.body.filter.parcel.code };
                 if (req.body.pending)
                     filters["incPending"] = true;
-                if (req.body.filter.date.type && req.body.filter.date.type == "[]")
-                    filters["incDate"] = (0, typeorm_1.Between)(req.body.filter.date.initDate, req.body.filter.date.endDate);
-                else if (req.body.filter.date.type == ">")
-                    filters["incDate"] = (0, typeorm_1.MoreThanOrEqual)(req.body.filter.date.initDate);
-                else if (req.body.filter.date.type == "<")
-                    filters["incDate"] = (0, typeorm_1.LessThanOrEqual)(req.body.filter.date.endDate);
-                if (req.body.filter.momey.type && req.body.filter.money.type == ">")
-                    filters["incMoney"] = (0, typeorm_1.MoreThanOrEqual)(req.body.filter.money.minValue);
-                else if (req.body.filter.money.type == "<")
-                    filters["incMoney"] = (0, typeorm_1.LessThanOrEqual)(req.body.filter.money.maxValue);
-                else if (req.body.filter.money.type == "[]")
-                    filters["incMoney"] = (0, typeorm_1.Between)(req.body.filter.money.minValue, req.body.filter.maxValue);
-                if (req.body.filter.category.type && req.body.filter.category.type == "all")
-                    filters["incCategory"] = (0, typeorm_1.Like)("%%");
-                else
-                    filters["incCategory"] = (0, typeorm_1.Equal)(req.body.filter.category.value);
-                if (req.body.filter.description.value)
+                if (req.body.filter.date)
+                    if (req.body.filter.date.type == "[]")
+                        filters["incDate"] = (0, typeorm_1.Between)(req.body.filter.date.initDate, req.body.filter.date.endDate);
+                    else if (req.body.filter.date.type == ">")
+                        filters["incDate"] = (0, typeorm_1.MoreThanOrEqual)(req.body.filter.date.initDate);
+                    else if (req.body.filter.date.type == "<")
+                        filters["incDate"] = (0, typeorm_1.LessThanOrEqual)(req.body.filter.date.endDate);
+                if (req.body.filter.momey)
+                    if (req.body.filter.money.type == ">")
+                        filters["incMoney"] = (0, typeorm_1.MoreThanOrEqual)(req.body.filter.money.minValue);
+                    else if (req.body.filter.money.type == "<")
+                        filters["incMoney"] = (0, typeorm_1.LessThanOrEqual)(req.body.filter.money.maxValue);
+                    else if (req.body.filter.money.type == "[]")
+                        filters["incMoney"] = (0, typeorm_1.Between)(req.body.filter.money.minValue, req.body.filter.maxValue);
+                if (req.body.filter.category)
+                    if (req.body.filter.category.type == "all")
+                        filters["incCategory"] = (0, typeorm_1.Like)("%%");
+                    else
+                        filters["incCategory"] = (0, typeorm_1.Equal)(req.body.filter.category.value);
+                if (req.body.filter.description)
                     filters["incDescription"] = (0, typeorm_1.Like)("%".concat(req.body.filter.description.value, "%"));
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).find({ where: filters })];
             case 1:

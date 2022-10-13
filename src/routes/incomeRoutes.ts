@@ -79,49 +79,50 @@ router.post("/query", async (req: Request, res: Response) => {
         }
 
 
-        if (req.body.filter.wallet.code)
+        if (req.body.filter.wallet)
             filters["wallet"] = { walletCode: req.body.filter.wallet.code }
 
-        if (req.body.filter.parcel.code)
+        if (req.body.filter.parcel)
             filters["parcel"] = { parcelCode: req.body.filter.parcel.code }
 
         if (req.body.pending)
             filters["incPending"] = true
 
+        if (req.body.filter.date)
+            if (req.body.filter.date.type == "[]")
+                filters["incDate"] = Between(req.body.filter.date.initDate, req.body.filter.date.endDate)
+            else if (req.body.filter.date.type == ">")
+                filters["incDate"] = MoreThanOrEqual(req.body.filter.date.initDate)
+            else if (req.body.filter.date.type == "<")
+                filters["incDate"] = LessThanOrEqual(req.body.filter.date.endDate)
 
-        if (req.body.filter.date.type && req.body.filter.date.type == "[]")
-            filters["incDate"] = Between(req.body.filter.date.initDate, req.body.filter.date.endDate)
-        else if (req.body.filter.date.type == ">")
-            filters["incDate"] = MoreThanOrEqual(req.body.filter.date.initDate)
-        else if (req.body.filter.date.type == "<")
-            filters["incDate"] = LessThanOrEqual(req.body.filter.date.endDate)
-
-
-        if (req.body.filter.momey.type && req.body.filter.money.type == ">")
-            filters["incMoney"] = MoreThanOrEqual(req.body.filter.money.minValue)
-        else if (req.body.filter.money.type == "<")
-            filters["incMoney"] = LessThanOrEqual(req.body.filter.money.maxValue)
-        else if (req.body.filter.money.type == "[]")
-            filters["incMoney"] = Between(req.body.filter.money.minValue, req.body.filter.maxValue)
-
-
-        if (req.body.filter.category.type && req.body.filter.category.type == "all")
-            filters["incCategory"] = Like("%%")
-        else
-            filters["incCategory"] = Equal(req.body.filter.category.value)
+        if (req.body.filter.momey)
+            if (req.body.filter.money.type == ">")
+                filters["incMoney"] = MoreThanOrEqual(req.body.filter.money.minValue)
+            else if (req.body.filter.money.type == "<")
+                filters["incMoney"] = LessThanOrEqual(req.body.filter.money.maxValue)
+            else if (req.body.filter.money.type == "[]")
+                filters["incMoney"] = Between(req.body.filter.money.minValue, req.body.filter.maxValue)
 
 
-        if (req.body.filter.description.value)
+        if (req.body.filter.category)
+            if (req.body.filter.category.type == "all")
+                filters["incCategory"] = Like("%%")
+            else
+                filters["incCategory"] = Equal(req.body.filter.category.value)
+
+
+        if (req.body.filter.description)
             filters["incDescription"] = Like(`%${req.body.filter.description.value}%`)
 
 
         const registers = await req.app.get("myDataSource").getRepository(Income).find({ where: filters })
-        
+
         console.log(filters)
         console.log(registers)
         return res.json({ registers })
     } catch (e) {
-        
+
         console.log("erro in income:", e.message)
         res.json({ err: e.message })
     }
