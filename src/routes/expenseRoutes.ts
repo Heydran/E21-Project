@@ -112,6 +112,10 @@ router.post("/query", async (req: Request, res: Response) => {
 
 
         const registers = await req.app.get("myDataSource").getRepository(Expense).find({ where: filters })
+        console.log(filters)
+        console.log(registers)
+
+        
         return res.json({ registers })
     } catch (e) {
         res.json({ err: e.message })

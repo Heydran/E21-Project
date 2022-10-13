@@ -196,6 +196,8 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).find({ where: filters })];
             case 1:
                 registers = _a.sent();
+                console.log(filters);
+                console.log(registers);
                 return [2 /*return*/, res.json({ registers: registers })];
             case 2:
                 e_2 = _a.sent();
