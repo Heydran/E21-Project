@@ -78,16 +78,16 @@ router.post("/query", async (req: Request, res: Response) => {
         }
 
 
-        if (req.body.filter.wallet)
+        if (typeof req.body.filter.wallet !== undefined && req.body.filter.wallet)
             filters["wallet"] = { walletCode: req.body.filter.wallet.code }
 
-        if (req.body.filter.parcel)
+        if (typeof req.body.filter.parcel !== undefined && req.body.filter.parcel)
             filters["parcel"] = { parcelCode: req.body.filter.parcel.code }
 
-        if (req.body.pending)
+        if (typeof req.body.pending !== undefined && req.body.filter)
             filters["expPending"] = true
 
-        if (req.body.filter.date)
+        if (typeof req.body.filter.date !== undefined && req.body.filter.date)
             if (req.body.filter.date.type == "[]")
                 filters["expDate"] = Between(req.body.filter.date.initDate, req.body.filter.date.endDate)
             else if (req.body.filter.date.type == ">")
@@ -95,7 +95,7 @@ router.post("/query", async (req: Request, res: Response) => {
             else if (req.body.filter.date.type == "<")
                 filters["expDate"] = LessThanOrEqual(req.body.filter.date.endDate)
 
-        if (req.body.filter.momey)
+        if (typeof req.body.filter.momey !== undefined && req.body.filter.momey)
             if (req.body.filter.money.type == ">")
                 filters["expMoney"] = MoreThanOrEqual(req.body.filter.money.minValue)
             else if (req.body.filter.money.type == "<")
@@ -104,14 +104,14 @@ router.post("/query", async (req: Request, res: Response) => {
                 filters["expMoney"] = Between(req.body.filter.money.minValue, req.body.filter.maxValue)
 
 
-        if (req.body.filter.category)
+        if (typeof req.body.filter.category !== undefined && req.body.filter.category)
             if (req.body.filter.category.type == "all")
                 filters["expCategory"] = Like("%%")
             else
                 filters["expCategory"] = Equal(req.body.filter.category.value)
 
 
-        if (req.body.filter.description)
+        if (typeof req.body.filter.description !== undefined && req.body.filter.description)
             filters["expDescription"] = Like(`%${req.body.filter.description.value}%`)
 
 
