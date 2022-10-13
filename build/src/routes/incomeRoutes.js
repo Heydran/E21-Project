@@ -164,7 +164,7 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 filters = {
-                    user: { user: req.body.user.code },
+                    user: { code: req.body.user.code },
                     incPending: false
                 };
                 try {

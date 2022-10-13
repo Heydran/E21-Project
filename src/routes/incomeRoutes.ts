@@ -74,7 +74,7 @@ router.post("/query", async (req: Request, res: Response) => {
     try {
         var filters = {
             user:
-                { user: req.body.user.code },
+                { code: req.body.user.code },
             incPending: false
         }
 
