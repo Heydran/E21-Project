@@ -169,29 +169,32 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                     user: { userCode: req.body.user.code },
                     incPending: false
                 };
-                if (req.body.filter.wallet.code)
+                if (req.body.filter.wallet)
                     filters["wallet"] = { walletCode: req.body.filter.wallet.code };
-                if (req.body.filter.parcel.code)
+                if (req.body.filter.parcel)
                     filters["parcel"] = { parcelCode: req.body.filter.parcel.code };
                 if (req.body.pending)
                     filters["expPending"] = true;
-                if (req.body.filter.date.type && req.body.filter.date.type == "[]")
-                    filters["expDate"] = (0, typeorm_1.Between)(req.body.filter.date.initDate, req.body.filter.date.endDate);
-                else if (req.body.filter.date.type == ">")
-                    filters["expDate"] = (0, typeorm_1.MoreThanOrEqual)(req.body.filter.date.initDate);
-                else if (req.body.filter.date.type == "<")
-                    filters["expDate"] = (0, typeorm_1.LessThanOrEqual)(req.body.filter.date.endDate);
-                if (req.body.filter.omey.type && req.body.filter.money.type == ">")
-                    filters["expMoney"] = (0, typeorm_1.MoreThanOrEqual)(req.body.filter.money.minValue);
-                else if (req.body.filter[1][0] == "<")
-                    filters["expMoney"] = (0, typeorm_1.LessThanOrEqual)(req.body.filter.money.maxValue);
-                else if (req.body.filter[1][0] == "[]")
-                    filters["expMoney"] = (0, typeorm_1.Between)(req.body.filter.money.minValue, req.body.filter.maxValue);
-                if (req.body.filter.category.type && req.body.filter.category.type == "all")
-                    filters["expCategory"] = (0, typeorm_1.Like)("%%");
-                else
-                    filters["expCategory"] = (0, typeorm_1.Equal)(req.body.filter.category.value);
-                if (req.body.filter.description.value)
+                if (req.body.filter.date)
+                    if (req.body.filter.date.type == "[]")
+                        filters["expDate"] = (0, typeorm_1.Between)(req.body.filter.date.initDate, req.body.filter.date.endDate);
+                    else if (req.body.filter.date.type == ">")
+                        filters["expDate"] = (0, typeorm_1.MoreThanOrEqual)(req.body.filter.date.initDate);
+                    else if (req.body.filter.date.type == "<")
+                        filters["expDate"] = (0, typeorm_1.LessThanOrEqual)(req.body.filter.date.endDate);
+                if (req.body.filter.momey)
+                    if (req.body.filter.money.type == ">")
+                        filters["expMoney"] = (0, typeorm_1.MoreThanOrEqual)(req.body.filter.money.minValue);
+                    else if (req.body.filter.money.type == "<")
+                        filters["expMoney"] = (0, typeorm_1.LessThanOrEqual)(req.body.filter.money.maxValue);
+                    else if (req.body.filter.money.type == "[]")
+                        filters["expMoney"] = (0, typeorm_1.Between)(req.body.filter.money.minValue, req.body.filter.maxValue);
+                if (req.body.filter.category)
+                    if (req.body.filter.category.type == "all")
+                        filters["expCategory"] = (0, typeorm_1.Like)("%%");
+                    else
+                        filters["expCategory"] = (0, typeorm_1.Equal)(req.body.filter.category.value);
+                if (req.body.filter.description)
                     filters["expDescription"] = (0, typeorm_1.Like)("%".concat(req.body.filter.description.value, "%"));
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).find({ where: filters })];
             case 1:
@@ -201,6 +204,7 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                 return [2 /*return*/, res.json({ registers: registers })];
             case 2:
                 e_2 = _a.sent();
+                console.log("erro in expense:", e_2.message);
                 res.json({ err: e_2.message });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];

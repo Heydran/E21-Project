@@ -77,47 +77,52 @@ router.post("/query", async (req: Request, res: Response) => {
             incPending: false
         }
 
-        if (req.body.filter.wallet.code)
+
+        if (req.body.filter.wallet)
             filters["wallet"] = { walletCode: req.body.filter.wallet.code }
 
-        if (req.body.filter.parcel.code)
+        if (req.body.filter.parcel)
             filters["parcel"] = { parcelCode: req.body.filter.parcel.code }
 
         if (req.body.pending)
             filters["expPending"] = true
 
+        if (req.body.filter.date)
+            if (req.body.filter.date.type == "[]")
+                filters["expDate"] = Between(req.body.filter.date.initDate, req.body.filter.date.endDate)
+            else if (req.body.filter.date.type == ">")
+                filters["expDate"] = MoreThanOrEqual(req.body.filter.date.initDate)
+            else if (req.body.filter.date.type == "<")
+                filters["expDate"] = LessThanOrEqual(req.body.filter.date.endDate)
 
-        if (req.body.filter.date.type && req.body.filter.date.type == "[]")
-            filters["expDate"] = Between(req.body.filter.date.initDate, req.body.filter.date.endDate)
-        else if (req.body.filter.date.type == ">")
-            filters["expDate"] = MoreThanOrEqual(req.body.filter.date.initDate)
-        else if (req.body.filter.date.type == "<")
-            filters["expDate"] = LessThanOrEqual(req.body.filter.date.endDate)
+        if (req.body.filter.momey)
+            if (req.body.filter.money.type == ">")
+                filters["expMoney"] = MoreThanOrEqual(req.body.filter.money.minValue)
+            else if (req.body.filter.money.type == "<")
+                filters["expMoney"] = LessThanOrEqual(req.body.filter.money.maxValue)
+            else if (req.body.filter.money.type == "[]")
+                filters["expMoney"] = Between(req.body.filter.money.minValue, req.body.filter.maxValue)
 
 
-        if (req.body.filter.omey.type && req.body.filter.money.type == ">")
-            filters["expMoney"] = MoreThanOrEqual(req.body.filter.money.minValue)
-        else if (req.body.filter[1][0] == "<")
-            filters["expMoney"] = LessThanOrEqual(req.body.filter.money.maxValue)
-        else if (req.body.filter[1][0] == "[]")
-            filters["expMoney"] = Between(req.body.filter.money.minValue, req.body.filter.maxValue)
+        if (req.body.filter.category)
+            if (req.body.filter.category.type == "all")
+                filters["expCategory"] = Like("%%")
+            else
+                filters["expCategory"] = Equal(req.body.filter.category.value)
 
 
-        if (req.body.filter.category.type && req.body.filter.category.type == "all")
-            filters["expCategory"] = Like("%%")
-        else
-            filters["expCategory"] = Equal(req.body.filter.category.value)
-        if (req.body.filter.description.value)
+        if (req.body.filter.description)
             filters["expDescription"] = Like(`%${req.body.filter.description.value}%`)
 
 
         const registers = await req.app.get("myDataSource").getRepository(Expense).find({ where: filters })
+
         console.log(filters)
         console.log(registers)
-
-        
         return res.json({ registers })
     } catch (e) {
+
+        console.log("erro in expense:", e.message)
         res.json({ err: e.message })
     }
 })
