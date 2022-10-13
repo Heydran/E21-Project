@@ -210,9 +210,8 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                 try {
                     filters["incDescription"] = (0, typeorm_1.Like)("%".concat(req.body.filter.description.value, "%"));
                 }
-                catch (e) {
-                }
-                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).find({ where: filters })];
+                catch (e) { }
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).find({ where: { user: 1 } })];
             case 2:
                 registers = _a.sent();
                 console.log("filters", filters);

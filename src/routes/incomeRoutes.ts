@@ -80,13 +80,13 @@ router.post("/query", async (req: Request, res: Response) => {
         try {
 
             filters["wallet"] = Equal(req.body.filter.wallet.code)
-        } catch(e) { 
+        } catch (e) {
             console.log("error in wallet", e.message);
-            
+
         }
 
         try {
-            filters["parcel"] = req.body.filter.parcel.code 
+            filters["parcel"] = req.body.filter.parcel.code
         } catch { }
 
         if (req.body.pending == true)
@@ -124,11 +124,8 @@ router.post("/query", async (req: Request, res: Response) => {
 
         try {
             filters["incDescription"] = Like(`%${req.body.filter.description.value}%`)
-        } catch (e) {
-         }
-
-
-        const registers = await req.app.get("myDataSource").getRepository(Income).find({ where: filters })
+        } catch (e) { }
+        const registers = await req.app.get("myDataSource").getRepository(Income).find({ where: { user: 1 } })
 
         console.log("filters", filters)
         console.log("registers", registers)
