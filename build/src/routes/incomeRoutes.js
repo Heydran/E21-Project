@@ -171,7 +171,7 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                     incPending: false
                 };
                 try {
-                    filters["wallet"] = req.body.filter.wallet.code;
+                    filters["wallet"] = (0, typeorm_1.Equal)(req.body.filter.wallet.code);
                 }
                 catch (e) {
                     console.log("error in wallet", e.message);
