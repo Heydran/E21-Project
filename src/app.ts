@@ -22,8 +22,6 @@ myDataSource
 
 const app = express()
 
-const task:any = Tasks(myDataSource)
-task.monthlyBalance()
 
 app.set("myDataSource", myDataSource)
 app.use(express.urlencoded({ extended: false }))
@@ -35,6 +33,8 @@ app.use("/income", incomeRoutes)
 app.use("/expense", expenseRoutes)
 
 
+const task:any = Tasks(myDataSource)
+task.monthlyBalance()
 
 app.get("/", (req: Request, res: Response) => {
     return res.send("Olá xd")

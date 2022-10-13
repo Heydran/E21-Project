@@ -17,8 +17,6 @@ app_data_source_1.myDataSource
     console.error("Error during Data Source initialization:", err.message);
 });
 var app = express();
-var task = (0, tasks_1.default)(app_data_source_1.myDataSource);
-task.monthlyBalance();
 app.set("myDataSource", app_data_source_1.myDataSource);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -27,6 +25,8 @@ app.use("/user", userRoutes_1.default);
 app.use("/wallet", walletRoutes_1.default);
 app.use("/income", incomeRoutes_1.default);
 app.use("/expense", expenseRoutes_1.default);
+var task = (0, tasks_1.default)(app_data_source_1.myDataSource);
+task.monthlyBalance();
 app.get("/", function (req, res) {
     return res.send("Olá xd");
 });
