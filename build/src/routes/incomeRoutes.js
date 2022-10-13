@@ -164,7 +164,7 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 filters = {
-                    user: { userCode: req.body.user.code },
+                    user: { user: req.body.user.code },
                     incPending: false
                 };
                 try {
@@ -175,10 +175,8 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                     filters["parcel"] = { parcelCode: req.body.filter.parcel.code };
                 }
                 catch (_c) { }
-                try {
+                if (req.body.pending == true)
                     filters["incPending"] = true;
-                }
-                catch (_d) { }
                 try {
                     if (req.body.filter.date.type == "[]")
                         filters["incDate"] = (0, typeorm_1.Between)(req.body.filter.date.initDate, req.body.filter.date.endDate);
@@ -187,7 +185,7 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                     else if (req.body.filter.date.type == "<")
                         filters["incDate"] = (0, typeorm_1.LessThanOrEqual)(req.body.filter.date.endDate);
                 }
-                catch (_e) { }
+                catch (_d) { }
                 try {
                     if (req.body.filter.money.type == ">")
                         filters["incMoney"] = (0, typeorm_1.MoreThanOrEqual)(req.body.filter.money.minValue);
@@ -196,23 +194,23 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                     else if (req.body.filter.money.type == "[]")
                         filters["incMoney"] = (0, typeorm_1.Between)(req.body.filter.money.minValue, req.body.filter.maxValue);
                 }
-                catch (_f) { }
+                catch (_e) { }
                 try {
                     if (req.body.filter.category.type == "all")
                         filters["incCategory"] = (0, typeorm_1.Like)("%%");
                     else
                         filters["incCategory"] = (0, typeorm_1.Equal)(req.body.filter.category.value);
                 }
-                catch (_g) { }
+                catch (_f) { }
                 try {
                     filters["incDescription"] = (0, typeorm_1.Like)("%".concat(req.body.filter.description.value, "%"));
                 }
-                catch (_h) { }
+                catch (_g) { }
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).find({ where: filters })];
             case 1:
                 registers = _a.sent();
-                console.log(filters);
-                console.log(registers);
+                console.log("filters", filters);
+                console.log("registers", registers);
                 return [2 /*return*/, res.json({ registers: registers })];
             case 2:
                 e_2 = _a.sent();

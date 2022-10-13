@@ -74,7 +74,7 @@ router.post("/query", async (req: Request, res: Response) => {
     try {
         var filters = {
             user:
-                { userCode: req.body.user.code },
+                { user: req.body.user.code },
             incPending: false
         }
 
@@ -88,11 +88,8 @@ router.post("/query", async (req: Request, res: Response) => {
             filters["parcel"] = { parcelCode: req.body.filter.parcel.code }
         } catch { }
 
-        try {
-
+        if (req.body.pending == true)
             filters["incPending"] = true
-        } catch { }
-
         try {
 
             if (req.body.filter.date.type == "[]")
@@ -131,8 +128,8 @@ router.post("/query", async (req: Request, res: Response) => {
 
         const registers = await req.app.get("myDataSource").getRepository(Income).find({ where: filters })
 
-        console.log(filters)
-        console.log(registers)
+        console.log("filters",filters)
+        console.log("registers" , registers)
         return res.json({ registers })
     } catch (e) {
 
