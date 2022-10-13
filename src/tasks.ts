@@ -7,7 +7,7 @@ import * as moment from "moment"
 
 class Tasks  {
     myDataSource:any
-    monthlyBalance: any = scheduleJob(`20 * * * * *`, async function () {
+    monthlyBalance: any = () =>  scheduleJob(`20 * * * * *`, async function () {
         console.log("acontecendo");
         
         // const date = new Date()

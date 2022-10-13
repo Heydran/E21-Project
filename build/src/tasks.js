@@ -39,14 +39,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var node_schedule_1 = require("node-schedule");
 var Tasks = /** @class */ (function () {
     function Tasks(myDataSource) {
-        this.monthlyBalance = (0, node_schedule_1.scheduleJob)("20 * * * * *", function () {
+        this.monthlyBalance = function () { return (0, node_schedule_1.scheduleJob)("20 * * * * *", function () {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
                     console.log("acontecendo");
                     return [2 /*return*/];
                 });
             });
-        });
+        }); };
         this.myDataSource = myDataSource;
     }
     return Tasks;
