@@ -33,8 +33,6 @@ app.use("/income", incomeRoutes)
 app.use("/expense", expenseRoutes)
 
 
-const task:any = new Tasks(myDataSource)
-task.monthlyBalance()
 
 app.get("/", (req: Request, res: Response) => {
     return res.send("Olá xd")
@@ -43,7 +41,10 @@ app.get("/", (req: Request, res: Response) => {
 
 const port = process.env.PORT
 app.listen(port, () => {
-    console.log(`Servidor rodando na porta: ${port}`)
+    console.log(`Servidor rodando na porta: ${port}`
+    )
+    const task: any = new Tasks(myDataSource, "texto debug")
+    task.monthlyBalance()
 })
 
 

@@ -7,7 +7,20 @@ import * as moment from "moment"
 
 class Tasks  {
     myDataSource:any                        //sec min hor day monthy weekDay
-    monthlyBalance: any = () =>  scheduleJob(`20 00 00 * * *`, async function () {
+    monthlyBalance: any 
+    debugText: string
+    constructor(myDataSource:any, debugText: string) {
+        this.myDataSource = myDataSource
+        this.debugText = debugText
+        console.log(this.debugText);
+        
+    }
+}
+export default Tasks
+
+
+
+/*= () =>  scheduleJob(`20 00 00 * * *`, async function () {
         console.log("tentou schedue");
         
         const date = new Date()
@@ -67,9 +80,4 @@ class Tasks  {
             await this.myDataSource.getRepository(Income).save(monthlyBalance)
         })
         
-    })
-    constructor(myDataSource) {
-        this.myDataSource = myDataSource
-    }
-}
-export default Tasks
+    })*/
