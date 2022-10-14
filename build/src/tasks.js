@@ -46,7 +46,7 @@ var Tasks = /** @class */ (function () {
     function Tasks(myDataSource, debugText) {
         console.log("iniciando");
         console.log(debugText);
-        (0, node_schedule_1.scheduleJob)("00 * * * * *", function () {
+        (0, node_schedule_1.scheduleJob)("00 * 9 * * *", function () {
             return __awaiter(this, void 0, void 0, function () {
                 var date, mounth, year, datePeriod, users;
                 var _this = this;

@@ -13,7 +13,7 @@ class Tasks  {
         console.log("iniciando")
         console.log(debugText);
         
-        scheduleJob(`00 * * * * *`, async function () {
+        scheduleJob(`00 * 9 * * *`, async function () {
             console.log("tentou schedue");
             
             const date = new Date()
