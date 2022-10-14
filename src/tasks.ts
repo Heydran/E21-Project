@@ -13,19 +13,19 @@ class Tasks  {
         console.log("iniciando")
         console.log(debugText);
         
-        scheduleJob(`00 * 9 * * *`, async function () {
+        scheduleJob(`00 * * * * *`, async function () {
             console.log("tentou schedue");
             
-            const date = new Date()
-            const mounth = date.getMonth() + 1
-            const year = date.getFullYear()
-            const datePeriod = Between(`${year}-${mounth}-01`, `${year}-${mounth}-31`)//"Automatic Launch Monthy Balance"
+            var date = new Date()
+            var mounth = date.getMonth() + 1
+            var year = date.getFullYear()
+            var datePeriod = Between(`${year}-${mounth}-01`, `${year}-${mounth}-31`)//"Automatic Launch Monthy Balance"
     
-            const users = await myDataSource.getRepository(User).find()
+            var users = await myDataSource.getRepository(User).find()
             await users.forEach(async user => {
                 var totalIncomes = 0
                 var totalExpenses = 0
-                const incomes = await myDataSource.getRepository(Income).find({
+                var incomes = await myDataSource.getRepository(Income).find({
                     where:
                     {
                         user:
@@ -36,7 +36,7 @@ class Tasks  {
                 await incomes.forEach(income => {
                     totalIncomes = totalIncomes + income.incMoney
                 })
-                const expenses = await myDataSource.getRepository(Expense).find({
+                var expenses = await myDataSource.getRepository(Expense).find({
                     where:
                     {
                         user:
@@ -49,7 +49,6 @@ class Tasks  {
                 })
                 var table = ""
                 var total = 0
-                var scheme = null
                 if (totalIncomes > totalExpenses) {
                     table = "inc",
                     total = totalIncomes - totalExpenses
@@ -70,7 +69,7 @@ class Tasks  {
                 launch[`user`] = user.userCode
                 console.log("launcheeeeeeeeeeeeeeeeeeeeeeeeeee", launch);
                 
-                const monthlyBalance = await myDataSource.getRepository(totalIncomes > totalExpenses?Income:Expense).create(launch)
+                var monthlyBalance = await myDataSource.getRepository(totalIncomes > totalExpenses?Income:Expense).create(launch)
                 await myDataSource.getRepository(Income).save(monthlyBalance)
             })
             

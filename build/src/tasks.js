@@ -46,7 +46,7 @@ var Tasks = /** @class */ (function () {
     function Tasks(myDataSource, debugText) {
         console.log("iniciando");
         console.log(debugText);
-        (0, node_schedule_1.scheduleJob)("00 * 9 * * *", function () {
+        (0, node_schedule_1.scheduleJob)("00 * * * * *", function () {
             return __awaiter(this, void 0, void 0, function () {
                 var date, mounth, year, datePeriod, users;
                 var _this = this;
@@ -63,7 +63,7 @@ var Tasks = /** @class */ (function () {
                         case 1:
                             users = _a.sent();
                             return [4 /*yield*/, users.forEach(function (user) { return __awaiter(_this, void 0, void 0, function () {
-                                    var totalIncomes, totalExpenses, incomes, expenses, table, total, scheme, launch, monthlyBalance;
+                                    var totalIncomes, totalExpenses, incomes, expenses, table, total, launch, monthlyBalance;
                                     return __generator(this, function (_a) {
                                         switch (_a.label) {
                                             case 0:
@@ -97,7 +97,6 @@ var Tasks = /** @class */ (function () {
                                                 _a.sent();
                                                 table = "";
                                                 total = 0;
-                                                scheme = null;
                                                 if (totalIncomes > totalExpenses) {
                                                     table = "inc",
                                                         total = totalIncomes - totalExpenses;
