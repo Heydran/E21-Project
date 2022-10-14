@@ -58,18 +58,19 @@ class Tasks  {
                     total = totalExpenses - totalIncomes
     
                 }
-                var launche = {}
-                launche[`${table}Money`] = total
-                launche[`${table}Category`] = "MonthlyBalance"
-                launche[`${table}PaymentMethod`] = 1
-                launche[`${table}Times`] = 1
-                launche[`${table}Peding`] = false
-                launche[`${table}Date`] = moment(date).format("YYYY[-]MM[-]DD")
-                launche[`${table}Description`] = "Automatic Monthly Balance Launche"
-                launche[`user`] = user.userCode
-                launche[`wallet`] = 0
+                var launch = {}
+                launch[`${table}Money`] = total
+                launch[`${table}Category`] = "MonthlyBalance"
+                launch[`${table}PaymentMethod`] = 1
+                launch[`${table}TotalPayment`] = false
+                launch[`${table}Times`] = 1
+                launch[`${table}Peding`] = false
+                launch[`${table}Date`] = moment(date).format("YYYY[-]MM[-]DD")
+                launch[`${table}Description`] = "Automatic Monthly Balance Launch"
+                launch[`user`] = user.userCode
+                launch[`wallet`] = 0
     
-                const monthlyBalance = await myDataSource.getRepository(totalIncomes > totalExpenses?Income:Expense).create(launche)
+                const monthlyBalance = await myDataSource.getRepository(totalIncomes > totalExpenses?Income:Expense).create(launch)
                 await myDataSource.getRepository(Income).save(monthlyBalance)
             })
             

@@ -63,7 +63,7 @@ var Tasks = /** @class */ (function () {
                         case 1:
                             users = _a.sent();
                             return [4 /*yield*/, users.forEach(function (user) { return __awaiter(_this, void 0, void 0, function () {
-                                    var totalIncomes, totalExpenses, incomes, expenses, table, total, scheme, launche, monthlyBalance;
+                                    var totalIncomes, totalExpenses, incomes, expenses, table, total, scheme, launch, monthlyBalance;
                                     return __generator(this, function (_a) {
                                         switch (_a.label) {
                                             case 0:
@@ -106,17 +106,18 @@ var Tasks = /** @class */ (function () {
                                                     table = "exp",
                                                         total = totalExpenses - totalIncomes;
                                                 }
-                                                launche = {};
-                                                launche["".concat(table, "Money")] = total;
-                                                launche["".concat(table, "Category")] = "MonthlyBalance";
-                                                launche["".concat(table, "PaymentMethod")] = 1;
-                                                launche["".concat(table, "Times")] = 1;
-                                                launche["".concat(table, "Peding")] = false;
-                                                launche["".concat(table, "Date")] = moment(date).format("YYYY[-]MM[-]DD");
-                                                launche["".concat(table, "Description")] = "Automatic Monthly Balance Launche";
-                                                launche["user"] = user.userCode;
-                                                launche["wallet"] = 0;
-                                                return [4 /*yield*/, myDataSource.getRepository(totalIncomes > totalExpenses ? Income_1.Income : Expense_1.Expense).create(launche)];
+                                                launch = {};
+                                                launch["".concat(table, "Money")] = total;
+                                                launch["".concat(table, "Category")] = "MonthlyBalance";
+                                                launch["".concat(table, "PaymentMethod")] = 1;
+                                                launch["".concat(table, "TotalPayment")] = false;
+                                                launch["".concat(table, "Times")] = 1;
+                                                launch["".concat(table, "Peding")] = false;
+                                                launch["".concat(table, "Date")] = moment(date).format("YYYY[-]MM[-]DD");
+                                                launch["".concat(table, "Description")] = "Automatic Monthly Balance Launch";
+                                                launch["user"] = user.userCode;
+                                                launch["wallet"] = 0;
+                                                return [4 /*yield*/, myDataSource.getRepository(totalIncomes > totalExpenses ? Income_1.Income : Expense_1.Expense).create(launch)];
                                             case 5:
                                                 monthlyBalance = _a.sent();
                                                 return [4 /*yield*/, myDataSource.getRepository(Income_1.Income).save(monthlyBalance)];
