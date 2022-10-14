@@ -13,7 +13,7 @@ class Tasks  {
         console.log("iniciando")
         console.log(debugText);
         
-        scheduleJob(`* * * * * *`, async function () {
+        scheduleJob(`00 * * * * *`, async function () {
             console.log("tentou schedue");
             
             const date = new Date()
@@ -64,7 +64,7 @@ class Tasks  {
                 launch[`${table}PaymentMethod`] = 1
                 launch[`${table}TotalPayment`] = false
                 launch[`${table}Times`] = 1
-                launch[`${table}Peding`] = false
+                launch[`${table}Pending`] = false
                 launch[`${table}Date`] = moment(date).format("YYYY[-]MM[-]DD")
                 launch[`${table}Description`] = "Automatic Monthly Balance Launch"
                 launch[`user`] = user.userCode

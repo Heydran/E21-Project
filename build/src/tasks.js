@@ -46,7 +46,7 @@ var Tasks = /** @class */ (function () {
     function Tasks(myDataSource, debugText) {
         console.log("iniciando");
         console.log(debugText);
-        (0, node_schedule_1.scheduleJob)("* * * * * *", function () {
+        (0, node_schedule_1.scheduleJob)("00 * * * * *", function () {
             return __awaiter(this, void 0, void 0, function () {
                 var date, mounth, year, datePeriod, users;
                 var _this = this;
@@ -112,7 +112,7 @@ var Tasks = /** @class */ (function () {
                                                 launch["".concat(table, "PaymentMethod")] = 1;
                                                 launch["".concat(table, "TotalPayment")] = false;
                                                 launch["".concat(table, "Times")] = 1;
-                                                launch["".concat(table, "Peding")] = false;
+                                                launch["".concat(table, "Pending")] = false;
                                                 launch["".concat(table, "Date")] = moment(date).format("YYYY[-]MM[-]DD");
                                                 launch["".concat(table, "Description")] = "Automatic Monthly Balance Launch";
                                                 launch["user"] = user.userCode;
