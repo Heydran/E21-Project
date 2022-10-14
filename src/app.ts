@@ -35,7 +35,6 @@ app.use("/expense", expenseRoutes)
 
 const task: any = new Tasks(myDataSource, "texto debug----------------------------------------------")
 task.monthlyBalance()
-console.log("importou");
 
 
 
