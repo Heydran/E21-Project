@@ -12,7 +12,7 @@ class Tasks  {
     constructor(myDataSource:any, debugText: string) {
         this.myDataSource = myDataSource
         this.debugText = debugText
-        console.log(this.debugText);
+        console.log(this.debugText,"textooooooooooooooooooo");
         
     }
 }

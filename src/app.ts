@@ -43,7 +43,7 @@ const port = process.env.PORT
 app.listen(port, () => {
     console.log(`Servidor rodando na porta: ${port}`
     )
-    const task: any = new Tasks(myDataSource, "texto debug")
+    const task: any = new Tasks(myDataSource, "texto debug----------------------------------------------")
     task.monthlyBalance()
 })
 
