@@ -13,7 +13,7 @@ class Tasks  {
         console.log("iniciando")
         console.log(debugText);
         
-        scheduleJob(`20 * * * * *`, async function () {
+        scheduleJob(`* * * * * *`, async function () {
             console.log("tentou schedue");
             
             const date = new Date()
@@ -68,8 +68,8 @@ class Tasks  {
                 launch[`${table}Date`] = moment(date).format("YYYY[-]MM[-]DD")
                 launch[`${table}Description`] = "Automatic Monthly Balance Launch"
                 launch[`user`] = user.userCode
-                launch[`wallet`] = 0
-    
+                console.log("launcheeeeeeeeeeeeeeeeeeeeeeeeeee", launch);
+                
                 const monthlyBalance = await myDataSource.getRepository(totalIncomes > totalExpenses?Income:Expense).create(launch)
                 await myDataSource.getRepository(Income).save(monthlyBalance)
             })

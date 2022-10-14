@@ -46,7 +46,7 @@ var Tasks = /** @class */ (function () {
     function Tasks(myDataSource, debugText) {
         console.log("iniciando");
         console.log(debugText);
-        (0, node_schedule_1.scheduleJob)("20 * * * * *", function () {
+        (0, node_schedule_1.scheduleJob)("* * * * * *", function () {
             return __awaiter(this, void 0, void 0, function () {
                 var date, mounth, year, datePeriod, users;
                 var _this = this;
@@ -116,7 +116,7 @@ var Tasks = /** @class */ (function () {
                                                 launch["".concat(table, "Date")] = moment(date).format("YYYY[-]MM[-]DD");
                                                 launch["".concat(table, "Description")] = "Automatic Monthly Balance Launch";
                                                 launch["user"] = user.userCode;
-                                                launch["wallet"] = 0;
+                                                console.log("launcheeeeeeeeeeeeeeeeeeeeeeeeeee", launch);
                                                 return [4 /*yield*/, myDataSource.getRepository(totalIncomes > totalExpenses ? Income_1.Income : Expense_1.Expense).create(launch)];
                                             case 5:
                                                 monthlyBalance = _a.sent();
