@@ -37,6 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
+var User_1 = require("../entity/User");
 var Expense_1 = require("../entity/Expense");
 var Parcel_1 = require("../entity/Parcel");
 var typeorm_1 = require("typeorm");
@@ -45,7 +46,7 @@ var moment = require("moment");
 var router = (0, express_1.Router)();
 router.post("/new", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var results, mDays, newExpense, newParcel, date, originalDay, i, result, err_1, e_1;
+        var results, calc, mDays, newExpense, newParcel, date, originalDay, i, result, err_1, e_1;
         var _this = this;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -54,12 +55,13 @@ router.post("/new", function (req, res) {
                     console.log("start");
                     console.log(req.body.launch);
                     results = null;
+                    calc = true;
                     mDays = [28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 31];
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 12, , 13]);
-                    newExpense = function () { return __awaiter(_this, void 0, void 0, function () {
-                        var expanse, results;
+                    newExpense = function (calc) { return __awaiter(_this, void 0, void 0, function () {
+                        var expanse, results, user, update;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).create(req.body.launch)];
@@ -68,7 +70,19 @@ router.post("/new", function (req, res) {
                                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).save(expanse)];
                                 case 2:
                                     results = _a.sent();
-                                    return [2 /*return*/, results];
+                                    if (!calc) return [3 /*break*/, 6];
+                                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userCode: req.body.launch.user })];
+                                case 3:
+                                    user = _a.sent();
+                                    update = { userMoney: user.userMoney + req.body.launch.expMoney };
+                                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).merge(user, update)];
+                                case 4:
+                                    _a.sent();
+                                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).save(user)];
+                                case 5:
+                                    _a.sent();
+                                    _a.label = 6;
+                                case 6: return [2 /*return*/, results];
                             }
                         });
                     }); };
@@ -93,7 +107,7 @@ router.post("/new", function (req, res) {
                     }); };
                     if (!(req.body.launch.expPaymentMethod == 1)) return [3 /*break*/, 3];
                     console.log("vista");
-                    return [4 /*yield*/, newExpense()];
+                    return [4 /*yield*/, newExpense(true)];
                 case 2:
                     results = _a.sent();
                     return [3 /*break*/, 11];
@@ -108,9 +122,10 @@ router.post("/new", function (req, res) {
                     _a.label = 5;
                 case 5:
                     if (!(i < req.body.launch.expTimes)) return [3 /*break*/, 8];
-                    return [4 /*yield*/, newExpense()];
+                    return [4 /*yield*/, newExpense(calc)];
                 case 6:
                     results = _a.sent();
+                    calc = false;
                     if (originalDay > mDays[date.getMonth()]) {
                         date.setDate(mDays[date.getMonth()]);
                         date.setMonth(date.getMonth() + 1);
@@ -124,7 +139,7 @@ router.post("/new", function (req, res) {
                 case 7:
                     i++;
                     return [3 /*break*/, 5];
-                case 8: return [4 /*yield*/, newExpense()];
+                case 8: return [4 /*yield*/, newExpense(calc)];
                 case 9:
                     results = _a.sent();
                     return [3 /*break*/, 11];

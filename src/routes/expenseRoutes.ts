@@ -1,4 +1,5 @@
 import { Router, Request, Response } from "express"
+import { User } from "../entity/User"
 import { Expense } from "../entity/Expense"
 import { Parcel } from "../entity/Parcel"
 import { MoreThanOrEqual, LessThanOrEqual, Equal, Between, Like } from "typeorm"
@@ -11,11 +12,21 @@ router.post("/new", async function (req: Request, res: Response) {
         console.log("start");
         console.log(req.body.launch);
         var results = null
+        var calc = true
         const mDays = [28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 31]
         try {
-            const newExpense = async () => {
+            const newExpense = async (calc) => {
                 const expanse = await req.app.get("myDataSource").getRepository(Expense).create(req.body.launch)
                 const results = await req.app.get("myDataSource").getRepository(Expense).save(expanse)
+                if (calc){
+                    const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
+                        { userCode: req.body.launch.user }
+                    )
+                    var update = {userMoney: user.userMoney + req.body.launch.expMoney}
+
+                    await req.app.get("myDataSource").getRepository(User).merge(user, update)
+                    await req.app.get("myDataSource").getRepository(User).save(user)
+                }
                 return results
             }
             var newParcel = async () => {
@@ -29,13 +40,14 @@ router.post("/new", async function (req: Request, res: Response) {
             }
             if (req.body.launch.expPaymentMethod == 1) {
                 console.log("vista")
-                results = await newExpense()
+                results = await newExpense(true)
             } else if (req.body.launch.expPaymentMethod == 2) {
                 await newParcel()
                 const date = new Date(req.body.launch.expDate)
                 const originalDay = date.getDate() + 1
                 for (let i = 0; i < req.body.launch.expTimes; i++) {
-                    results = await newExpense()
+                    results = await newExpense(calc)
+                    calc = false
                     if (originalDay > mDays[date.getMonth()]) {
                         date.setDate(mDays[date.getMonth()])
                         date.setMonth(date.getMonth() + 1)
@@ -45,7 +57,7 @@ router.post("/new", async function (req: Request, res: Response) {
                     }
                     req.body.launch.expDate = moment(date).format("YYYY[-]MM[-]DD")
                 }
-                results = await newExpense()
+                results = await newExpense(calc)
             } else if (req.body.expPaymentMethod == 3) {
                 "continuo, limite de vezes desconhecido"
             }

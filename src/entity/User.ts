@@ -10,7 +10,9 @@ export class User {
 
     @Column()
     userMoney: number
-
+/*
+    @Column({ type: "real" })
+    incMoney: number*/
     @Column()
     userPhone: string
 

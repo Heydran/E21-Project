@@ -1,4 +1,5 @@
 import { Router, Request, Response } from "express"
+import { User } from "./../entity/User"
 import { Income } from "./../entity/Income"
 import { Parcel } from "./../entity/Parcel"
 import { MoreThanOrEqual, LessThanOrEqual, Equal, Between, Like } from "typeorm"
@@ -11,13 +12,28 @@ router.post("/new", async function (req: Request, res: Response) {
         console.log("start");
         console.log(req.body.launch);
         var results = null
+        var calc = true
         const mDays = [28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 31]
         try {
-            const newIncome = async () => {
+            const newIncome = async (calc) => {
                 const income = await req.app.get("myDataSource").getRepository(Income).create(req.body.launch)
                 const results = await req.app.get("myDataSource").getRepository(Income).save(income)
+
+                if (calc){
+                    const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
+                        { userCode: req.body.launch.user }
+                    )
+                    var update = {userMoney: user.userMoney + req.body.launch.incMoney}
+
+                    await req.app.get("myDataSource").getRepository(User).merge(user, update)
+                    await req.app.get("myDataSource").getRepository(User).save(user)
+                }
+
                 return results
             }
+
+
+
             var newParcel = async () => {
                 const parcel = await req.app.get("myDataSource").getRepository(Parcel).create({
                     parcelDescription: req.body.launch.incDescription,
@@ -27,15 +43,23 @@ router.post("/new", async function (req: Request, res: Response) {
                 const parcelResult = await req.app.get("myDataSource").getRepository(Parcel).save(parcel)
                 req.body.launch["parcelCode"] = parcelResult.parcelCode
             }
+
+
+
             if (req.body.launch.incPaymentMethod == 1) {
                 console.log("vista")
-                results = newIncome()
+                results = newIncome(calc)
+
+
+
+
             } else if (req.body.launch.incPaymentMethod == 2) {
                 await newParcel()
                 const date = new Date(req.body.launch.incDate)
                 const originalDay = date.getDate() + 1
                 for (let i = 0; i < req.body.launch.incTimes; i++) {
-                    results = await newIncome()
+                    results = await newIncome(calc)
+                    calc = false
                     if (originalDay > mDays[date.getMonth()]) {
                         date.setDate(mDays[date.getMonth()])
                         date.setMonth(date.getMonth() + 1)
@@ -45,10 +69,20 @@ router.post("/new", async function (req: Request, res: Response) {
                     }
                     req.body.launch.incDate = moment(date).format("YYYY[-]MM[-]DD")
                 }
-                results = await newIncome()
+                results = await newIncome(calc)
+
+
+
+
+
             } else if (req.body.incPaymentMethod == 3) {
                 "continuo, limite de vezes desconhecido"
             }
+
+
+
+
+
             var result = {}
             if (results)
                 result = ({
@@ -74,9 +108,14 @@ router.post("/query", async (req: Request, res: Response) => {
 
     try {
         var filters = {
-            user: {userCode:req.body.user.code},
             incPending: false
         }
+
+        try {
+
+            filters["user"] = { userCode: req.body.user.code }
+        } catch { }
+
         try {
 
             filters["wallet"] = Equal(req.body.filter.wallet.code)
@@ -84,7 +123,7 @@ router.post("/query", async (req: Request, res: Response) => {
         }
 
         try {
-            filters["parcel"] = {parcel: req.body.filter.parcel.code}
+            filters["parcel"] = { parcel: req.body.filter.parcel.code }
         } catch { }
 
         if (req.body.pending == true)

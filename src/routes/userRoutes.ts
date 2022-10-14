@@ -183,4 +183,16 @@ router.post("/recoverPasswd", async (req: Request, res: Response) => {
 
 })
 
+
+router.post("/queryMoney", async (req: Request, res: Response) => {
+    const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
+        {
+            select: { userMoney: true },
+            where: { userCode: req.body.userCode }
+        })
+
+
+    res.json(user)
+})
+
 export default router
