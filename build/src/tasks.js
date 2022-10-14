@@ -46,22 +46,24 @@ var Tasks = /** @class */ (function () {
     function Tasks(myDataSource, debugText) {
         console.log("iniciando");
         console.log(debugText);
-        (0, node_schedule_1.scheduleJob)("00 * * * * *", function () {
+        (0, node_schedule_1.scheduleJob)("20 00 00 01 * *", function () {
             return __awaiter(this, void 0, void 0, function () {
-                var date, mounth, year, datePeriod, users;
+                var date, mounth, year, datePeriod, users, _a;
                 var _this = this;
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
+                return __generator(this, function (_b) {
+                    switch (_b.label) {
                         case 0:
+                            _b.trys.push([0, 3, , 4]);
                             console.log("tentou schedue");
                             date = new Date();
+                            date.setMonth(date.getMonth() - 1); //usado para reduzir o ano automaticamente caso for em janeiro
                             mounth = date.getMonth() + 1;
                             year = date.getFullYear();
                             datePeriod = (0, typeorm_1.Between)("".concat(year, "-").concat(mounth, "-01"), "".concat(year, "-").concat(mounth, "-31")) //"Automatic Launch Monthy Balance"
                             ;
                             return [4 /*yield*/, myDataSource.getRepository(User_1.User).find()];
                         case 1:
-                            users = _a.sent();
+                            users = _b.sent();
                             return [4 /*yield*/, users.forEach(function (user) { return __awaiter(_this, void 0, void 0, function () {
                                     var totalIncomes, totalExpenses, incomes, expenses, table, total, launch, monthlyBalance;
                                     return __generator(this, function (_a) {
@@ -127,8 +129,12 @@ var Tasks = /** @class */ (function () {
                                     });
                                 }); })];
                         case 2:
-                            _a.sent();
-                            return [2 /*return*/];
+                            _b.sent();
+                            return [3 /*break*/, 4];
+                        case 3:
+                            _a = _b.sent();
+                            return [3 /*break*/, 4];
+                        case 4: return [2 /*return*/];
                     }
                 });
             });
