@@ -57,7 +57,7 @@ var Tasks = /** @class */ (function () {
                             date = new Date();
                             mounth = date.getMonth() + 1;
                             year = date.getFullYear();
-                            datePeriod = (0, typeorm_1.Between)("".concat(year, "[-]").concat(mounth, "[-]01"), "".concat(year, "[-]").concat(mounth, "[-]31")) //"Automatic Launch Monthy Balance"
+                            datePeriod = (0, typeorm_1.Between)("".concat(year, "-").concat(mounth, "-01"), "".concat(year, "-").concat(mounth, "-31")) //"Automatic Launch Monthy Balance"
                             ;
                             return [4 /*yield*/, myDataSource.getRepository(User_1.User).find()];
                         case 1:

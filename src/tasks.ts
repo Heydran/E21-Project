@@ -19,7 +19,7 @@ class Tasks  {
             const date = new Date()
             const mounth = date.getMonth() + 1
             const year = date.getFullYear()
-            const datePeriod = Between(`${year}[-]${mounth}[-]01`, `${year}[-]${mounth}[-]31`)//"Automatic Launch Monthy Balance"
+            const datePeriod = Between(`${year}-${mounth}-01`, `${year}-${mounth}-31`)//"Automatic Launch Monthy Balance"
     
             const users = await myDataSource.getRepository(User).find()
             await users.forEach(async user => {
