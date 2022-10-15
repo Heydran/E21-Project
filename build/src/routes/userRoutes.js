@@ -289,7 +289,8 @@ router.post("/queryMoney", function (req, res) { return __awaiter(void 0, void 0
                     })];
             case 1:
                 user = _a.sent();
-                res.json(user);
+                console.log({ user: user });
+                res.json({ user: user });
                 return [3 /*break*/, 3];
             case 2:
                 e_3 = _a.sent();
