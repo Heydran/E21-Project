@@ -185,6 +185,7 @@ router.post("/recoverPasswd", async (req: Request, res: Response) => {
 
 
 router.post("/queryMoney", async (req: Request, res: Response) => {
+    try{
     const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
         {
             select: { userMoney: true },
@@ -193,6 +194,10 @@ router.post("/queryMoney", async (req: Request, res: Response) => {
 
 
     res.json(user)
+}catch(e){
+    console.log("error in queryMoney", e.message);
+    
+}
 })
 
 export default router

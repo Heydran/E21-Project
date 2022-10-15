@@ -278,17 +278,24 @@ router.post("/recoverPasswd", function (req, res) { return __awaiter(void 0, voi
     });
 }); });
 router.post("/queryMoney", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user;
+    var user, e_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({
-                    select: { userMoney: true },
-                    where: { userCode: req.body.userCode }
-                })];
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({
+                        select: { userMoney: true },
+                        where: { userCode: req.body.userCode }
+                    })];
             case 1:
                 user = _a.sent();
                 res.json(user);
-                return [2 /*return*/];
+                return [3 /*break*/, 3];
+            case 2:
+                e_3 = _a.sent();
+                console.log("error in queryMoney", e_3.message);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
     });
 }); });
