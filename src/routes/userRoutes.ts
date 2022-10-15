@@ -190,10 +190,7 @@ router.post("/queryMoney", async (req: Request, res: Response) => {
             select: { userMoney: true },
             where: { userCode: req.body.userCode }
         })
-
-        console.log({user});
-        
-        res.json({user})
+        res.json(user[0])
     } catch (e) {
         console.log("error in queryMoney", e.message);
 
