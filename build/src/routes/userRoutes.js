@@ -283,7 +283,7 @@ router.post("/queryMoney", function (req, res) { return __awaiter(void 0, void 0
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).find({
                         select: { userMoney: true },
                         where: { userCode: req.body.userCode }
                     })];
