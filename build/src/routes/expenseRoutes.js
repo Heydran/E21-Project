@@ -38,6 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
 var User_1 = require("../entity/User");
+var Wallet_1 = require("../entity/Wallet");
 var Expense_1 = require("../entity/Expense");
 var Parcel_1 = require("../entity/Parcel");
 var typeorm_1 = require("typeorm");
@@ -61,7 +62,7 @@ router.post("/new", function (req, res) {
                 case 1:
                     _a.trys.push([1, 12, , 13]);
                     newExpense = function (calc) { return __awaiter(_this, void 0, void 0, function () {
-                        var expanse, results, user, update;
+                        var expanse, results, user, update, wallet, walletUpdate, newWallet, e_2;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).create(req.body.launch)];
@@ -74,7 +75,10 @@ router.post("/new", function (req, res) {
                                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userCode: req.body.launch.user })];
                                 case 3:
                                     user = _a.sent();
-                                    update = { userMoney: user.userMoney + req.body.launch.expMoney };
+                                    update = {
+                                        userMoney: user.userMoney - req.body.launch.expMoney,
+                                        userTotalExpenses: user.userTotalExpenses + req.body.launch.expMoney
+                                    };
                                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).merge(user, update)];
                                 case 4:
                                     _a.sent();
@@ -82,7 +86,31 @@ router.post("/new", function (req, res) {
                                 case 5:
                                     _a.sent();
                                     _a.label = 6;
-                                case 6: return [2 /*return*/, results];
+                                case 6:
+                                    _a.trys.push([6, 11, , 12]);
+                                    console.log(req.body.launch.wallet, "wallettttttttttttttttttttttt");
+                                    if (!(req.body.launch.wallet > 0 && req.body.launch.wallet != undefined)) return [3 /*break*/, 10];
+                                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(Wallet_1.Wallet).findOneBy({
+                                            walletCode: req.body.launch.wallet
+                                        })];
+                                case 7:
+                                    wallet = _a.sent();
+                                    walletUpdate = {
+                                        walletTotalExpenses: wallet.walletTotalExpenses + req.body.launch.expMoney
+                                    };
+                                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(Wallet_1.Wallet).merge(wallet, walletUpdate)];
+                                case 8:
+                                    newWallet = _a.sent();
+                                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(Wallet_1.Wallet).save(newWallet)];
+                                case 9:
+                                    _a.sent();
+                                    _a.label = 10;
+                                case 10: return [3 /*break*/, 12];
+                                case 11:
+                                    e_2 = _a.sent();
+                                    console.log("error in expenseRoutes, wallet total exp refresh --------------------------------", e_2.message);
+                                    return [3 /*break*/, 12];
+                                case 12: return [2 /*return*/, results];
                             }
                         });
                     }); };
@@ -175,7 +203,7 @@ router.post("/new", function (req, res) {
     });
 });
 router.post("/query", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var filters, registers, e_2;
+    var filters, registers, e_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -231,9 +259,9 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                 console.log("registers", registers);
                 return [2 /*return*/, res.json({ registers: registers })];
             case 2:
-                e_2 = _a.sent();
-                console.log("erro in expense:", e_2.message);
-                res.json({ err: e_2.message });
+                e_3 = _a.sent();
+                console.log("erro in expense:", e_3.message);
+                res.json({ err: e_3.message });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -251,7 +279,7 @@ router.post("/query/all", function (req, res) { return __awaiter(void 0, void 0,
     });
 }); });
 router.post("/edit", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var expense, newExpense, results, e_3;
+    var expense, newExpense, results, e_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -265,15 +293,15 @@ router.post("/edit", function (req, res) { return __awaiter(void 0, void 0, void
                 results = _a.sent();
                 return [2 /*return*/, res.json(results)];
             case 3:
-                e_3 = _a.sent();
-                console.log(e_3.message);
-                return [2 /*return*/, res.json({ results: null, error: e_3.message })];
+                e_4 = _a.sent();
+                console.log(e_4.message);
+                return [2 /*return*/, res.json({ results: null, error: e_4.message })];
             case 4: return [2 /*return*/];
         }
     });
 }); });
 router.post("/delete", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var results, e_4;
+    var results, e_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -283,8 +311,8 @@ router.post("/delete", function (req, res) { return __awaiter(void 0, void 0, vo
                 results = _a.sent();
                 return [2 /*return*/, res.json({ result: results })];
             case 2:
-                e_4 = _a.sent();
-                console.log(e_4.message);
+                e_5 = _a.sent();
+                console.log(e_5.message);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }

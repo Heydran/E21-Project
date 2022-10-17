@@ -27,6 +27,14 @@ var User = /** @class */ (function () {
         __metadata("design:type", Number)
     ], User.prototype, "userMoney", void 0);
     __decorate([
+        (0, typeorm_1.Column)({ type: "real" }),
+        __metadata("design:type", Number)
+    ], User.prototype, "userTotalIncomes", void 0);
+    __decorate([
+        (0, typeorm_1.Column)({ type: "real" }),
+        __metadata("design:type", Number)
+    ], User.prototype, "userTotalExpenses", void 0);
+    __decorate([
         (0, typeorm_1.Column)(),
         __metadata("design:type", String)
     ], User.prototype, "userPhone", void 0);

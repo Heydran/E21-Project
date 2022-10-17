@@ -28,6 +28,8 @@ router.post("/new", async function (req: Request, res: Response) {
 
 router.post("/get", async (req: Request, res: Response) => {
     try {
+        
+        
         const wallets = await req.app.get("myDataSource").getRepository(WalletUsers).find({
             relations: {
                 wallet: true,

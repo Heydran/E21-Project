@@ -11,7 +11,7 @@ const router: Router = Router()
 router.post("/signUp", async function (req: Request, res: Response) {
     try {
         const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
-            { userCode: req.body.newUser.userCode })
+            { userEmail: req.body.newUser.userEmail })
         try {
             if (user.userEmail == req.body.newUser.userEmail) {
                 return res.json({
@@ -29,6 +29,8 @@ router.post("/signUp", async function (req: Request, res: Response) {
                 userPhone: req.body.newUser.userPhone,
                 userEmail: req.body.newUser.userEmail,
                 userMoney: 0,
+                userTotalIncomes: 0,
+                userTotalExpenses: 0,
                 userPasswd: hash
             })
             const results = await req.app.get("myDataSource").getRepository(User).save(tuser)
@@ -49,13 +51,13 @@ router.post("/signUp", async function (req: Request, res: Response) {
         })
 
     } catch (e) {
-        console.log(e.message);
+        console.log(e);
 
         return res.json({
             result: {
                 registered: false,
                 userCode: null,
-                error: e
+                error: e.message
             }
         })
     }
@@ -192,7 +194,25 @@ router.post("/queryMoney", async (req: Request, res: Response) => {
         })
         res.json(user[0])
     } catch (e) {
-        console.log("error in queryMoney", e.message);
+        console.log("error in queryMoney", e.message)
+
+    }
+})
+
+router.post("/refreshUserMoney", async (req: Request, res: Response) => {
+    try {
+        const user = await req.app.get("myDataSource").getRepository(User).find({
+            select: {
+                userMoney: true,
+                userTotalIncomes: true,
+                userTotalExpenses: true
+            },
+            where: { userCode: req.body.userCode }
+        })
+        console.log(user)
+        res.json(user[0])
+    } catch (e) {
+        console.log("error in queryMoney", e.message)
 
     }
 })

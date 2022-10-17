@@ -9,6 +9,14 @@ export class Wallet {
     @Column()
     walletName: string
 
+    
+    @Column({ type: "real" })
+    walletTotalIncomes: number
+
+    @Column({ type: "real" })
+    walletTotalExpenses: number
+
+
     @Column()
     walletPasswd: string
 

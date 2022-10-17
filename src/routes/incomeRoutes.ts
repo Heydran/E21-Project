@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express"
 import { User } from "./../entity/User"
+import { Wallet } from "./../entity/Wallet"
 import { Income } from "./../entity/Income"
 import { Parcel } from "./../entity/Parcel"
 import { MoreThanOrEqual, LessThanOrEqual, Equal, Between, Like } from "typeorm"
@@ -19,15 +20,39 @@ router.post("/new", async function (req: Request, res: Response) {
                 const income = await req.app.get("myDataSource").getRepository(Income).create(req.body.launch)
                 const results = await req.app.get("myDataSource").getRepository(Income).save(income)
 
-                if (calc){
+                if (calc && !req.body.launch.pending) {
                     const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
                         { userCode: req.body.launch.user }
                     )
-                    var update = {userMoney: user.userMoney + req.body.launch.incMoney}
+                    var userUpdate = {
+                        userMoney: user.userMoney + req.body.launch.incMoney,
+                        userTotalIncomes: user.userTotalIncomes + req.body.launch.incMoney
+                    }
 
-                    await req.app.get("myDataSource").getRepository(User).merge(user, update)
-                    await req.app.get("myDataSource").getRepository(User).save(user)
+                    const newUser = await req.app.get("myDataSource").getRepository(User).merge(user, userUpdate)
+                    await req.app.get("myDataSource").getRepository(User).save(newUser)
                 }
+
+                try {
+                    console.log(req.body.launch.wallet, "wallettttttttttttttttttttttt")
+                    
+                    if (req.body.launch.wallet > 0 && req.body.launch.wallet != undefined) {
+                        const wallet = await req.app.get("myDataSource").getRepository(Wallet).findOneBy(
+                            {
+                                walletCode: req.body.launch.wallet
+                            }
+                        )
+
+                        var walletUpdate = {
+                            walletTotalIncomes: wallet.walletTotalIncomes + req.body.launch.incMoney
+                        }
+                        const newWallet = await req.app.get("myDataSource").getRepository(Wallet).merge(wallet, walletUpdate)
+                        await req.app.get("myDataSource").getRepository(Wallet).save(newWallet)
+                    }
+                } catch(e) {
+                    console.log("error in incomeRoutes, wallet total inc refresh --------------------------------", e.message)
+                    
+                 }
 
                 return results
             }

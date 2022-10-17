@@ -50,7 +50,7 @@ router.post("/signUp", function (req, res) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userCode: req.body.newUser.userCode })];
+                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userEmail: req.body.newUser.userEmail })];
                 case 1:
                     user = _a.sent();
                     try {
@@ -73,6 +73,8 @@ router.post("/signUp", function (req, res) {
                                         userPhone: req.body.newUser.userPhone,
                                         userEmail: req.body.newUser.userEmail,
                                         userMoney: 0,
+                                        userTotalIncomes: 0,
+                                        userTotalExpenses: 0,
                                         userPasswd: hash
                                     });
                                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).save(tuser)];
@@ -99,12 +101,12 @@ router.post("/signUp", function (req, res) {
                     return [3 /*break*/, 3];
                 case 2:
                     e_1 = _a.sent();
-                    console.log(e_1.message);
+                    console.log(e_1);
                     return [2 /*return*/, res.json({
                             result: {
                                 registered: false,
                                 userCode: null,
-                                error: e_1
+                                error: e_1.message
                             }
                         })];
                 case 3: return [2 /*return*/];
@@ -294,6 +296,33 @@ router.post("/queryMoney", function (req, res) { return __awaiter(void 0, void 0
             case 2:
                 e_3 = _a.sent();
                 console.log("error in queryMoney", e_3.message);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
+router.post("/refreshUserMoney", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var user, e_4;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).find({
+                        select: {
+                            userMoney: true,
+                            userTotalIncomes: true,
+                            userTotalExpenses: true
+                        },
+                        where: { userCode: req.body.userCode }
+                    })];
+            case 1:
+                user = _a.sent();
+                console.log(user);
+                res.json(user[0]);
+                return [3 /*break*/, 3];
+            case 2:
+                e_4 = _a.sent();
+                console.log("error in queryMoney", e_4.message);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }

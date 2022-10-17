@@ -24,6 +24,14 @@ var Wallet = /** @class */ (function () {
         __metadata("design:type", String)
     ], Wallet.prototype, "walletName", void 0);
     __decorate([
+        (0, typeorm_1.Column)({ type: "real" }),
+        __metadata("design:type", Number)
+    ], Wallet.prototype, "walletTotalIncomes", void 0);
+    __decorate([
+        (0, typeorm_1.Column)({ type: "real" }),
+        __metadata("design:type", Number)
+    ], Wallet.prototype, "walletTotalExpenses", void 0);
+    __decorate([
         (0, typeorm_1.Column)(),
         __metadata("design:type", String)
     ], Wallet.prototype, "walletPasswd", void 0);

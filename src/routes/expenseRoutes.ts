@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express"
 import { User } from "../entity/User"
+import { Wallet } from "../entity/Wallet"
 import { Expense } from "../entity/Expense"
 import { Parcel } from "../entity/Parcel"
 import { MoreThanOrEqual, LessThanOrEqual, Equal, Between, Like } from "typeorm"
@@ -22,11 +23,34 @@ router.post("/new", async function (req: Request, res: Response) {
                     const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
                         { userCode: req.body.launch.user }
                     )
-                    var update = {userMoney: user.userMoney + req.body.launch.expMoney}
+                    var update = {
+                        userMoney: user.userMoney - req.body.launch.expMoney,
+                        userTotalExpenses: user.userTotalExpenses + req.body.launch.expMoney
+                    }
 
                     await req.app.get("myDataSource").getRepository(User).merge(user, update)
                     await req.app.get("myDataSource").getRepository(User).save(user)
                 }
+                try {
+                    console.log(req.body.launch.wallet, "wallettttttttttttttttttttttt")
+                    
+                    if (req.body.launch.wallet > 0 && req.body.launch.wallet != undefined) {
+                        const wallet = await req.app.get("myDataSource").getRepository(Wallet).findOneBy(
+                            {
+                                walletCode: req.body.launch.wallet
+                            }
+                        )
+
+                        var walletUpdate = {
+                            walletTotalExpenses: wallet.walletTotalExpenses + req.body.launch.expMoney
+                        }
+                        const newWallet = await req.app.get("myDataSource").getRepository(Wallet).merge(wallet, walletUpdate)
+                        await req.app.get("myDataSource").getRepository(Wallet).save(newWallet)
+                    }
+                } catch(e) {
+                    console.log("error in expenseRoutes, wallet total exp refresh --------------------------------", e.message)
+                    
+                 }
                 return results
             }
             var newParcel = async () => {
