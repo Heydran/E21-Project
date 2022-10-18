@@ -183,7 +183,25 @@ router.post("/edit", async (req: Request, res: Response) => {
         )
         const newExpense = await req.app.get("myDataSource").getRepository(Expense).merge(expense, req.body.launch.column)
         const results = await req.app.get("myDataSource").getRepository(Expense).save(newExpense)
-        console.log(results);
+        console.log(results)
+
+        try{
+            if (req.body.launch.column.expPending == false) {
+                const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
+                    { userCode: req.body.launch.user }
+                )
+                var userUpdate = {
+                    userMoney: user.userMoney + req.body.launch.expMoney,
+                    userTotalExpenses: user.userTotalExpenses + req.body.launch.expMoney
+                }
+
+                const newUser = await req.app.get("myDataSource").getRepository(User).merge(user, userUpdate)
+                await req.app.get("myDataSource").getRepository(User).save(newUser)
+            }
+        }catch (err){
+            
+        }
+
         return res.json({ result: { successfull: true, results } })
     } catch (e) {
         console.log(e.message)

@@ -283,11 +283,11 @@ router.post("/query/all", function (req, res) { return __awaiter(void 0, void 0,
     });
 }); });
 router.post("/edit", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var income, newIncome, results, e_4;
+    var income, newIncome, results, user, userUpdate, newUser, err_2, e_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 4, , 5]);
+                _a.trys.push([0, 11, , 12]);
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).findOneBy({ incCode: req.body.launch.code })];
             case 1:
                 income = _a.sent();
@@ -298,12 +298,34 @@ router.post("/edit", function (req, res) { return __awaiter(void 0, void 0, void
             case 3:
                 results = _a.sent();
                 console.log(results);
-                return [2 /*return*/, res.json({ result: { successfull: true, results: results } })];
+                _a.label = 4;
             case 4:
+                _a.trys.push([4, 9, , 10]);
+                if (!(req.body.launch.column.incPending == false)) return [3 /*break*/, 8];
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userCode: req.body.launch.user })];
+            case 5:
+                user = _a.sent();
+                userUpdate = {
+                    userMoney: user.userMoney + req.body.launch.incMoney,
+                    userTotalIncomes: user.userTotalIncomes + req.body.launch.incMoney
+                };
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).merge(user, userUpdate)];
+            case 6:
+                newUser = _a.sent();
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).save(newUser)];
+            case 7:
+                _a.sent();
+                _a.label = 8;
+            case 8: return [3 /*break*/, 10];
+            case 9:
+                err_2 = _a.sent();
+                return [3 /*break*/, 10];
+            case 10: return [2 /*return*/, res.json({ result: { successfull: true, results: results } })];
+            case 11:
                 e_4 = _a.sent();
                 console.log(e_4.message);
                 return [2 /*return*/, res.json({ result: { successfull: false, error: e_4.message } })];
-            case 5: return [2 /*return*/];
+            case 12: return [2 /*return*/];
         }
     });
 }); });
