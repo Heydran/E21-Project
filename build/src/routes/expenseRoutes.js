@@ -312,11 +312,11 @@ router.post("/delete", function (req, res) { return __awaiter(void 0, void 0, vo
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).delete(req.body.code)];
             case 1:
                 results = _a.sent();
-                return [2 /*return*/, res.json({ result: results })];
+                return [2 /*return*/, res.json({ result: { successfull: true, results: results } })];
             case 2:
                 e_5 = _a.sent();
                 console.log(e_5.message);
-                return [3 /*break*/, 3];
+                return [2 /*return*/, res.json({ result: { successfull: false, error: e_5.message } })];
             case 3: return [2 /*return*/];
         }
     });
