@@ -19,7 +19,7 @@ router.post("/new", async function (req: Request, res: Response) {
             const newExpense = async (calc) => {
                 const expanse = await req.app.get("myDataSource").getRepository(Expense).create(req.body.launch)
                 const results = await req.app.get("myDataSource").getRepository(Expense).save(expanse)
-                if (calc && !req.body.launch.expPending){
+                if (calc && !req.body.launch.expPending) {
                     const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
                         { userCode: req.body.launch.user }
                     )
@@ -33,7 +33,7 @@ router.post("/new", async function (req: Request, res: Response) {
                 }
                 try {
                     console.log(req.body.launch.wallet, "wallettttttttttttttttttttttt")
-                    
+
                     if (req.body.launch.wallet > 0 && req.body.launch.wallet != undefined) {
                         const wallet = await req.app.get("myDataSource").getRepository(Wallet).findOneBy(
                             {
@@ -47,10 +47,10 @@ router.post("/new", async function (req: Request, res: Response) {
                         const newWallet = await req.app.get("myDataSource").getRepository(Wallet).merge(wallet, walletUpdate)
                         await req.app.get("myDataSource").getRepository(Wallet).save(newWallet)
                     }
-                } catch(e) {
+                } catch (e) {
                     console.log("error in expenseRoutes, wallet total exp refresh --------------------------------", e.message)
-                    
-                 }
+
+                }
                 return results
             }
             var newParcel = async () => {
@@ -108,7 +108,7 @@ router.post("/new", async function (req: Request, res: Response) {
 router.post("/query", async (req: Request, res: Response) => {
     try {
         var filters = {
-            user: {userCode:req.body.user.code},
+            user: { userCode: req.body.user.code },
             expPending: false
         }
         try {
@@ -119,7 +119,7 @@ router.post("/query", async (req: Request, res: Response) => {
         }
 
         try {
-            filters["parcel"] = {parcel: req.body.filter.parcel.code}
+            filters["parcel"] = { parcel: req.body.filter.parcel.code }
         } catch { }
 
         if (req.body.pending == true)
@@ -181,9 +181,10 @@ router.post("/edit", async (req: Request, res: Response) => {
         const expense = await req.app.get("myDataSource").getRepository(Expense).findOneBy(
             { expCode: req.body.launch.code }
         )
-        const newExpense = req.app.get("myDataSource").getRepository(Expense).merge(expense, req.body.launch.column)
+        const newExpense = await req.app.get("myDataSource").getRepository(Expense).merge(expense, req.body.launch.column)
         const results = await req.app.get("myDataSource").getRepository(Expense).save(newExpense)
-        return res.json(results)
+        console.log(results);
+        return res.json({ result: { successfull: true, results } })
     } catch (e) {
         console.log(e.message)
         return res.json({ results: null, error: e.message })

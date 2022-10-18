@@ -283,20 +283,23 @@ router.post("/edit", function (req, res) { return __awaiter(void 0, void 0, void
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 3, , 4]);
+                _a.trys.push([0, 4, , 5]);
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).findOneBy({ expCode: req.body.launch.code })];
             case 1:
                 expense = _a.sent();
-                newExpense = req.app.get("myDataSource").getRepository(Expense_1.Expense).merge(expense, req.body.launch.column);
-                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).save(newExpense)];
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).merge(expense, req.body.launch.column)];
             case 2:
-                results = _a.sent();
-                return [2 /*return*/, res.json(results)];
+                newExpense = _a.sent();
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).save(newExpense)];
             case 3:
+                results = _a.sent();
+                console.log(results);
+                return [2 /*return*/, res.json({ result: { successfull: true, results: results } })];
+            case 4:
                 e_4 = _a.sent();
                 console.log(e_4.message);
                 return [2 /*return*/, res.json({ results: null, error: e_4.message })];
-            case 4: return [2 /*return*/];
+            case 5: return [2 /*return*/];
         }
     });
 }); });

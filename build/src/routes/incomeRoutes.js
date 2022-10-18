@@ -287,20 +287,23 @@ router.post("/edit", function (req, res) { return __awaiter(void 0, void 0, void
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 3, , 4]);
+                _a.trys.push([0, 4, , 5]);
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).findOneBy({ incCode: req.body.launch.code })];
             case 1:
                 income = _a.sent();
-                newIncome = req.app.get("myDataSource").getRepository(Income_1.Income).merge(income, req.body.launch.column);
-                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).save(newIncome)];
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).merge(income, req.body.launch.column)];
             case 2:
-                results = _a.sent();
-                return [2 /*return*/, res.json({ result: { successful: true, results: results } })];
+                newIncome = _a.sent();
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).save(newIncome)];
             case 3:
+                results = _a.sent();
+                console.log(results);
+                return [2 /*return*/, res.json({ result: { successfull: true, results: results } })];
+            case 4:
                 e_4 = _a.sent();
                 console.log(e_4.message);
-                return [2 /*return*/, res.json({ result: { successful: false, error: e_4.message } })];
-            case 4: return [2 /*return*/];
+                return [2 /*return*/, res.json({ result: { successfull: false, error: e_4.message } })];
+            case 5: return [2 /*return*/];
         }
     });
 }); });
@@ -313,11 +316,11 @@ router.post("/delete", function (req, res) { return __awaiter(void 0, void 0, vo
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).delete(req.body.code)];
             case 1:
                 results = _a.sent();
-                return [2 /*return*/, res.json({ result: { successful: true, results: results } })];
+                return [2 /*return*/, res.json({ result: { successfull: true, results: results } })];
             case 2:
                 e_5 = _a.sent();
                 console.log(e_5.message);
-                return [2 /*return*/, res.json({ result: { successful: false, error: e_5.message } })];
+                return [2 /*return*/, res.json({ result: { successfull: false, error: e_5.message } })];
             case 3: return [2 /*return*/];
         }
     });
