@@ -20,7 +20,7 @@ router.post("/new", async function (req: Request, res: Response) {
                 const income = await req.app.get("myDataSource").getRepository(Income).create(req.body.launch)
                 const results = await req.app.get("myDataSource").getRepository(Income).save(income)
 
-                if (calc && !req.body.launch.pending) {
+                if (calc && !req.body.launch.incPending) {
                     const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
                         { userCode: req.body.launch.user }
                     )

@@ -71,7 +71,7 @@ router.post("/new", function (req, res) {
                                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).save(expanse)];
                                 case 2:
                                     results = _a.sent();
-                                    if (!calc) return [3 /*break*/, 6];
+                                    if (!(calc && !req.body.launch.expPending)) return [3 /*break*/, 6];
                                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userCode: req.body.launch.user })];
                                 case 3:
                                     user = _a.sent();
