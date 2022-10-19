@@ -118,21 +118,25 @@ router.post("/join", function (req, res) {
                     _a.trys.push([0, 5, , 6]);
                     console.log(req.body.wallet, "bodyyyyyyyyyyyyyyyyyyyyyyyyyy");
                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(Wallet_1.Wallet).findOneBy({
-                            walletCode: req.body.walletCode
+                            walletCode: req.body.wallet.walletCode
                         })];
                 case 1:
                     wallet = _a.sent();
-                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).find({ where: {
-                                user: (0, typeorm_1.Equal)(req.body.wallet.userCode),
-                                wallet: (0, typeorm_1.Equal)(wallet.walletCode),
+                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).find({
+                            relations: {
+                                wallet: true
+                            },
+                            where: {
+                                user: (0, typeorm_1.Equal)(req.body.wallet.userCode)
                             }
                         })];
                 case 2:
                     coWallet = _a.sent();
-                    console.log(coWallet, "oooooooooooooooooooooooooooooooooooooo");
-                    if (coWallet.length > 0) {
-                        throw "Wallet already acess";
-                    }
+                    coWallet.forEach(function (wallet) {
+                        if (wallet.wallet.walletCode == req.body.wallet.walletCode) {
+                            throw "wallet already acess";
+                        }
+                    });
                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).create({
                             user: req.body.wallet.userCode,
                             wallet: wallet.walletCode,
@@ -146,7 +150,7 @@ router.post("/join", function (req, res) {
                     return [2 /*return*/, res.json({ result: { successful: true, error: "Wallet Adicionada" } })];
                 case 5:
                     err_2 = _a.sent();
-                    console.log(err_2.message);
+                    console.log(err_2, "eroooooooooooooooo");
                     return [2 /*return*/, res.json({ result: { successful: false, error: "Wallet inexistente ou ja acessada" } })];
                 case 6: return [2 /*return*/];
             }

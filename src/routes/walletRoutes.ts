@@ -2,7 +2,7 @@ import { Router, Request, Response } from "express"
 import { Wallet } from "../entity/Wallet"
 import { WalletUsers } from "../entity/WalletUsers"
 import { ShareRequest } from "../entity/ShareRequest"
-import {Equal} from "typeorm"
+import { Equal } from "typeorm"
 
 
 const router: Router = Router()
@@ -57,18 +57,22 @@ router.post("/join", async function (req: Request, res: Response) {
         console.log(req.body.wallet, "bodyyyyyyyyyyyyyyyyyyyyyyyyyy")
 
         const wallet = await req.app.get("myDataSource").getRepository(Wallet).findOneBy({
-            walletCode: req.body.walletCode
+            walletCode: req.body.wallet.walletCode
         })
 
-        const coWallet = await req.app.get("myDataSource").getRepository(WalletUsers).find({where:{
-            user: Equal(req.body.wallet.userCode),
-            wallet: Equal(wallet.walletCode),}
+        const coWallet = await req.app.get("myDataSource").getRepository(WalletUsers).find({
+            relations: {
+                wallet: true
+            },
+            where: {
+                user: Equal(req.body.wallet.userCode)
+            }
         })
-        console.log(coWallet, "oooooooooooooooooooooooooooooooooooooo")
-        
-        if (coWallet.length > 0){
-            throw "Wallet already acess"
-        }
+        coWallet.forEach(wallet => {
+            if (wallet.wallet.walletCode == req.body.wallet.walletCode) {
+                throw "wallet already acess"
+            }
+        })
         const walletOwner = await req.app.get("myDataSource").getRepository(WalletUsers).create({
             user: req.body.wallet.userCode,
             wallet: wallet.walletCode,
@@ -80,7 +84,7 @@ router.post("/join", async function (req: Request, res: Response) {
         return res.json({ result: { successful: true, error: "Wallet Adicionada" } })
 
     } catch (err) {
-        console.log(err.message)
+        console.log(err, "eroooooooooooooooo")
 
         return res.json({ result: { successful: false, error: "Wallet inexistente ou ja acessada" } })
     }
