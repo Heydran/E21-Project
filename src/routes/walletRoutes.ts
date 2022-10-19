@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express"
 import { Wallet } from "../entity/Wallet"
 import { WalletUsers } from "../entity/WalletUsers"
 import { ShareRequest } from "../entity/ShareRequest"
+import {Equal} from "typeorm"
 
 
 const router: Router = Router()
@@ -28,8 +29,8 @@ router.post("/new", async function (req: Request, res: Response) {
 
 router.post("/get", async (req: Request, res: Response) => {
     try {
-        
-        
+
+
         const wallets = await req.app.get("myDataSource").getRepository(WalletUsers).find({
             relations: {
                 wallet: true,
@@ -56,8 +57,18 @@ router.post("/join", async function (req: Request, res: Response) {
         console.log(req.body.wallet, "bodyyyyyyyyyyyyyyyyyyyyyyyyyy")
 
         const wallet = await req.app.get("myDataSource").getRepository(Wallet).findOneBy({
-                 walletCode: req.body.walletCode 
+            walletCode: req.body.walletCode
         })
+
+        const coWallet = await req.app.get("myDataSource").getRepository(WalletUsers).find({where:{
+            user: Equal(req.body.wallet.userCode),
+            wallet: Equal(wallet.walletCode),}
+        })
+        console.log(coWallet, "oooooooooooooooooooooooooooooooooooooo")
+        
+        if (coWallet.length > 0){
+            throw "Wallet already acess"
+        }
         const walletOwner = await req.app.get("myDataSource").getRepository(WalletUsers).create({
             user: req.body.wallet.userCode,
             wallet: wallet.walletCode,
@@ -70,8 +81,8 @@ router.post("/join", async function (req: Request, res: Response) {
 
     } catch (err) {
         console.log(err.message)
-        
-        return res.json({ result: { successful: false, error: "Wallet inexistente" } })
+
+        return res.json({ result: { successful: false, error: "Wallet inexistente ou ja acessada" } })
     }
 })
 

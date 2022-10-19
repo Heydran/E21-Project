@@ -40,6 +40,7 @@ var express_1 = require("express");
 var Wallet_1 = require("../entity/Wallet");
 var WalletUsers_1 = require("../entity/WalletUsers");
 var ShareRequest_1 = require("../entity/ShareRequest");
+var typeorm_1 = require("typeorm");
 var router = (0, express_1.Router)();
 router.post("/new", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
@@ -110,33 +111,44 @@ router.post("/get", function (req, res) { return __awaiter(void 0, void 0, void 
 }); });
 router.post("/join", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var wallet, walletOwner, woResults, err_2;
+        var wallet, coWallet, walletOwner, woResults, err_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 4, , 5]);
+                    _a.trys.push([0, 5, , 6]);
                     console.log(req.body.wallet, "bodyyyyyyyyyyyyyyyyyyyyyyyyyy");
                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(Wallet_1.Wallet).findOneBy({
                             walletCode: req.body.walletCode
                         })];
                 case 1:
                     wallet = _a.sent();
+                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).find({ where: {
+                                user: (0, typeorm_1.Equal)(req.body.wallet.userCode),
+                                wallet: (0, typeorm_1.Equal)(wallet.walletCode),
+                            }
+                        })];
+                case 2:
+                    coWallet = _a.sent();
+                    console.log(coWallet, "oooooooooooooooooooooooooooooooooooooo");
+                    if (coWallet.length > 0) {
+                        throw "Wallet already acess";
+                    }
                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).create({
                             user: req.body.wallet.userCode,
                             wallet: wallet.walletCode,
                             favorite: req.body.wallet.favorite
                         })];
-                case 2:
+                case 3:
                     walletOwner = _a.sent();
                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).save(walletOwner)];
-                case 3:
+                case 4:
                     woResults = _a.sent();
                     return [2 /*return*/, res.json({ result: { successful: true, error: "Wallet Adicionada" } })];
-                case 4:
+                case 5:
                     err_2 = _a.sent();
                     console.log(err_2.message);
-                    return [2 /*return*/, res.json({ result: { successful: false, error: "Wallet inexistente" } })];
-                case 5: return [2 /*return*/];
+                    return [2 /*return*/, res.json({ result: { successful: false, error: "Wallet inexistente ou ja acessada" } })];
+                case 6: return [2 /*return*/];
             }
         });
     });

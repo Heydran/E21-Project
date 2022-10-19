@@ -43,104 +43,158 @@ var User_1 = require("./entity/User");
 var typeorm_1 = require("typeorm");
 var moment = require("moment");
 var Tasks = /** @class */ (function () {
-    function Tasks(myDataSource, debugText) {
-        console.log("iniciando");
-        console.log(debugText);
-        (0, node_schedule_1.scheduleJob)("20 00 00 01 * *", function () {
-            return __awaiter(this, void 0, void 0, function () {
-                var date, mounth, year, datePeriod, users, _a;
-                var _this = this;
-                return __generator(this, function (_b) {
-                    switch (_b.label) {
-                        case 0:
-                            _b.trys.push([0, 3, , 4]);
-                            console.log("tentou schedue");
-                            date = new Date();
-                            date.setMonth(date.getMonth() - 1); //usado para reduzir o ano automaticamente caso for em janeiro
-                            mounth = date.getMonth() + 1;
-                            year = date.getFullYear();
-                            datePeriod = (0, typeorm_1.Between)("".concat(year, "-").concat(mounth, "-01"), "".concat(year, "-").concat(mounth, "-31")) //"Automatic Launch Monthy Balance"
-                            ;
-                            return [4 /*yield*/, myDataSource.getRepository(User_1.User).find()];
-                        case 1:
-                            users = _b.sent();
-                            return [4 /*yield*/, users.forEach(function (user) { return __awaiter(_this, void 0, void 0, function () {
-                                    var totalIncomes, totalExpenses, incomes, expenses, table, total, launch, monthlyBalance;
-                                    return __generator(this, function (_a) {
-                                        switch (_a.label) {
-                                            case 0:
-                                                totalIncomes = 0;
-                                                totalExpenses = 0;
-                                                return [4 /*yield*/, myDataSource.getRepository(Income_1.Income).find({
-                                                        where: {
-                                                            user: { userCode: user.userCode },
-                                                            incDate: datePeriod
-                                                        }
-                                                    })];
-                                            case 1:
-                                                incomes = _a.sent();
-                                                return [4 /*yield*/, incomes.forEach(function (income) {
-                                                        totalIncomes = totalIncomes + income.incMoney;
-                                                    })];
-                                            case 2:
-                                                _a.sent();
-                                                return [4 /*yield*/, myDataSource.getRepository(Expense_1.Expense).find({
-                                                        where: {
-                                                            user: { userCode: user.userCode },
-                                                            expDate: datePeriod
-                                                        }
-                                                    })];
-                                            case 3:
-                                                expenses = _a.sent();
-                                                return [4 /*yield*/, expenses.forEach(function (income) {
-                                                        totalExpenses = totalExpenses + income.expMoney;
-                                                    })];
-                                            case 4:
-                                                _a.sent();
-                                                table = "";
-                                                total = 0;
-                                                if (totalIncomes > totalExpenses) {
-                                                    table = "inc",
-                                                        total = totalIncomes - totalExpenses;
-                                                }
-                                                else {
-                                                    table = "exp",
-                                                        total = totalExpenses - totalIncomes;
-                                                }
-                                                launch = {};
-                                                launch["".concat(table, "Money")] = total;
-                                                launch["".concat(table, "Category")] = "MonthlyBalance";
-                                                launch["".concat(table, "PaymentMethod")] = 1;
-                                                launch["".concat(table, "TotalPayment")] = false;
-                                                launch["".concat(table, "Times")] = 1;
-                                                launch["".concat(table, "Pending")] = false;
-                                                launch["".concat(table, "Date")] = moment(date).format("YYYY[-]MM[-]DD");
-                                                launch["".concat(table, "Description")] = "Automatic Monthly Balance Launch";
-                                                launch["user"] = user.userCode;
-                                                console.log("launcheeeeeeeeeeeeeeeeeeeeeeeeeee", launch);
-                                                return [4 /*yield*/, myDataSource.getRepository(totalIncomes > totalExpenses ? Income_1.Income : Expense_1.Expense).create(launch)];
-                                            case 5:
-                                                monthlyBalance = _a.sent();
-                                                return [4 /*yield*/, myDataSource.getRepository(Income_1.Income).save(monthlyBalance)];
-                                            case 6:
-                                                _a.sent();
-                                                return [2 /*return*/];
-                                        }
-                                    });
-                                }); })];
-                        case 2:
-                            _b.sent();
-                            return [3 /*break*/, 4];
-                        case 3:
-                            _a = _b.sent();
-                            return [3 /*break*/, 4];
-                        case 4: return [2 /*return*/];
-                    }
-                });
+    function Tasks(myDataSource) {
+        console.log("init task");
+        this.myDataSource = myDataSource;
+        this.monthlyBalanceCalc(myDataSource, this.resetUserMoney, this.newLaunche);
+    }
+    Tasks.prototype.resetUserMoney = function (userCode, myDataSource) {
+        return __awaiter(this, void 0, void 0, function () {
+            var user, newUser, updateUser;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, myDataSource.getRepository(User_1.User).findOneBy({ userCode: userCode })];
+                    case 1:
+                        user = _a.sent();
+                        newUser = {
+                            userMoney: 0,
+                            userTotalIncomes: 0,
+                            userTotalExpenses: 0
+                        };
+                        return [4 /*yield*/, myDataSource.getRepository(User_1.User).merge(user, newUser)];
+                    case 2:
+                        updateUser = _a.sent();
+                        return [4 /*yield*/, myDataSource.getRepository(User_1.User).save(updateUser)];
+                    case 3:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
             });
         });
-        console.log("iniciou");
-    }
+    };
+    Tasks.prototype.newLaunche = function (totalIncomes, totalExpenses, user, myDataSource) {
+        return __awaiter(this, void 0, void 0, function () {
+            var date, table, total, launch, monthlyBalance;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        date = new Date();
+                        table = "";
+                        total = 0;
+                        if (totalIncomes >= totalExpenses) {
+                            table = "inc",
+                                total = totalIncomes - totalExpenses;
+                        }
+                        else {
+                            table = "exp",
+                                total = totalExpenses - totalIncomes;
+                        }
+                        launch = {};
+                        launch["".concat(table, "Money")] = total;
+                        launch["".concat(table, "Category")] = "MonthlyBalance";
+                        launch["".concat(table, "PaymentMethod")] = 1;
+                        launch["".concat(table, "TotalPayment")] = false;
+                        launch["".concat(table, "Times")] = 1;
+                        launch["".concat(table, "Pending")] = false;
+                        launch["".concat(table, "Date")] = moment(date).format("YYYY[-]MM[-]DD");
+                        launch["".concat(table, "Description")] = "Automatic Monthly Balance Launch";
+                        launch["user"] = user;
+                        console.log("launcheeeeeeeeeeeeeeeeeeeeeeeeeee", launch);
+                        return [4 /*yield*/, myDataSource.getRepository(totalIncomes > totalExpenses ? Income_1.Income : Expense_1.Expense).create(launch)];
+                    case 1:
+                        monthlyBalance = _a.sent();
+                        return [4 /*yield*/, myDataSource.getRepository(Income_1.Income).save(monthlyBalance)];
+                    case 2:
+                        _a.sent();
+                        return [2 /*return*/, true];
+                }
+            });
+        });
+    };
+    Tasks.prototype.monthlyBalanceCalc = function (myDataSource, resetUserMoney, newLaunche) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                (0, node_schedule_1.scheduleJob)("* * * * * *", function () {
+                    return __awaiter(this, void 0, void 0, function () {
+                        var lastDay, date, mounth, year, datePeriod, users, e_1;
+                        var _this = this;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    _a.trys.push([0, 3, , 4]);
+                                    console.log("tentou schedue");
+                                    lastDay = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+                                    date = new Date();
+                                    date.setMonth(date.getMonth() - 1); //usado para reduzir o ano automaticamente caso for em janeiro
+                                    mounth = date.getMonth() + 1;
+                                    year = date.getFullYear();
+                                    datePeriod = (0, typeorm_1.Between)("".concat(year, "-").concat(mounth, "-01"), "".concat(year, "-").concat(mounth, "-").concat(lastDay[mounth])) //"Automatic Launch Monthy Balance"
+                                    ;
+                                    return [4 /*yield*/, myDataSource.getRepository(User_1.User).find()];
+                                case 1:
+                                    users = _a.sent();
+                                    return [4 /*yield*/, users.forEach(function (user) { return __awaiter(_this, void 0, void 0, function () {
+                                            var totalIncomes, totalExpenses, incomes, expenses;
+                                            return __generator(this, function (_a) {
+                                                switch (_a.label) {
+                                                    case 0:
+                                                        totalIncomes = 0;
+                                                        totalExpenses = 0;
+                                                        return [4 /*yield*/, myDataSource.getRepository(Income_1.Income).find({
+                                                                where: {
+                                                                    user: { userCode: user.userCode },
+                                                                    incDate: datePeriod
+                                                                }
+                                                            })];
+                                                    case 1:
+                                                        incomes = _a.sent();
+                                                        return [4 /*yield*/, incomes.forEach(function (income) {
+                                                                totalIncomes = totalIncomes + income.incMoney;
+                                                            })];
+                                                    case 2:
+                                                        _a.sent();
+                                                        return [4 /*yield*/, myDataSource.getRepository(Expense_1.Expense).find({
+                                                                where: {
+                                                                    user: { userCode: user.userCode },
+                                                                    expDate: datePeriod
+                                                                }
+                                                            })];
+                                                    case 3:
+                                                        expenses = _a.sent();
+                                                        return [4 /*yield*/, expenses.forEach(function (income) {
+                                                                totalExpenses = totalExpenses + income.expMoney;
+                                                            })];
+                                                    case 4:
+                                                        _a.sent();
+                                                        return [4 /*yield*/, resetUserMoney(user.userCode)];
+                                                    case 5:
+                                                        _a.sent();
+                                                        return [4 /*yield*/, newLaunche(totalIncomes, totalExpenses, user.userCode)];
+                                                    case 6:
+                                                        _a.sent();
+                                                        return [2 /*return*/];
+                                                }
+                                            });
+                                        }); })];
+                                case 2:
+                                    _a.sent();
+                                    return [3 /*break*/, 4];
+                                case 3:
+                                    e_1 = _a.sent();
+                                    console.log(e_1.message);
+                                    return [3 /*break*/, 4];
+                                case 4: return [2 /*return*/];
+                            }
+                        });
+                    });
+                });
+                return [2 /*return*/];
+            });
+        });
+    };
+    Tasks.prototype.teste = function () {
+        console.log("testeandoooooooooooooooooooooooooooooooo");
+    };
     return Tasks;
 }());
 exports.default = Tasks;

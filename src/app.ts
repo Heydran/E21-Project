@@ -33,7 +33,7 @@ app.use("/income", incomeRoutes)
 app.use("/expense", expenseRoutes)
 
 
-const task: any = new Tasks(myDataSource, "texto debug------------------------------------")
+//const task: any = new Tasks(myDataSource)
 app.get("/", (req: Request, res: Response) => {
     return res.send("Olá xd")
 })
