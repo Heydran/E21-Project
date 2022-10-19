@@ -53,7 +53,6 @@ router.post("/new", async function (req: Request, res: Response) {
                     console.log("error in incomeRoutes, wallet total inc refresh --------------------------------", e.message)
 
                 }
-
                 return results
             }
 
@@ -100,7 +99,7 @@ router.post("/new", async function (req: Request, res: Response) {
 
 
 
-            } else if (req.body.incPaymentMethod == 3) {
+            } else if (req.body.launch.incPaymentMethod == 3) {
                 "continuo, limite de vezes desconhecido"
             }
 
@@ -218,7 +217,16 @@ router.post("/edit", async (req: Request, res: Response) => {
 
         try {
             if (req.body.launch.column.incPending == false) {
-                await updateUserMoney(req.body.launche.user, income.incMoney, req.app.get("myDataSource").getRepository(User))
+                const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
+                    { userCode: req.body.launch.user }
+                )
+                var userUpdate = {
+                    userMoney: user.userMoney + req.body.launch.incMoney,
+                    userTotalIncomes: user.userTotalIncomes + req.body.launch.incMoney
+                }
+
+                const newUser = await req.app.get("myDataSource").getRepository(User).merge(user, userUpdate)
+                await req.app.get("myDataSource").getRepository(User).save(newUser)
             }
         } catch (err) {
 
@@ -243,18 +251,6 @@ router.post("/delete", async (req: Request, res: Response) => {
     }
 })
 
-async function updateUserMoney(userCode: number, money: number, table) {
-    const user = await table.findOneBy(
-        { userCode }
-    )
-    var userUpdate = {
-        userMoney: user.userMoney + money,
-        userTotalIncomes: user.userTotalIncomes + money
-    }
-
-    const newUser = await table.merge(user, userUpdate)
-    await table.save(newUser)
-}
 
 export default router
 

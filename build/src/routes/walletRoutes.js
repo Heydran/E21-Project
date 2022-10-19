@@ -114,27 +114,29 @@ router.post("/join", function (req, res) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 6, , 7]);
-                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(Wallet_1.Wallet).findOneBy({ walletCode: req.body.wallet.walletCode })];
+                    _a.trys.push([0, 4, , 5]);
+                    console.log(req.body.wallet, "bodyyyyyyyyyyyyyyyyyyyyyyyyyy");
+                    return [4 /*yield*/, req.app.get("myDataSource").getRepository(Wallet_1.Wallet).findOneBy({
+                            walletCode: req.body.walletCode
+                        })];
                 case 1:
                     wallet = _a.sent();
-                    if (!(wallet.walletPasswd == req.body.wallet.password)) return [3 /*break*/, 4];
                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).create({
-                            userCode: req.body.wallet.userCode,
-                            walletCode: req.body.wallet.walletCode
+                            user: req.body.wallet.userCode,
+                            wallet: wallet.walletCode,
+                            favorite: req.body.wallet.favorite
                         })];
                 case 2:
                     walletOwner = _a.sent();
                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).save(walletOwner)];
                 case 3:
                     woResults = _a.sent();
-                    return [2 /*return*/, res.json({ result: { successful: true } })];
-                case 4: return [2 /*return*/, res.json({ result: { successful: false, error: "crendenciais invalidas" } })];
-                case 5: return [3 /*break*/, 7];
-                case 6:
+                    return [2 /*return*/, res.json({ result: { successful: true, error: "Wallet Adicionada" } })];
+                case 4:
                     err_2 = _a.sent();
+                    console.log(err_2.message);
                     return [2 /*return*/, res.json({ result: { successful: false, error: "Wallet inexistente" } })];
-                case 7: return [2 /*return*/];
+                case 5: return [2 /*return*/];
             }
         });
     });

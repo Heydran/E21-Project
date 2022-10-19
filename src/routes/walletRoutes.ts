@@ -52,22 +52,25 @@ router.post("/get", async (req: Request, res: Response) => {
 
 router.post("/join", async function (req: Request, res: Response) {
     try {
-        const wallet = await req.app.get("myDataSource").getRepository(Wallet).findOneBy(
-            { walletCode: req.body.wallet.walletCode }
-        )
-        if (wallet.walletPasswd == req.body.wallet.password) {
 
-            const walletOwner = await req.app.get("myDataSource").getRepository(WalletUsers).create({
-                userCode: req.body.wallet.userCode,
-                walletCode: req.body.wallet.walletCode
+        console.log(req.body.wallet, "bodyyyyyyyyyyyyyyyyyyyyyyyyyy")
 
-            })
-            const woResults = await req.app.get("myDataSource").getRepository(WalletUsers).save(walletOwner)
-            return res.json({ result: { successful: true } })
-        } else {
-            return res.json({ result: { successful: false, error: "crendenciais invalidas" } })
-        }
+        const wallet = await req.app.get("myDataSource").getRepository(Wallet).findOneBy({
+                 walletCode: req.body.walletCode 
+        })
+        const walletOwner = await req.app.get("myDataSource").getRepository(WalletUsers).create({
+            user: req.body.wallet.userCode,
+            wallet: wallet.walletCode,
+            favorite: req.body.wallet.favorite
+
+        })
+        const woResults = await req.app.get("myDataSource").getRepository(WalletUsers).save(walletOwner)
+
+        return res.json({ result: { successful: true, error: "Wallet Adicionada" } })
+
     } catch (err) {
+        console.log(err.message)
+        
         return res.json({ result: { successful: false, error: "Wallet inexistente" } })
     }
 })

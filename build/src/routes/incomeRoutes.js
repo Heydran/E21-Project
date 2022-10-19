@@ -170,7 +170,7 @@ router.post("/new", function (req, res) {
                     results = _a.sent();
                     return [3 /*break*/, 10];
                 case 9:
-                    if (req.body.incPaymentMethod == 3) {
+                    if (req.body.launch.incPaymentMethod == 3) {
                         "continuo, limite de vezes desconhecido";
                     }
                     _a.label = 10;
@@ -283,11 +283,11 @@ router.post("/query/all", function (req, res) { return __awaiter(void 0, void 0,
     });
 }); });
 router.post("/edit", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var income, newIncome, results, err_2, e_4;
+    var income, newIncome, results, user, userUpdate, newUser, err_2, e_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 9, , 10]);
+                _a.trys.push([0, 11, , 12]);
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).findOneBy({ incCode: req.body.launch.code })];
             case 1:
                 income = _a.sent();
@@ -300,22 +300,32 @@ router.post("/edit", function (req, res) { return __awaiter(void 0, void 0, void
                 console.log(results);
                 _a.label = 4;
             case 4:
-                _a.trys.push([4, 7, , 8]);
-                if (!(req.body.launch.column.incPending == false)) return [3 /*break*/, 6];
-                return [4 /*yield*/, updateUserMoney(req.body.launche.user, income.incMoney, req.app.get("myDataSource").getRepository(User_1.User))];
+                _a.trys.push([4, 9, , 10]);
+                if (!(req.body.launch.column.incPending == false)) return [3 /*break*/, 8];
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userCode: req.body.launch.user })];
             case 5:
-                _a.sent();
-                _a.label = 6;
-            case 6: return [3 /*break*/, 8];
+                user = _a.sent();
+                userUpdate = {
+                    userMoney: user.userMoney + req.body.launch.incMoney,
+                    userTotalIncomes: user.userTotalIncomes + req.body.launch.incMoney
+                };
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).merge(user, userUpdate)];
+            case 6:
+                newUser = _a.sent();
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).save(newUser)];
             case 7:
-                err_2 = _a.sent();
-                return [3 /*break*/, 8];
-            case 8: return [2 /*return*/, res.json({ result: { successfull: true, results: results } })];
+                _a.sent();
+                _a.label = 8;
+            case 8: return [3 /*break*/, 10];
             case 9:
+                err_2 = _a.sent();
+                return [3 /*break*/, 10];
+            case 10: return [2 /*return*/, res.json({ result: { successfull: true, results: results } })];
+            case 11:
                 e_4 = _a.sent();
                 console.log(e_4.message);
                 return [2 /*return*/, res.json({ result: { successfull: false, error: e_4.message } })];
-            case 10: return [2 /*return*/];
+            case 12: return [2 /*return*/];
         }
     });
 }); });
@@ -337,27 +347,4 @@ router.post("/delete", function (req, res) { return __awaiter(void 0, void 0, vo
         }
     });
 }); });
-function updateUserMoney(userCode, money, table) {
-    return __awaiter(this, void 0, void 0, function () {
-        var user, userUpdate, newUser;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, table.findOneBy({ userCode: userCode })];
-                case 1:
-                    user = _a.sent();
-                    userUpdate = {
-                        userMoney: user.userMoney + money,
-                        userTotalIncomes: user.userTotalIncomes + money
-                    };
-                    return [4 /*yield*/, table.merge(user, userUpdate)];
-                case 2:
-                    newUser = _a.sent();
-                    return [4 /*yield*/, table.save(newUser)];
-                case 3:
-                    _a.sent();
-                    return [2 /*return*/];
-            }
-        });
-    });
-}
 exports.default = router;

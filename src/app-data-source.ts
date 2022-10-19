@@ -5,6 +5,7 @@ import { Expense } from "./entity/Expense"
 import { Wallet } from "./entity/Wallet"
 import { WalletUsers } from './entity/WalletUsers'
 import { Parcel } from "./entity/Parcel"
+
 const myDataSource = new DataSource({
     type: "postgres",
     host: "ec2-44-207-253-50.compute-1.amazonaws.com",

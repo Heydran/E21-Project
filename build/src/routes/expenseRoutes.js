@@ -279,11 +279,11 @@ router.post("/query/all", function (req, res) { return __awaiter(void 0, void 0,
     });
 }); });
 router.post("/edit", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var expense, newExpense, results, err_2, e_4;
+    var expense, newExpense, results, user, userUpdate, newUser, err_2, e_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 9, , 10]);
+                _a.trys.push([0, 11, , 12]);
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(Expense_1.Expense).findOneBy({ expCode: req.body.launch.code })];
             case 1:
                 expense = _a.sent();
@@ -296,22 +296,32 @@ router.post("/edit", function (req, res) { return __awaiter(void 0, void 0, void
                 console.log(results);
                 _a.label = 4;
             case 4:
-                _a.trys.push([4, 7, , 8]);
-                if (!(req.body.launch.column.expPending == false)) return [3 /*break*/, 6];
-                return [4 /*yield*/, updateUserMoney(req.body.launche.user, expense.expMoney, req.app.get("myDataSource").getRepository(User_1.User))];
+                _a.trys.push([4, 9, , 10]);
+                if (!(req.body.launch.column.expPending == false)) return [3 /*break*/, 8];
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).findOneBy({ userCode: req.body.launch.user })];
             case 5:
-                _a.sent();
-                _a.label = 6;
-            case 6: return [3 /*break*/, 8];
+                user = _a.sent();
+                userUpdate = {
+                    userMoney: user.userMoney - req.body.launch.expMoney,
+                    userTotalExpenses: user.userTotalExpenses + req.body.launch.expMoney
+                };
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).merge(user, userUpdate)];
+            case 6:
+                newUser = _a.sent();
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(User_1.User).save(newUser)];
             case 7:
-                err_2 = _a.sent();
-                return [3 /*break*/, 8];
-            case 8: return [2 /*return*/, res.json({ result: { successfull: true, results: results } })];
+                _a.sent();
+                _a.label = 8;
+            case 8: return [3 /*break*/, 10];
             case 9:
+                err_2 = _a.sent();
+                return [3 /*break*/, 10];
+            case 10: return [2 /*return*/, res.json({ result: { successfull: true, results: results } })];
+            case 11:
                 e_4 = _a.sent();
                 console.log(e_4.message);
                 return [2 /*return*/, res.json({ results: null, error: e_4.message })];
-            case 10: return [2 /*return*/];
+            case 12: return [2 /*return*/];
         }
     });
 }); });
