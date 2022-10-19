@@ -180,7 +180,7 @@ router.post("/shareCreate", function (req, res) { return __awaiter(void 0, void 
                 })];
             case 5:
                 sharingConn = _a.sent();
-                return [4 /*yield*/, req.app.get("myDataSource").getRepository(ShareRequest_1.ShareRequest).create(sharingConn)];
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(ShareRequest_1.ShareRequest).save(sharingConn)];
             case 6:
                 sharing = _a.sent();
                 res.json({ result: { successful: true, sharing: sharing } });
@@ -226,6 +226,32 @@ router.post("/exit", function (req, res) { return __awaiter(void 0, void 0, void
                 console.log(e_2.message);
                 return [2 /*return*/, res.json({ result: { successfull: false, error: e_2.message } })];
             case 3: return [2 /*return*/];
+        }
+    });
+}); });
+router.post("/favorite", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var results, updateWallet, newWallet, e_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 3, , 4]);
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).findOneBy({
+                        wuCode: req.body.wallet.code
+                    })];
+            case 1:
+                results = _a.sent();
+                updateWallet = {
+                    favorite: req.body.wallet.favorite
+                };
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).merge(results)];
+            case 2:
+                newWallet = _a.sent();
+                return [2 /*return*/, res.json({ result: { successfull: true, results: results } })];
+            case 3:
+                e_3 = _a.sent();
+                console.log(e_3.message);
+                return [2 /*return*/, res.json({ result: { successfull: false, error: e_3.message } })];
+            case 4: return [2 /*return*/];
         }
     });
 }); });

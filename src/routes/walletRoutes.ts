@@ -104,7 +104,7 @@ router.post("/shareCreate", async (req: Request, res: Response) => {
         shareCode,
         walletCode: req.body.walletCode
     })
-    const sharing = await req.app.get("myDataSource").getRepository(ShareRequest).create(sharingConn)
+    const sharing = await req.app.get("myDataSource").getRepository(ShareRequest).save(sharingConn)
     res.json({ result: { successful: true, sharing } })
 })
 
@@ -127,6 +127,25 @@ router.post("/share", async (req: Request, res: Response) => {
 router.post("/exit", async (req: Request, res: Response) => {
     try {
         const results = await req.app.get("myDataSource").getRepository(WalletUsers).delete(req.body.wuCode)
+        return res.json({ result: { successfull: true, results } })
+    } catch (e) {
+        console.log(e.message);
+        return res.json({ result: { successfull: false, error: e.message } })
+
+    }
+})
+
+router.post("/favorite", async (req: Request, res: Response) => {
+    try {
+        const results = await req.app.get("myDataSource").getRepository(WalletUsers).findOneBy({
+            wuCode:req.body.wallet.code
+        })
+
+        const updateWallet = {
+            favorite: req.body.wallet.favorite
+        }
+        
+        const newWallet =  await req.app.get("myDataSource").getRepository(WalletUsers).merge(results) 
         return res.json({ result: { successfull: true, results } })
     } catch (e) {
         console.log(e.message);
