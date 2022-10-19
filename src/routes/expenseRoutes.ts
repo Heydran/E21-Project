@@ -187,16 +187,7 @@ router.post("/edit", async (req: Request, res: Response) => {
 
         try{
             if (req.body.launch.column.expPending == false) {
-                const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
-                    { userCode: req.body.launch.user }
-                )
-                var userUpdate = {
-                    userMoney: user.userMoney + req.body.launch.expMoney,
-                    userTotalExpenses: user.userTotalExpenses + req.body.launch.expMoney
-                }
-
-                const newUser = await req.app.get("myDataSource").getRepository(User).merge(user, userUpdate)
-                await req.app.get("myDataSource").getRepository(User).save(newUser)
+                await updateUserMoney(req.body.launche.user, expense.expMoney, req.app.get("myDataSource").getRepository(User))
             }
         }catch (err){
             
@@ -219,6 +210,20 @@ router.post("/delete", async (req: Request, res: Response) => {
 
     }
 })
+
+
+async function updateUserMoney(userCode: number, money: number, table) {
+    const user = await table.findOneBy(
+        { userCode }
+    )
+    var userUpdate = {
+        userMoney: user.userMoney + money,
+        userTotalExpense: user.userTotalExpense + money
+    }
+
+    const newUser = await table.merge(user, userUpdate)
+    await table.save(newUser)
+}
 
 export default router
 

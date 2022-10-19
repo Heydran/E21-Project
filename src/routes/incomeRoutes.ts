@@ -35,7 +35,7 @@ router.post("/new", async function (req: Request, res: Response) {
 
                 try {
                     console.log(req.body.launch.wallet, "wallettttttttttttttttttttttt")
-                    
+
                     if (req.body.launch.wallet > 0 && req.body.launch.wallet != undefined) {
                         const wallet = await req.app.get("myDataSource").getRepository(Wallet).findOneBy(
                             {
@@ -49,10 +49,10 @@ router.post("/new", async function (req: Request, res: Response) {
                         const newWallet = await req.app.get("myDataSource").getRepository(Wallet).merge(wallet, walletUpdate)
                         await req.app.get("myDataSource").getRepository(Wallet).save(newWallet)
                     }
-                } catch(e) {
+                } catch (e) {
                     console.log("error in incomeRoutes, wallet total inc refresh --------------------------------", e.message)
-                    
-                 }
+
+                }
 
                 return results
             }
@@ -215,23 +215,14 @@ router.post("/edit", async (req: Request, res: Response) => {
 
         const results = await req.app.get("myDataSource").getRepository(Income).save(newIncome)
         console.log(results)
-        
-            try{
-                if (req.body.launch.column.incPending == false) {
-                    const user = await req.app.get("myDataSource").getRepository(User).findOneBy(
-                        { userCode: req.body.launch.user }
-                    )
-                    var userUpdate = {
-                        userMoney: user.userMoney + req.body.launch.incMoney,
-                        userTotalIncomes: user.userTotalIncomes + req.body.launch.incMoney
-                    }
 
-                    const newUser = await req.app.get("myDataSource").getRepository(User).merge(user, userUpdate)
-                    await req.app.get("myDataSource").getRepository(User).save(newUser)
-                }
-            }catch (err){
-                
+        try {
+            if (req.body.launch.column.incPending == false) {
+                await updateUserMoney(req.body.launche.user, income.incMoney, req.app.get("myDataSource").getRepository(User))
             }
+        } catch (err) {
+
+        }
 
         return res.json({ result: { successfull: true, results } })
     } catch (e) {
@@ -251,6 +242,19 @@ router.post("/delete", async (req: Request, res: Response) => {
 
     }
 })
+
+async function updateUserMoney(userCode: number, money: number, table) {
+    const user = await table.findOneBy(
+        { userCode }
+    )
+    var userUpdate = {
+        userMoney: user.userMoney + money,
+        userTotalIncomes: user.userTotalIncomes + money
+    }
+
+    const newUser = await table.merge(user, userUpdate)
+    await table.save(newUser)
+}
 
 export default router
 
