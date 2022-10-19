@@ -123,4 +123,15 @@ router.post("/share", async (req: Request, res: Response) => {
     const delShare = await req.app.get("myDataSource").getRepository(ShareRequest).delete(req.body.shareCode)
     return res.json({ result: { successful: true } })
 })
+
+router.post("/exit", async (req: Request, res: Response) => {
+    try {
+        const results = await req.app.get("myDataSource").getRepository(WalletUsers).delete(req.body.wuCode)
+        return res.json({ result: { successfull: true, results } })
+    } catch (e) {
+        console.log(e.message);
+        return res.json({ result: { successfull: false, error: e.message } })
+
+    }
+})
 export default router

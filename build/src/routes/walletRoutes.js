@@ -211,4 +211,22 @@ router.post("/share", function (req, res) { return __awaiter(void 0, void 0, voi
         }
     });
 }); });
+router.post("/exit", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var results, e_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).delete(req.body.wuCode)];
+            case 1:
+                results = _a.sent();
+                return [2 /*return*/, res.json({ result: { successfull: true, results: results } })];
+            case 2:
+                e_2 = _a.sent();
+                console.log(e_2.message);
+                return [2 /*return*/, res.json({ result: { successfull: false, error: e_2.message } })];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
 exports.default = router;
