@@ -66,13 +66,13 @@ router.post("/new", function (req, res) {
                 case 4:
                     woResults = _a.sent();
                     if (woResults)
-                        return [2 /*return*/, res.json({ result: { successful: true } })];
+                        return [2 /*return*/, res.json({ result: { successfull: true } })];
                     else
-                        return [2 /*return*/, res.json({ result: { successful: false }, woResults: woResults })];
+                        return [2 /*return*/, res.json({ result: { successfull: false }, woResults: woResults })];
                     return [3 /*break*/, 6];
                 case 5:
                     err_1 = _a.sent();
-                    return [2 /*return*/, res.json({ result: { successful: false, error: err_1.message } })];
+                    return [2 /*return*/, res.json({ result: { successfull: false, error: err_1.message } })];
                 case 6: return [2 /*return*/];
             }
         });
@@ -147,11 +147,11 @@ router.post("/join", function (req, res) {
                     return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).save(walletOwner)];
                 case 4:
                     woResults = _a.sent();
-                    return [2 /*return*/, res.json({ result: { successful: true, error: "Wallet Adicionada" } })];
+                    return [2 /*return*/, res.json({ result: { successfull: true, error: "Wallet Adicionada" } })];
                 case 5:
                     err_2 = _a.sent();
                     console.log(err_2, "eroooooooooooooooo");
-                    return [2 /*return*/, res.json({ result: { successful: false, error: "Wallet inexistente ou ja acessada" } })];
+                    return [2 /*return*/, res.json({ result: { successfull: false, error: "Wallet inexistente ou ja acessada" } })];
                 case 6: return [2 /*return*/];
             }
         });
@@ -183,7 +183,7 @@ router.post("/shareCreate", function (req, res) { return __awaiter(void 0, void 
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(ShareRequest_1.ShareRequest).save(sharingConn)];
             case 6:
                 sharing = _a.sent();
-                res.json({ result: { successful: true, sharing: sharing } });
+                res.json({ result: { successfull: true, sharing: sharing } });
                 return [2 /*return*/];
         }
     });
@@ -207,7 +207,7 @@ router.post("/share", function (req, res) { return __awaiter(void 0, void 0, voi
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(ShareRequest_1.ShareRequest).delete(req.body.shareCode)];
             case 4:
                 delShare = _a.sent();
-                return [2 /*return*/, res.json({ result: { successful: true } })];
+                return [2 /*return*/, res.json({ result: { successfull: true } })];
         }
     });
 }); });
@@ -230,28 +230,32 @@ router.post("/exit", function (req, res) { return __awaiter(void 0, void 0, void
     });
 }); });
 router.post("/favorite", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var results, updateWallet, newWallet, e_3;
+    var wallet, updateWallet, newWallet, e_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 3, , 4]);
+                _a.trys.push([0, 4, , 5]);
                 return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).findOneBy({
-                        wuCode: req.body.wallet.code
+                        wuCode: req.body.wallet.wuCode
                     })];
             case 1:
-                results = _a.sent();
+                wallet = _a.sent();
                 updateWallet = {
-                    favorite: req.body.wallet.favorite
+                    favorite: !req.body.wallet.favorite
                 };
-                return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).merge(results)];
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).merge(wallet, updateWallet)];
             case 2:
                 newWallet = _a.sent();
-                return [2 /*return*/, res.json({ result: { successfull: true, results: results } })];
+                console.log(newWallet);
+                return [4 /*yield*/, req.app.get("myDataSource").getRepository(WalletUsers_1.WalletUsers).save(newWallet)];
             case 3:
+                _a.sent();
+                return [2 /*return*/, res.json({ result: { successfull: true, results: newWallet } })];
+            case 4:
                 e_3 = _a.sent();
                 console.log(e_3.message);
                 return [2 /*return*/, res.json({ result: { successfull: false, error: e_3.message } })];
-            case 4: return [2 /*return*/];
+            case 5: return [2 /*return*/];
         }
     });
 }); });

@@ -18,10 +18,10 @@ router.post("/new", async function (req: Request, res: Response) {
 
         })
         const woResults = await req.app.get("myDataSource").getRepository(WalletUsers).save(walletOwner)
-        if (woResults) return res.json({ result: { successful: true } })
-        else return res.json({ result: { successful: false }, woResults })
+        if (woResults) return res.json({ result: { successfull: true } })
+        else return res.json({ result: { successfull: false }, woResults })
     } catch (err) {
-        return res.json({ result: { successful: false, error: err.message } })
+        return res.json({ result: { successfull: false, error: err.message } })
     }
 })
 
@@ -81,12 +81,12 @@ router.post("/join", async function (req: Request, res: Response) {
         })
         const woResults = await req.app.get("myDataSource").getRepository(WalletUsers).save(walletOwner)
 
-        return res.json({ result: { successful: true, error: "Wallet Adicionada" } })
+        return res.json({ result: { successfull: true, error: "Wallet Adicionada" } })
 
     } catch (err) {
         console.log(err, "eroooooooooooooooo")
 
-        return res.json({ result: { successful: false, error: "Wallet inexistente ou ja acessada" } })
+        return res.json({ result: { successfull: false, error: "Wallet inexistente ou ja acessada" } })
     }
 })
 
@@ -105,7 +105,7 @@ router.post("/shareCreate", async (req: Request, res: Response) => {
         walletCode: req.body.walletCode
     })
     const sharing = await req.app.get("myDataSource").getRepository(ShareRequest).save(sharingConn)
-    res.json({ result: { successful: true, sharing } })
+    res.json({ result: { successfull: true, sharing } })
 })
 
 
@@ -121,7 +121,7 @@ router.post("/share", async (req: Request, res: Response) => {
     const woResult = await req.app.get("myDataSource").getRepository(WalletUsers).save(walletOwner)
 
     const delShare = await req.app.get("myDataSource").getRepository(ShareRequest).delete(req.body.shareCode)
-    return res.json({ result: { successful: true } })
+    return res.json({ result: { successfull: true } })
 })
 
 router.post("/exit", async (req: Request, res: Response) => {
@@ -137,16 +137,20 @@ router.post("/exit", async (req: Request, res: Response) => {
 
 router.post("/favorite", async (req: Request, res: Response) => {
     try {
-        const results = await req.app.get("myDataSource").getRepository(WalletUsers).findOneBy({
-            wuCode:req.body.wallet.code
+        const wallet = await req.app.get("myDataSource").getRepository(WalletUsers).findOneBy({
+            wuCode:req.body.wallet.wuCode
         })
 
         const updateWallet = {
-            favorite: req.body.wallet.favorite
+            favorite: !req.body.wallet.favorite
         }
         
-        const newWallet =  await req.app.get("myDataSource").getRepository(WalletUsers).merge(results) 
-        return res.json({ result: { successfull: true, results } })
+        const newWallet =  await req.app.get("myDataSource").getRepository(WalletUsers).merge(wallet, updateWallet) 
+        console.log(newWallet)
+        await req.app.get("myDataSource").getRepository(WalletUsers).save(newWallet)
+
+        
+        return res.json({ result: { successfull: true, results: newWallet } })
     } catch (e) {
         console.log(e.message);
         return res.json({ result: { successfull: false, error: e.message } })
