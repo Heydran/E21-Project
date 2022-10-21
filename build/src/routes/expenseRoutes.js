@@ -213,7 +213,7 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                     expPending: false
                 };
                 try {
-                    filters["wallet"] = (0, typeorm_1.Equal)(req.body.filter.wallet.code);
+                    filters["wallet"] = { wallet: (0, typeorm_1.Equal)(req.body.filter.wallet.code) };
                 }
                 catch (e) {
                 }

@@ -113,7 +113,7 @@ router.post("/query", async (req: Request, res: Response) => {
         }
         try {
 
-            filters["wallet"] = Equal(req.body.filter.wallet.code)
+            filters["wallet"] = {wallet: Equal(req.body.filter.wallet.code)}
         } catch (e) {
 
         }
