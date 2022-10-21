@@ -113,7 +113,7 @@ router.post("/query", async (req: Request, res: Response) => {
         }
         try {
 
-            filters["wallet"] = {wallet: Equal(req.body.filter.wallet.code)}
+            filters["wallet"] = Equal(req.body.filter.wallet.code)
         } catch (e) {
 
         }
@@ -168,6 +168,16 @@ router.post("/query", async (req: Request, res: Response) => {
         console.log("erro in expense:", e.message)
         res.json({ err: e.message })
     }
+})
+
+router.post("/query/wallet", async (req: Request, res: Response) => {
+    const registers = await req.app.get("myDataSource").getRepository(Expense).find({
+        where:{
+            wallet:Equal(req.body.filter.wallet.code),
+            expPending: false
+        }
+    })
+    return res.json({ registers })
 })
 
 router.post("/query/all", async (req: Request, res: Response) => {

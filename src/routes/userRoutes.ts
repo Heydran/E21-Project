@@ -40,7 +40,8 @@ router.post("/signUp", async function (req: Request, res: Response) {
             if (user)
                 result = ({
                     registered: true,
-                    userCode: user.userCode
+                    userCode: user.userCode,
+                    error: user
                 })
             else
                 result = ({

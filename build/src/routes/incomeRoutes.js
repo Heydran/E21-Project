@@ -218,6 +218,7 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                 catch (_b) { }
                 try {
                     filters["wallet"] = (0, typeorm_1.Equal)(req.body.filter.wallet.code);
+                    console.log(req.body.filter.wallet.code, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                 }
                 catch (e) {
                 }
@@ -268,6 +269,22 @@ router.post("/query", function (req, res) { return __awaiter(void 0, void 0, voi
                 res.json({ err: e_3.message });
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
+        }
+    });
+}); });
+router.post("/query/wallet", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var registers;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, req.app.get("myDataSource").getRepository(Income_1.Income).find({
+                    where: {
+                        wallet: (0, typeorm_1.Equal)(req.body.filter.wallet.code),
+                        incPending: false
+                    }
+                })];
+            case 1:
+                registers = _a.sent();
+                return [2 /*return*/, res.json({ registers: registers })];
         }
     });
 }); });

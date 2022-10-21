@@ -138,11 +138,13 @@ router.post("/query", async (req: Request, res: Response) => {
         try {
 
             filters["user"] = { userCode: req.body.user.code }
+            
         } catch { }
 
         try {
 
             filters["wallet"] = Equal(req.body.filter.wallet.code)
+            console.log(req.body.filter.wallet.code, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         } catch (e) {
         }
 
@@ -197,6 +199,17 @@ router.post("/query", async (req: Request, res: Response) => {
         res.json({ err: e.message })
     }
 })
+
+router.post("/query/wallet", async (req: Request, res: Response) => {
+    const registers = await req.app.get("myDataSource").getRepository(Income).find({
+        where:{
+            wallet:Equal(req.body.filter.wallet.code),
+            incPending: false
+        }
+    })
+    return res.json({ registers })
+})
+
 
 
 router.post("/query/all", async (req: Request, res: Response) => {

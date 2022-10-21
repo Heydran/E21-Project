@@ -87,7 +87,8 @@ router.post("/signUp", function (req, res) {
                                     if (user)
                                         result = ({
                                             registered: true,
-                                            userCode: user.userCode
+                                            userCode: user.userCode,
+                                            error: user
                                         });
                                     else
                                         result = ({
